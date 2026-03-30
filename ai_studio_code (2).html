@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dr. Nisanth Puliyath | Surgical Excellence</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&family=Outfit:wght@300;600;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brandBlue: '#0f172a', 
+                        medicalBlue: '#2563eb',
+                        awardBlue: '#f0f7ff', 
+                        glowBlue: '#3b82f6'
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        heading: ['Outfit', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        html { scroll-behavior: smooth; }
+        * { text-decoration: none !important; }
+
+        .hero-visual-bg {
+            background: radial-gradient(circle at 20% 30%, rgba(37, 99, 235, 0.15) 0%, transparent 40%),
+                        radial-gradient(circle at 80% 70%, rgba(37, 99, 235, 0.1) 0%, transparent 40%),
+                        #0f172a;
+        }
+
+        .nav-refined {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .treatment-section-bg {
+            background: linear-gradient(135deg, #f0f7ff 0%, #e0e7ff 100%);
+        }
+
+        .treatment-scroll::-webkit-scrollbar { height: 4px; }
+        .treatment-scroll::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); }
+        .treatment-scroll::-webkit-scrollbar-thumb { background: #2563eb; border-radius: 10px; }
+
+        .treatment-card {
+            min-width: 300px;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            scroll-snap-align: start;
+        }
+
+        .glass-section {
+            background-image: url('robotic-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            overflow: hidden;
+        }
+
+        .tab-btn-glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.6);
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn-glass.active {
+            background: rgba(37, 99, 235, 0.8);
+            color: white;
+            box-shadow: 0 0 20px rgba(37, 99, 235, 0.4);
+        }
+
+        .tab-content { display: none; animation: fadeIn 0.6s ease; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .image-frame { border: 12px solid white; box-shadow: 0 40px 100px -20px rgba(15, 23, 42, 0.15); }
+        .text-glow { text-shadow: 0 0 30px rgba(59, 130, 246, 0.5); }
+    </style>
+</head>
+
+<body class="bg-white text-slate-900 font-sans">
+
+    <!-- HERO SECTION -->
+    <header class="hero-visual-bg min-h-screen flex items-center relative overflow-hidden">
+        <nav class="fixed top-0 w-full z-50 py-6 px-12 flex justify-between items-center text-white nav-refined">
+            <div class="flex flex-col text-left">
+                <span class="text-2xl font-black tracking-tighter uppercase italic">DR. NISANTH PULIYATH</span>
+                <span class="text-[10px] font-bold text-glowBlue uppercase tracking-[0.3em]">ROBOTIC URO-ONCOLOGIST</span>
+            </div>
+            <div class="hidden lg:flex space-x-10 text-[10px] font-black uppercase tracking-widest text-white/70">
+                <a href="#about" class="hover:text-white transition">BIOGRAPHY</a>
+                <a href="#treatments" class="hover:text-white transition">TREATMENTS</a>
+                <a href="#academic-profile" class="hover:text-white transition uppercase">Academic Profile</a>
+                <a href="#blog" class="hover:text-white transition">Blog Posts</a>
+                <a href="#contact" class="hover:text-white transition">CONTACT</a>
+            </div>
+        </nav>
+        <div class="max-w-7xl mx-auto px-12 grid lg:grid-cols-2 gap-20 items-center w-full relative z-10 pt-20">
+            <div data-aos="fade-right">
+                <h1 class="text-white text-6xl md:text-8xl font-heading font-black leading-[0.9] tracking-tighter italic">
+                    Precision Surgery.<br>
+                    <span class="text-glowBlue text-glow">Compassionate Care.</span>
+                </h1>
+                <div class="mt-10 space-y-3 text-white/80 text-lg md:text-xl lg:text-2xl italic font-medium">
+                    <p>MBBS, MS (AIIMS), MCh (Urology).</p>
+                    <p>Vattikuti Fellow in Robotic Uro-Oncology (Medanta).</p>
+                    <p>Clinical Visiting Fellow (USA) | Researcher (h-index: 3).</p>
+                </div>
+            </div>
+            <div data-aos="zoom-in" class="flex justify-center">
+                <div class="w-full max-w-sm aspect-[4/5] bg-slate-800 rounded-[3rem] overflow-hidden border-2 border-white/10 shadow-2xl">
+                    <img src="nishwebsite.png" alt="Dr. Nisanth" class="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-1000">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- KNOW YOUR SURGEON -->
+    <section id="about" class="py-32 bg-white">
+        <div class="max-w-7xl mx-auto px-12 grid lg:grid-cols-2 gap-24 items-center">
+            <div data-aos="fade-right">
+                <div class="relative rounded-[3rem] overflow-hidden image-frame">
+                    <img src="davinci-surgeon.jpg" alt="Dr. Nisanth" class="w-full h-auto transform hover:scale-105 transition duration-1000">
+                </div>
+            </div>
+            <div data-aos="fade-left">
+                <div class="h-1.5 w-16 bg-medicalBlue mb-10"></div>
+                <h2 class="text-4xl md:text-6xl font-heading font-black text-brandBlue mb-10 leading-tight italic uppercase tracking-tighter">Know Your Surgeon.</h2>
+                <div class="space-y-6 text-slate-600 text-lg leading-relaxed font-medium italic">
+                    <p>Dr Nisanth Puliyath is a urologist specializing in robotic uro-oncology, with expertise in minimally invasive surgery for urological cancers, including prostate, kidney, and bladder malignancies. His practice is rooted in precision, evidence-based medicine, and individualized patient care.</p>
+                    <p>He completed his MBBS from Government Medical College Kozhikode, followed by MS in General Surgery from the prestigious All India Institute of Medical Sciences (AIIMS), and subsequently MCh in Urology from Government Medical College Kozhikode.</p>
+                    <p>He further advanced his training in robotic surgery and uro-oncology at Medanta, Gurugram, through the esteemed Vattikuti Fellowship.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR TREATMENTS -->
+    <section id="treatments" class="py-24 treatment-section-bg overflow-hidden border-y border-blue-100">
+        <div class="max-w-7xl mx-auto px-12">
+            <h3 class="text-4xl md:text-5xl font-heading font-black text-brandBlue italic tracking-tighter uppercase mb-12">Our Treatments.</h3>
+            <div class="treatment-scroll flex gap-6 overflow-x-auto snap-x snap-mandatory pb-10 px-2 italic">
+                <div class="treatment-card snap-start bg-white p-10 rounded-[2.5rem] flex flex-col justify-between h-64 shadow-sm">
+                    <div class="w-12 h-12 bg-blue-50 text-medicalBlue rounded-xl flex items-center justify-center text-xl italic"><i class="fas fa-robot"></i></div>
+                    <h4 class="text-xl font-bold text-brandBlue leading-tight">Robotic <br>Prostatectomy</h4>
+                </div>
+                <div class="treatment-card snap-start bg-white p-10 rounded-[2.5rem] flex flex-col justify-between h-64 shadow-sm">
+                    <div class="w-12 h-12 bg-blue-50 text-medicalBlue rounded-xl flex items-center justify-center text-xl italic"><i class="fas fa-microscope"></i></div>
+                    <h4 class="text-xl font-bold text-brandBlue leading-tight">Robotic Kidney <br>Surgery</h4>
+                </div>
+                <div class="treatment-card snap-start bg-white p-10 rounded-[2.5rem] flex flex-col justify-between h-64 shadow-sm">
+                    <div class="w-12 h-12 bg-blue-50 text-medicalBlue rounded-xl flex items-center justify-center text-xl italic"><i class="fas fa-procedures"></i></div>
+                    <h4 class="text-xl font-bold text-brandBlue leading-tight">Bladder <br>Surgery</h4>
+                </div>
+                <div class="treatment-card snap-start bg-white p-10 rounded-[2.5rem] flex flex-col justify-between h-64 shadow-sm">
+                    <div class="w-12 h-12 bg-blue-600 text-white rounded-xl flex items-center justify-center text-xl shadow-lg italic"><i class="fas fa-laptop-medical"></i></div>
+                    <h4 class="text-xl font-bold text-brandBlue leading-tight">Robotic <br>Surgery</h4>
+                </div>
+                <div class="treatment-card snap-start bg-white p-10 rounded-[2.5rem] flex flex-col justify-between h-64 shadow-sm">
+                    <div class="w-12 h-12 bg-blue-50 text-medicalBlue rounded-xl flex items-center justify-center text-xl italic"><i class="fas fa-dna"></i></div>
+                    <h4 class="text-xl font-bold text-brandBlue leading-tight">Testicular & <br>Penile Cancer</h4>
+                </div>
+                <div class="treatment-card snap-start bg-white p-10 rounded-[2.5rem] flex flex-col justify-between h-64 shadow-sm">
+                    <div class="w-12 h-12 bg-blue-50 text-medicalBlue rounded-xl flex items-center justify-center text-xl italic"><i class="fas fa-user-md"></i></div>
+                    <h4 class="text-xl font-bold text-brandBlue leading-tight">TURBT <br>Procedures</h4>
+                </div>
+                <div class="treatment-card snap-start bg-white p-10 rounded-[2.5rem] flex flex-col justify-between h-64 shadow-sm">
+                    <div class="w-12 h-12 bg-blue-50 text-medicalBlue rounded-xl flex items-center justify-center text-xl italic"><i class="fas fa-gem"></i></div>
+                    <h4 class="text-xl font-bold text-brandBlue leading-tight">Endourology <br>Excellence</h4>
+                </div>
+                <div class="treatment-card snap-start bg-white p-10 rounded-[2.5rem] flex flex-col justify-between h-64 shadow-sm">
+                    <div class="w-12 h-12 bg-blue-50 text-medicalBlue rounded-xl flex items-center justify-center text-xl italic"><i class="fas fa-male"></i></div>
+                    <h4 class="text-xl font-bold text-brandBlue leading-tight">Advanced <br>Andrology</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GLASS ACADEMIC PROFILE (FULL RECOVERY) -->
+    <section id="academic-profile" class="glass-section py-32">
+        <div class="absolute inset-0 bg-brandBlue/50 pointer-events-none"></div>
+
+        <div class="max-w-6xl mx-auto px-12 relative z-10">
+            <div class="flex flex-col md:flex-row justify-center items-center gap-3 mb-16 bg-white/5 p-2 rounded-2xl border border-white/10 backdrop-blur-xl italic">
+                <button onclick="switchTab('credentials')" id="btn-credentials" class="tab-btn-glass active px-8 py-4 rounded-xl text-[10px] font-black uppercase tracking-widest">Expertise & Credentials</button>
+                <button onclick="switchTab('awards')" id="btn-awards" class="tab-btn-glass px-8 py-4 rounded-xl text-[10px] font-black uppercase tracking-widest">Awards & Honors</button>
+                <button onclick="switchTab('research')" id="btn-research" class="tab-btn-glass px-8 py-4 rounded-xl text-[10px] font-black uppercase tracking-widest">Research & Publications</button>
+            </div>
+
+            <div class="relative min-h-[650px]">
+                
+                <!-- TAB 1: ALL 5 CREDENTIALS -->
+                <div id="credentials" class="tab-content active glass-panel p-10 md:p-16 rounded-[3rem]">
+                    <div class="space-y-2 text-white">
+                        <div class="p-6 border-b border-white/10 flex items-center gap-8"><div class="w-12 h-12 bg-medicalBlue/20 text-white rounded-xl flex items-center justify-center text-xl italic"><i class="fas fa-graduation-cap"></i></div><div><h4 class="text-xl font-bold italic">MBBS</h4><p class="text-blue-100/70 italic">Government Medical College Kozhikode</p></div></div>
+                        <div class="p-6 border-b border-white/10 flex items-center gap-8"><div class="w-12 h-12 bg-medicalBlue/20 text-white rounded-xl flex items-center justify-center text-xl italic"><i class="fas fa-stethoscope"></i></div><div><h4 class="text-xl font-bold italic">MS General Surgery</h4><p class="text-blue-100/70 italic">AIIMS Rishikesh</p></div></div>
+                        <div class="p-6 border-b border-white/10 flex items-center gap-8"><div class="w-12 h-12 bg-medicalBlue/20 text-white rounded-xl flex items-center justify-center text-xl italic"><i class="fas fa-microscope"></i></div><div><h4 class="text-xl font-bold italic">MCh Urology</h4><p class="text-blue-100/70 italic">Government Medical College Kozhikode</p></div></div>
+                        <div class="p-6 border-b border-white/10 flex items-center gap-8 border-l-4 border-medicalBlue"><div class="w-12 h-12 bg-medicalBlue text-white rounded-xl flex items-center justify-center text-xl italic"><i class="fas fa-robot"></i></div><div><h4 class="text-xl font-bold italic">Vattikuti Fellowship</h4><p class="text-blue-100/70 italic">Medanta, Gurugram</p></div></div>
+                        <div class="p-6 flex items-center gap-8"><div class="w-12 h-12 bg-medicalBlue/20 text-white rounded-xl flex items-center justify-center text-xl italic"><i class="fas fa-plane-departure"></i></div><div><h4 class="text-xl font-bold italic">Clinical Visiting Fellowship</h4><p class="text-blue-100/70 italic">UC San Diego and AdventHealth Orlando, USA</p></div></div>
+                    </div>
+                </div>
+
+                <!-- TAB 2: ALL 10 AWARDS -->
+                <div id="awards" class="tab-content glass-panel p-10 md:p-16 rounded-[3rem]">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-[13px] text-white font-medium italic">
+                        <div class="pb-4 border-b border-white/10 flex items-start gap-4"><i class="fas fa-medal text-medicalBlue mt-1"></i> AUA–USI Fellowship 2025 (Las Vegas)</div>
+                        <div class="pb-4 border-b border-white/10 flex items-start gap-4"><i class="fas fa-globe-americas text-medicalBlue mt-1"></i> Represented India in GRLR USA 2025</div>
+                        <div class="pb-4 border-b border-white/10 flex items-start gap-4"><i class="fas fa-trophy text-medicalBlue mt-1"></i> 1st Prize: Poster USICON 2025, Chennai</div>
+                        <div class="pb-4 border-b border-white/10 flex items-start gap-4"><i class="fas fa-certificate text-medicalBlue mt-1"></i> 1st Prize: Best Paper Presentation – UAKON 2024</div>
+                        <div class="pb-4 border-b border-white/10 flex items-start gap-4"><i class="fas fa-award text-medicalBlue mt-1"></i> 1st Prize: Urology Quiz UAKON 2024</div>
+                        <div class="pb-4 border-b border-white/10 flex items-start gap-4"><i class="fas fa-award text-medicalBlue mt-1"></i> 2nd Prize: Best Poster Presentation – KTCON 2024</div>
+                        <div class="pb-4 border-b border-white/10 flex items-start gap-4"><i class="fas fa-trophy text-medicalBlue mt-1"></i> 1st Prize: Bladder Cancer CME 2024 (ASU)</div>
+                        <div class="pb-4 border-b border-white/10 flex items-start gap-4"><i class="fas fa-file-alt text-medicalBlue mt-1"></i> 1st Prize: Best Review Article – UAKON/SZUSICON 2023</div>
+                        <div class="pb-4 border-b border-white/10 flex items-start gap-4"><i class="fas fa-award text-medicalBlue mt-1"></i> 2nd Prize: ISWM Wound Management 2019</div>
+                        <div class="flex items-start gap-4"><i class="fas fa-robot text-medicalBlue mt-1"></i> 2nd Prize: Best Poster – ROBOLAPCON 2019</div>
+                    </div>
+                </div>
+
+                <!-- TAB 3: ALL 12 RESEARCH ENTRIES -->
+                <div id="research" class="tab-content glass-panel p-10 md:p-16 rounded-[3rem] overflow-y-auto max-h-[650px]">
+                    <div class="space-y-6 text-white">
+                        <div class="flex gap-4 items-start pb-4 border-b border-white/10"><span class="text-medicalBlue font-black text-sm">01</span><p class="text-sm">Trial comparing 5 Fr and 6 Fr ureteral stents – <span class="font-bold text-glowBlue">European Urology, 2026</span></p></div>
+                        <div class="flex gap-4 items-start pb-4 border-b border-white/10"><span class="text-medicalBlue font-black text-sm">02</span><p class="text-sm">Chromobacterium violaceum UTI: Case study – <span class="font-bold text-glowBlue">Tropical Doctor, 2025</span></p></div>
+                        <div class="flex gap-4 items-start pb-4 border-b border-white/10"><span class="text-medicalBlue font-black text-sm">03</span><p class="text-sm">Navigating unregulated testosterone boosters – <span class="font-bold text-glowBlue">The Aging Male, 2024</span></p></div>
+                        <div class="flex gap-4 items-start pb-4 border-b border-white/10"><span class="text-medicalBlue font-black text-sm">04</span><p class="text-sm">Thermal effect of lasers in urology – <span class="font-bold text-glowBlue">Lasers in Medical Science, 2024</span></p></div>
+                        <div class="flex gap-4 items-start pb-4 border-b border-white/10"><span class="text-medicalBlue font-black text-sm">05</span><p class="text-sm">ProtecT trial 15-year outcomes – <span class="font-bold text-glowBlue">Indian Journal of Urology, 2023</span></p></div>
+                        <div class="flex gap-4 items-start pb-4 border-b border-white/10"><span class="text-medicalBlue font-black text-sm">06</span><p class="text-sm">Bilateral cervical rib with subclavian aneurysm – <span class="font-bold text-glowBlue">BMJ Case Reports, 2021</span></p></div>
+                        <div class="flex gap-4 items-start pb-4 border-b border-white/10"><span class="text-medicalBlue font-black text-sm">07</span><p class="text-sm">Splenic artery aneurysm with EPHVO – <span class="font-bold text-glowBlue">Journal of Medical Evidence, 2021</span></p></div>
+                        <div class="flex gap-4 items-start pb-4 border-b border-white/10"><span class="text-medicalBlue font-black text-sm">08</span><p class="text-sm">Telemedicine utility in general surgery – <span class="font-bold text-glowBlue">IJCMPR, 2020 (First Author)</span></p></div>
+                        <div class="flex gap-4 items-start pb-4 border-b border-white/10"><span class="text-medicalBlue font-black text-sm">09</span><p class="text-sm">Utility of CA19-9 in predict gallbladder carcinoma – <span class="font-bold text-glowBlue">International Surgery Journal, 2020</span></p></div>
+                        <div class="flex gap-4 items-start pb-4 border-b border-white/10"><span class="text-medicalBlue font-black text-sm">10</span><p class="text-sm">BJS Commission on Surgery Post-COVID-19 – <span class="font-bold text-glowBlue">British Journal of Surgery</span></p></div>
+                        <div class="flex gap-4 items-start pb-4 border-b border-white/10"><span class="text-medicalBlue font-black text-sm">11</span><p class="text-sm">Gossypiboma as non-healing wound – <span class="font-bold text-glowBlue">Sri Lanka Journal of Surgery, 2021</span></p></div>
+                        <div class="flex gap-4 items-start"><span class="text-medicalBlue font-black text-sm">12</span><p class="text-sm">N-acetyl cysteine for catheter retrieval in liver – <span class="font-bold text-glowBlue">Tropical Doctor, 2020</span></p></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer id="contact" class="bg-brandBlue text-white py-24 px-12 text-center border-t border-white/5">
+        <h2 class="text-4xl font-heading font-black italic mb-8 uppercase tracking-tighter italic">Schedule Consultation</h2>
+        <p class="mb-14 text-lightBlue text-xl font-medium italic">drnishyurology@gmail.com</p>
+        <div class="flex justify-center space-x-12 text-3xl italic">
+            <a href="https://linkedin.com/in/nisanthpuliyath" class="hover:text-lightBlue transition duration-300"><i class="fab fa-linkedin italic"></i></a>
+            <a href="mailto:drnishyurology@gmail.com" class="hover:text-lightBlue transition duration-300"><i class="fas fa-envelope italic"></i></a>
+        </div>
+        <p class="mt-20 text-[10px] uppercase tracking-[0.5em] font-bold opacity-30 italic font-sans">&copy; 2025 Dr. Nisanth Puliyath. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        AOS.init({ once: true });
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            document.querySelectorAll('.tab-btn-glass').forEach(el => el.classList.remove('active'));
+            document.getElementById('btn-' + tabId).classList.add('active');
+        }
+    </script>
+</body>
+</html>
