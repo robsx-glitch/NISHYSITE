@@ -233,7 +233,9 @@ section{ position:relative; }
   background:linear-gradient(180deg,transparent,rgba(255,255,255,.10));
 }
 .hero > .wrap{ width:100%; }
-.hero-grid{ display:grid; grid-template-columns:1.15fr .85fr; gap:clamp(32px,5vw,72px); align-items:center; }
+.hero-grid{ display:grid; grid-template-columns:1.15fr .85fr; gap:clamp(32px,5vw,72px); align-items:stretch; }
+.hero .portrait{ display:flex; flex-direction:column; height:100%; }
+.hero .portrait img{ flex:1 1 auto; height:100%; min-height:0; aspect-ratio:auto; object-fit:cover; }
 .hero .eyebrow{ color:var(--cyan); }
 .hero h1{
   color:#fff; letter-spacing:.005em; line-height:1.08; word-spacing:.03em;
@@ -304,14 +306,54 @@ section{ position:relative; }
 .section-head{ max-width:68ch; margin-bottom:clamp(40px,5vw,64px); }
 
 .about-grid{ display:grid; grid-template-columns:.9fr 1.1fr; gap:clamp(32px,5vw,72px); align-items:center; }
-.about-figure{ padding:10px; border-radius:var(--r-lg); }
-.about-figure img{ width:100%; border-radius:calc(var(--r-lg) - 10px); }
+.about-figure{
+  position:relative; padding:10px; border-radius:var(--r-lg);
+  transition:transform .5s cubic-bezier(.2,.7,.2,1), box-shadow .5s;
+}
+.about-figure::before{
+  content:''; position:absolute; inset:-26px -26px auto auto; width:190px; height:190px;
+  border-radius:50%; z-index:0; pointer-events:none;
+  background:radial-gradient(circle, rgba(42,144,255,.35), transparent 68%);
+}
+.about-figure img{ position:relative; z-index:1; width:100%; border-radius:calc(var(--r-lg) - 10px); }
+.about-figure:hover{ transform:translateY(-4px); box-shadow:0 44px 90px -46px rgba(10,45,110,.6); }
+.about-figure figcaption{
+  position:absolute; z-index:2; left:26px; bottom:26px; right:26px;
+  display:flex; flex-wrap:wrap; gap:8px;
+}
+.about-figure figcaption span{
+  padding:7px 12px; border-radius:999px;
+  background:rgba(9,22,48,.55); border:1px solid rgba(255,255,255,.28);
+  backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+  font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.12em;
+  text-transform:uppercase; color:#fff;
+}
 .quote{
   font-family:'Inter Tight',sans-serif; font-size:clamp(1.15rem,2vw,1.5rem); font-weight:500;
   letter-spacing:-.025em; line-height:1.35; color:var(--text-dark);
   border-left:3px solid transparent; border-image:linear-gradient(180deg,#2a90ff,#0a55c7) 1; padding-left:22px; margin:0 0 28px;
 }
-.about-body p{ color:var(--muted-dark); margin-bottom:1.1em; }
+.about-body p{
+  color:var(--muted-dark); margin-bottom:1.1em;
+  text-align:justify; text-justify:inter-word; hyphens:auto; -webkit-hyphens:auto;
+}
+.about-body p:first-child::first-letter{
+  float:left; font-family:'Inter Tight',sans-serif; font-weight:600;
+  font-size:3.4rem; line-height:.86; padding:6px 12px 0 0; margin-top:2px;
+  background:linear-gradient(150deg,#2a90ff,#0a55c7);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.about-sign{
+  display:flex; flex-wrap:wrap; align-items:center; gap:10px;
+  margin-top:26px; padding-top:22px; border-top:1px solid var(--edge);
+}
+.about-sign b{
+  font-family:'Inter Tight',sans-serif; font-size:1.05rem; font-weight:600; letter-spacing:-.02em;
+}
+.about-sign span{
+  font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--muted);
+}
 
 /* ============================================================
    TREATMENT CARDS + SHEETS
@@ -337,9 +379,18 @@ section{ position:relative; }
 }
 .organ svg{ width:34px; height:34px; display:block; }
 .tcard:hover .organ{ transform:translateY(-2px) rotate(-4deg) scale(1.06); }
-.tcard.feature .organ{
-  background:linear-gradient(150deg,rgba(255,255,255,.18),rgba(255,255,255,.06));
-  border:1px solid rgba(255,255,255,.28); box-shadow:inset 0 1px 0 rgba(255,255,255,.35);
+/* scroll-driven: the emblem deepens to dark blue as the card passes through view */
+.organ svg{ transition:filter .55s ease; }
+.tcard.lit .organ{
+  background:linear-gradient(150deg,#123a72,#0a2a5c);
+  border-color:rgba(42,144,255,.45);
+  box-shadow:0 14px 30px -14px rgba(8,40,95,.75), inset 0 1px 0 rgba(255,255,255,.25);
+}
+.tcard.lit .organ svg{ filter:brightness(0) invert(1); }
+.tcard .tag{ transition:color .55s ease; }
+.tcard.lit .tag{ color:#0a2a5c; }
+@media (prefers-reduced-motion:reduce){
+  .organ, .organ svg, .tcard .tag{ transition:none; }
 }
 .tcard .tag{
   font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase;
@@ -348,14 +399,7 @@ section{ position:relative; }
 .tcard h3{ font-size:1.22rem; }
 .tcard p{ font-size:14.5px; color:var(--muted-dark); line-height:1.55; }
 .tcard .more{ margin-top:auto; padding-top:6px; font-size:13.5px; font-weight:600; color:var(--blue); }
-.tcard.feature{
-  background:linear-gradient(155deg,#07182f,#0e2a52 55%,#12386f);
-  border:1px solid rgba(100,210,255,.35); color:var(--text);
-}
-.tcard.feature h3{ color:#fff; }
-.tcard.feature p{ color:rgba(245,245,247,.68); }
-.tcard.feature .tag{ color:var(--cyan); }
-.tcard.feature .more{ color:var(--cyan); }
+
 
 .scrim{
   position:fixed; inset:0; z-index:90; display:none;
@@ -500,13 +544,60 @@ section{ position:relative; }
 }
 
 /* ============================================================
+   PRESENTATION TYPE EMBLEMS
+   ============================================================ */
+.sr-only{
+  position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+  overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0;
+}
+.pres{
+  width:40px; height:40px; border-radius:12px; display:grid; place-items:center;
+  background:linear-gradient(150deg,rgba(255,255,255,.18),rgba(255,255,255,.07));
+  border:1px solid rgba(255,255,255,.24);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.3);
+  transition:transform .3s cubic-bezier(.2,.7,.2,1);
+}
+.pres svg{ width:24px; height:24px; display:block; }
+.honour:hover .pres{ transform:translateY(-2px) scale(1.06); }
+
+/* ============================================================
+   AFFILIATIONS
+   ============================================================ */
+.org-grid{
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:12px; list-style:none; margin:0; padding:0;
+}
+.org{
+  display:flex; flex-direction:column; gap:4px; height:100%;
+  padding:18px 18px 16px; border-radius:var(--r-sm);
+  background:linear-gradient(150deg,rgba(255,255,255,.12),rgba(255,255,255,.05));
+  border:1px solid rgba(255,255,255,.18);
+  transition:transform .3s cubic-bezier(.2,.7,.2,1), border-color .3s, background .3s;
+}
+a.org:hover{ transform:translateY(-3px); border-color:rgba(140,205,255,.55); background:linear-gradient(150deg,rgba(255,255,255,.18),rgba(255,255,255,.07)); }
+.org .mark{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:auto; min-width:56px; height:34px; padding:0 12px; margin-bottom:8px;
+  border-radius:10px; align-self:flex-start;
+  background:linear-gradient(150deg,#8fd8ff,#2a90ff);
+  color:#062240; font-family:'Inter Tight',sans-serif; font-weight:700;
+  font-size:14px; letter-spacing:.02em;
+  box-shadow:0 10px 22px -12px rgba(42,144,255,.9);
+}
+.org .org-name{ font-size:14px; font-weight:500; line-height:1.35; color:#fff; }
+.org .org-scope{
+  font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.16em;
+  text-transform:uppercase; color:rgba(245,245,247,.55); margin-top:auto; padding-top:8px;
+}
+
+/* ============================================================
    AWARDS & ACHIEVEMENTS
    ============================================================ */
 .honour-grid{
   display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
   gap:0 clamp(24px,4vw,56px); list-style:none; margin:0; padding:0;
 }
-.honour{ display:grid; grid-template-columns:50px 1fr; gap:16px; padding:19px 0; border-top:1px solid var(--edge-soft); }
+.honour{ display:grid; grid-template-columns:52px 1fr; gap:16px; align-items:start; padding:19px 0; border-top:1px solid var(--edge-soft); }
 .honour .rank{
   font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:500;
   letter-spacing:.1em; text-transform:uppercase; color:var(--blue-ink); padding-top:5px;
@@ -582,6 +673,93 @@ footer{ padding:34px 0 44px; border-top:1px solid var(--edge-soft); }
 .foot a:hover{ color:var(--blue); }
 
 /* ============================================================
+   DEEP BAND — dark surface for the academic profile
+   ============================================================ */
+.deep{
+  position:relative; overflow:hidden;
+  color:var(--text-inv);
+  background:
+    radial-gradient(900px 520px at 8% 6%, rgba(120,190,255,.20), transparent 64%),
+    radial-gradient(760px 480px at 94% 92%, rgba(60,140,235,.22), transparent 66%),
+    linear-gradient(168deg,#12315c 0%,#17427a 52%,#1b5090 100%);
+  border-radius:var(--r-xl);
+  margin-inline:clamp(0px,2vw,28px);
+}
+.deep .glass::after{ content:none; }
+.deep .panel.active{ animation:none; }
+.deep h2,.deep h3,.deep h4{ color:#fff; }
+.deep .eyebrow{ color:var(--cyan); }
+.deep .lede{ color:var(--muted-inv); }
+.deep .glass{
+  background:linear-gradient(150deg, rgba(255,255,255,.12), rgba(255,255,255,.06) 48%, rgba(255,255,255,.10));
+  border:1px solid rgba(255,255,255,.18);
+  box-shadow:0 30px 70px -44px rgba(4,20,50,.7);
+  color:var(--text-inv);
+}
+.deep .tabs{ background:rgba(255,255,255,.07); border:1px solid var(--edge-inv); }
+.deep .tab{ color:rgba(245,245,247,.66); }
+.deep .tab:hover{ color:#fff; }
+.deep .panel-lede{ color:var(--muted-inv); border-bottom-color:var(--edge-inv); }
+
+/* training rows on dark */
+.deep .cred{ border-bottom-color:var(--edge-inv); }
+.deep .cred:hover{ background:linear-gradient(90deg,rgba(255,255,255,.06),transparent 70%); }
+.deep .cred p{ color:var(--muted-inv); }
+.deep .cred .where{ color:#fff; }
+.deep .cred .yr{
+  color:#fff;
+  background:color-mix(in srgb, var(--c) 55%, transparent);
+  border:1px solid color-mix(in srgb, var(--c) 70%, transparent);
+  box-shadow:none;
+}
+.deep .cred-group{ color:rgba(245,245,247,.62); }
+.deep .cred-group::after{ background:var(--edge-inv); }
+.deep .institutes{ border-top-color:var(--edge-inv); }
+.deep .institutes span{ color:rgba(245,245,247,.62); }
+.deep .institutes li{
+  color:#fff;
+  background:color-mix(in srgb, var(--c) 32%, transparent);
+  border:1px solid color-mix(in srgb, var(--c) 55%, transparent);
+  box-shadow:none;
+}
+
+/* awards, conferences, publications on dark */
+.deep .honour{ border-top-color:var(--edge-inv); }
+.deep .honour .rank{ color:var(--cyan); }
+.deep .honour b{ color:#fff; }
+.deep .honour .meta{ color:var(--muted-inv); }
+.deep .honour .meta i{ color:#9ad6ff; }
+.deep .pub{ border-bottom-color:var(--edge-inv); }
+.deep .pub p{ color:#fff; }
+.deep .pub em{ color:#9ad6ff; }
+.deep .pub em b{ color:var(--muted-inv); }
+.deep .metrics{ border-bottom-color:var(--edge-inv); }
+.deep .metric{
+  background:linear-gradient(150deg,rgba(255,255,255,.12),rgba(255,255,255,.04));
+  border:1px solid var(--edge-inv);
+}
+.deep .metric b{ background:linear-gradient(135deg,#8fd8ff,#3f9bff); -webkit-background-clip:text; background-clip:text; color:transparent; }
+.deep .metric span{ color:rgba(245,245,247,.62); }
+
+/* ============================================================
+   SCROLL — dark blue progress and scrollbar
+   ============================================================ */
+.scroll-progress{
+  position:fixed; top:0; left:0; height:3px; width:var(--p,0%); z-index:95;
+  background:linear-gradient(90deg,#0c2f63,#0a55c7 60%,#2a90ff);
+  box-shadow:0 1px 10px rgba(10,60,140,.55);
+  transition:width .08s linear; pointer-events:none;
+}
+html{ scrollbar-width:thin; scrollbar-color:#0c2f63 rgba(11,16,24,.06); }
+::-webkit-scrollbar{ width:11px; height:11px; }
+::-webkit-scrollbar-track{ background:rgba(11,16,24,.05); }
+::-webkit-scrollbar-thumb{
+  background:linear-gradient(180deg,#0c2f63,#0a55c7);
+  border-radius:999px; border:3px solid transparent; background-clip:padding-box;
+}
+::-webkit-scrollbar-thumb:hover{ background:linear-gradient(180deg,#08224a,#0a4bb0); background-clip:padding-box; }
+
+/* ============================================================
    POINTER LIGHT + CLICK RIPPLE
    ============================================================ */
 .cursor-glow{
@@ -601,7 +779,6 @@ footer{ padding:34px 0 44px; border-top:1px solid var(--edge-soft); }
   background:radial-gradient(320px circle at var(--mx,50%) var(--my,50%), rgba(42,144,255,.16), transparent 62%);
 }
 .tcard:hover::before{ opacity:1; }
-.tcard.feature::before{ background:radial-gradient(320px circle at var(--mx,50%) var(--my,50%), rgba(100,190,255,.22), transparent 62%); }
 
 .btn, .tab, .tcard{ position:relative; overflow:hidden; }
 .ripple{
@@ -628,16 +805,20 @@ footer{ padding:34px 0 44px; border-top:1px solid var(--edge-soft); }
   .nav-links,.nav-cta{ display:none; }
   .burger{ display:block; }
   .hero-grid,.about-grid,.contact-grid{ grid-template-columns:1fr; }
-  .hero-grid .portrait{ order:-1; max-width:340px; }
+  .hero-grid .portrait{ order:-1; max-width:340px; height:auto; }
+  .hero .portrait img{ aspect-ratio:4/5; flex:0 0 auto; }
   .about-figure{ max-width:520px; }
 }
 @media (max-width:640px){
   body{ font-size:16px; }
+  .about-body p{ text-align:left; }
+  .about-figure figcaption{ left:18px; right:18px; bottom:18px; }
   h1{ font-size:clamp(2.1rem,9vw,3rem); }
   .hero{ min-height:auto; padding-block:104px 60px; border-radius:0 0 var(--r-lg) var(--r-lg); }
   .hero h1{ letter-spacing:.01em; line-height:1.1; }
   .hero h1 span{ margin-top:14px; }
   .robotic{ background-attachment:scroll; border-radius:0; margin-inline:0; }
+  .deep{ border-radius:0; margin-inline:0; }
   .pub{ grid-template-columns:1fr; gap:4px; }
   .nav{ padding:9px 9px 9px 16px; top:10px; width:calc(100% - 20px); }
   .brand b{ font-size:14.5px; }
@@ -755,6 +936,34 @@ footer{ padding:34px 0 44px; border-top:1px solid var(--edge-soft); }
       <stop offset="0" stop-color="#ffffff" stop-opacity=".85"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
     </radialGradient>
 
+    <symbol id="p-paper" viewBox="0 0 48 48">
+      <path d="M12 6h16l8 8v28a2 2 0 0 1-2 2H12a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z" fill="url(#og)"/>
+      <path d="M12 6h16l8 8v28a2 2 0 0 1-2 2H12a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z" fill="url(#ogl)"/>
+      <path d="M28 6l8 8h-8z" fill="#ffffff" opacity=".55"/>
+      <path d="M16 22h16M16 28h16M16 34h10" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" opacity=".9"/>
+    </symbol>
+    <symbol id="p-podium" viewBox="0 0 48 48">
+      <path d="M15 16h18l-3 26H18z" fill="url(#og)"/>
+      <path d="M15 16h18l-3 26H18z" fill="url(#ogl)"/>
+      <rect x="11" y="11" width="26" height="6" rx="3" fill="#ffffff" opacity=".85"/>
+      <path d="M24 11V6" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round"/>
+      <circle cx="24" cy="5" r="3" fill="#ffffff"/>
+      <path d="M19 27h10" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" opacity=".85"/>
+    </symbol>
+    <symbol id="p-poster" viewBox="0 0 48 48">
+      <rect x="8" y="10" width="32" height="28" rx="4" fill="url(#og)"/>
+      <rect x="8" y="10" width="32" height="28" rx="4" fill="url(#ogl)"/>
+      <path d="M14 30l7-8 5 6 4-4 6 6" stroke="#ffffff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="18" cy="18" r="2.6" fill="#ffffff"/>
+      <path d="M24 38v6" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" opacity=".8"/>
+    </symbol>
+    <symbol id="p-video" viewBox="0 0 48 48">
+      <rect x="7" y="12" width="26" height="24" rx="5" fill="url(#og)"/>
+      <rect x="7" y="12" width="26" height="24" rx="5" fill="url(#ogl)"/>
+      <path d="M37 18l6-4v20l-6-4z" fill="url(#og2)"/>
+      <path d="M18 19l9 5-9 5z" fill="#ffffff"/>
+    </symbol>
+
     <symbol id="o-prostate" viewBox="0 0 48 48">
       <path d="M24 11c8 0 15 5.5 15 13.5S32.5 39 24 39 9 32.5 9 24.5 16 11 24 11z" fill="url(#og)"/>
       <path d="M24 11c8 0 15 5.5 15 13.5S32.5 39 24 39 9 32.5 9 24.5 16 11 24 11z" fill="url(#ogl)"/>
@@ -829,6 +1038,7 @@ footer{ padding:34px 0 44px; border-top:1px solid var(--edge-soft); }
   </defs>
 </svg>
 
+<div class="scroll-progress" id="progress" aria-hidden="true"></div>
 <div class="aurora" aria-hidden="true"><span class="a1"></span><span class="a2"></span><span class="a3"></span></div>
 <div class="grain" aria-hidden="true"></div>
 
@@ -841,8 +1051,8 @@ footer{ padding:34px 0 44px; border-top:1px solid var(--edge-soft); }
   <div class="nav-links">
     <a href="#about">About</a>
     <a href="#treatments">Treatments</a>
-    <a href="#robotic">Robotic surgery</a>
     <a href="#academics">Academics</a>
+    <a href="#robotic">Robotic surgery</a>
   </div>
   <a href="https://cloudurologist.setmore.com?utm_source=in-app&amp;utm_medium=iosapp&amp;utm_campaign=settsharebp" class="nav-cta" target="_blank" rel="noopener">Book consultation</a>
   <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="menu">
@@ -852,8 +1062,8 @@ footer{ padding:34px 0 44px; border-top:1px solid var(--edge-soft); }
 <div class="menu" id="menu">
   <a href="#about">About</a>
   <a href="#treatments">Treatments</a>
-  <a href="#robotic">Robotic surgery</a>
   <a href="#academics">Academics</a>
+  <a href="#robotic">Robotic surgery</a>
   <a href="#contact">Get in touch</a>
   <a href="https://cloudurologist.setmore.com?utm_source=in-app&amp;utm_medium=iosapp&amp;utm_campaign=settsharebp" target="_blank" rel="noopener">Book consultation</a>
 </div>
@@ -892,6 +1102,10 @@ footer{ padding:34px 0 44px; border-top:1px solid var(--edge-soft); }
   <div class="wrap about-grid">
     <figure class="about-figure glass-light" style="margin:0">
       <img src="images/davinci-surgeon.jpg" alt="Dr. Nisanth Puliyath operating at the robotic surgical console" loading="lazy" decoding="async">
+      <figcaption>
+        <span>At the console</span>
+        <span>Robotic uro-oncology</span>
+      </figcaption>
     </figure>
     <div>
       <p class="eyebrow on-light">About</p>
@@ -900,6 +1114,10 @@ footer{ padding:34px 0 44px; border-top:1px solid var(--edge-soft); }
         <p>I am a urologist working in robotic uro-oncology, meaning minimally invasive surgery for cancers of the prostate, kidney and bladder, alongside focal therapy for men who are suitable for treatment targeted to the tumour rather than the whole gland.</p>
         <p>I completed MBBS and MCh Urology at Government Medical College Kozhikode, with MS General Surgery at AIIMS in between. I then trained in robotic surgery and uro-oncology at Medanta, Gurugram, through the Vattikuti Fellowship, with further training as a visiting fellow at international centres of excellence, including Johns Hopkins, UC San Diego and AdventHealth Orlando, where I learned focal therapy and robotic uro-oncology from surgeons who helped develop these techniques.</p>
         <p>I now offer these treatments here in Kerala: MRI-fusion and transperineal biopsy, HIFU and cryotherapy for suitable men, and nerve-sparing robotic prostatectomy. This site exists so you can arrive at a consultation already knowing what your diagnosis means and which questions matter.</p>
+      </div>
+      <div class="about-sign">
+        <b>Dr. Nisanth Puliyath</b>
+        <span>MCh Urology &middot; Vattikuti Fellow</span>
       </div>
     </div>
   </div>
@@ -922,7 +1140,7 @@ footer{ padding:34px 0 44px; border-top:1px solid var(--edge-soft); }
         <span class="more">Read more &rarr;</span>
       </div>
 
-      <div class="tcard feature" role="button" tabindex="0" data-sheet="focal">
+      <div class="tcard" role="button" tabindex="0" data-sheet="focal">
         <span class="organ" aria-hidden="true"><svg viewBox="0 0 48 48"><use href="#o-focal"/></svg></span>
         <span class="tag">Targeted treatment</span>
         <h3>Focal therapy: HIFU, cryotherapy &amp; NanoKnife (IRE)</h3>
@@ -997,36 +1215,8 @@ footer{ padding:34px 0 44px; border-top:1px solid var(--edge-soft); }
   </div>
 </section>
 
-<!-- ==================== ROBOTIC ==================== -->
-<section class="band robotic" id="robotic">
-  <div class="wrap">
-    <div class="section-head">
-      <p class="eyebrow">Robotic surgery</p>
-      <h2>The robot does not operate.<br>I do.</h2>
-      <p class="lede">It is an instrument, not an autonomous system. Every movement comes from my hands at a console a few feet from the table. What it adds is vision, reach and steadiness inside spaces where millimetres decide the result.</p>
-    </div>
-    <div class="robotic-grid">
-      <div class="rpanel glass">
-        <p class="k">Vision</p>
-        <h3>Ten times magnified, in 3D</h3>
-        <p>The console gives a stereoscopic view magnified up to tenfold. Nerve bundles and vessels that are hard to define through an open incision become distinct structures you can work around deliberately.</p>
-      </div>
-      <div class="rpanel glass">
-        <p class="k">Control</p>
-        <h3>Wristed instruments, no tremor</h3>
-        <p>The instruments rotate further than a human wrist, and the system filters out tremor. That matters most during nerve-sparing dissection and when reconstructing the urinary tract afterwards.</p>
-      </div>
-      <div class="rpanel glass">
-        <p class="k">Recovery</p>
-        <h3>Keyhole access, earlier discharge</h3>
-        <p>Four to five small incisions instead of one long one means less blood loss and less pain. Most patients are walking the next day and home within a few days, without trading away cancer control.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ==================== ACADEMICS ==================== -->
-<section class="band" id="academics">
+<section class="band deep" id="academics">
   <div class="wrap">
     <div class="section-head">
       <p class="eyebrow">Academic profile</p>
@@ -1035,8 +1225,9 @@ footer{ padding:34px 0 44px; border-top:1px solid var(--edge-soft); }
     <div class="tabs" role="tablist" aria-label="Academic profile">
       <button class="tab" role="tab" id="tab-cred" aria-controls="p-cred" aria-selected="true">Know your surgeon</button>
       <button class="tab" role="tab" id="tab-awards" aria-controls="p-awards" aria-selected="false">Awards</button>
-      <button class="tab" role="tab" id="tab-conf" aria-controls="p-conf" aria-selected="false">Conferences</button>
       <button class="tab" role="tab" id="tab-research" aria-controls="p-research" aria-selected="false">Publications</button>
+      <button class="tab" role="tab" id="tab-conf" aria-controls="p-conf" aria-selected="false">Conferences</button>
+      <button class="tab" role="tab" id="tab-affil" aria-controls="p-affil" aria-selected="false">Affiliations</button>
     </div>
 
     <div class="panel glass active" id="p-cred" role="tabpanel" aria-labelledby="tab-cred">
@@ -1141,89 +1332,6 @@ footer{ padding:34px 0 44px; border-top:1px solid var(--edge-soft); }
       </ul>
     </div>
 
-    <div class="panel glass" id="p-conf" role="tabpanel" aria-labelledby="tab-conf" hidden>
-      <p class="panel-lede">Multiple national and international presentations, including:</p>
-      <ul class="honour-grid">
-        <li class="honour">
-          <span class="rank">Paper</span>
-          <div>
-            <b>Paper presentation, AUA 2026</b>
-            <span class="meta">Washington D.C., USA</span>
-          </div>
-        </li>
-        <li class="honour">
-          <span class="rank">Podium</span>
-          <div>
-            <b>Podium presentation, AUA 2026</b>
-            <span class="meta">Washington D.C., USA &middot; Global Urology Leadership and GRLR</span>
-          </div>
-        </li>
-        <li class="honour">
-          <span class="rank">Poster</span>
-          <div>
-            <b>Poster presentation, EAU 2026</b>
-            <span class="meta">London, United Kingdom</span>
-          </div>
-        </li>
-        <li class="honour">
-          <span class="rank">Poster</span>
-          <div>
-            <b>Best poster presentation, USICON 2025</b>
-            <span class="meta">Chennai</span>
-          </div>
-        </li>
-        <li class="honour">
-          <span class="rank">Paper</span>
-          <div>
-            <b>Paper presentation, YOUCON 2025</b>
-            <span class="meta">Shillong</span>
-          </div>
-        </li>
-        <li class="honour">
-          <span class="rank">Podium</span>
-          <div>
-            <b>Podium presentation, USICON 2024</b>
-            <span class="meta">Patna</span>
-          </div>
-        </li>
-        <li class="honour">
-          <span class="rank">Paper</span>
-          <div>
-            <b>Best paper presentation, UAKON 2024</b>
-            <span class="meta">Kollam</span>
-          </div>
-        </li>
-        <li class="honour">
-          <span class="rank">Poster</span>
-          <div>
-            <b>Poster presentation, USICON 2024</b>
-            <span class="meta">Patna</span>
-          </div>
-        </li>
-        <li class="honour">
-          <span class="rank">Video</span>
-          <div>
-            <b>Best video presentation, SZUSICON 2024</b>
-            <span class="meta">Madurai &middot; <i>Laparoscopic partial cystectomy for bladder leiomyoma</i></span>
-          </div>
-        </li>
-        <li class="honour">
-          <span class="rank">Poster</span>
-          <div>
-            <b>Poster presentation, SZUSICON 2024</b>
-            <span class="meta">Madurai</span>
-          </div>
-        </li>
-        <li class="honour">
-          <span class="rank">Paper</span>
-          <div>
-            <b>Paper presentation, CRSA national conference</b>
-            <span class="meta">Clinical Robotic Surgery Association, India chapter</span>
-          </div>
-        </li>
-      </ul>
-    </div>
-
     <div class="panel glass" id="p-research" role="tabpanel" aria-labelledby="tab-research" hidden>
       <div class="metrics">
         <div class="metric"><b>3</b><span>h-index</span></div>
@@ -1245,6 +1353,173 @@ footer{ padding:34px 0 44px; border-top:1px solid var(--edge-soft); }
       <div class="pub"><p>The utility of telemedicine in general surgery during the COVID-19 pandemic and beyond: our experience</p><em>IJCMPR <b>&middot; 2020</b></em></div>
       <div class="pub"><p>Utility of triple tumour markers CA 19-9, CA 125 and CEA in predicting advanced stage carcinoma of the gallbladder: a retrospective study</p><em>International Surgery Journal <b>&middot; 2020</b></em></div>
       <div class="pub"><p>Use of N-acetyl cysteine to retrieve an entrapped Malecot catheter in the liver: an old agent for a novel application</p><em>Tropical Doctor <b>&middot; 2020</b></em></div>
+    </div>
+    <div class="panel glass" id="p-conf" role="tabpanel" aria-labelledby="tab-conf" hidden>
+      <p class="panel-lede">Multiple national and international presentations, including:</p>
+      <ul class="honour-grid">
+        <li class="honour">
+          <span class="pres" aria-hidden="true"><svg viewBox="0 0 48 48"><use href="#p-paper"/></svg></span><span class="sr-only">Paper presentation</span>
+          <div>
+            <b>Paper presentation, AUA 2026</b>
+            <span class="meta">Washington D.C., USA</span>
+          </div>
+        </li>
+        <li class="honour">
+          <span class="pres" aria-hidden="true"><svg viewBox="0 0 48 48"><use href="#p-podium"/></svg></span><span class="sr-only">Podium presentation</span>
+          <div>
+            <b>Podium presentation, AUA 2026</b>
+            <span class="meta">Washington D.C., USA &middot; Global Urology Leadership and GRLR</span>
+          </div>
+        </li>
+        <li class="honour">
+          <span class="pres" aria-hidden="true"><svg viewBox="0 0 48 48"><use href="#p-poster"/></svg></span><span class="sr-only">Poster presentation</span>
+          <div>
+            <b>Poster presentation, EAU 2026</b>
+            <span class="meta">London, United Kingdom</span>
+          </div>
+        </li>
+        <li class="honour">
+          <span class="pres" aria-hidden="true"><svg viewBox="0 0 48 48"><use href="#p-poster"/></svg></span><span class="sr-only">Poster presentation</span>
+          <div>
+            <b>Best poster presentation, USICON 2025</b>
+            <span class="meta">Chennai</span>
+          </div>
+        </li>
+        <li class="honour">
+          <span class="pres" aria-hidden="true"><svg viewBox="0 0 48 48"><use href="#p-paper"/></svg></span><span class="sr-only">Paper presentation</span>
+          <div>
+            <b>Paper presentation, YOUCON 2025</b>
+            <span class="meta">Shillong</span>
+          </div>
+        </li>
+        <li class="honour">
+          <span class="pres" aria-hidden="true"><svg viewBox="0 0 48 48"><use href="#p-podium"/></svg></span><span class="sr-only">Podium presentation</span>
+          <div>
+            <b>Podium presentation, USICON 2024</b>
+            <span class="meta">Patna</span>
+          </div>
+        </li>
+        <li class="honour">
+          <span class="pres" aria-hidden="true"><svg viewBox="0 0 48 48"><use href="#p-paper"/></svg></span><span class="sr-only">Paper presentation</span>
+          <div>
+            <b>Best paper presentation, UAKON 2024</b>
+            <span class="meta">Kollam</span>
+          </div>
+        </li>
+        <li class="honour">
+          <span class="pres" aria-hidden="true"><svg viewBox="0 0 48 48"><use href="#p-poster"/></svg></span><span class="sr-only">Poster presentation</span>
+          <div>
+            <b>Poster presentation, USICON 2024</b>
+            <span class="meta">Patna</span>
+          </div>
+        </li>
+        <li class="honour">
+          <span class="pres" aria-hidden="true"><svg viewBox="0 0 48 48"><use href="#p-video"/></svg></span><span class="sr-only">Video presentation</span>
+          <div>
+            <b>Best video presentation, SZUSICON 2024</b>
+            <span class="meta">Madurai &middot; <i>Laparoscopic partial cystectomy for bladder leiomyoma</i></span>
+          </div>
+        </li>
+        <li class="honour">
+          <span class="pres" aria-hidden="true"><svg viewBox="0 0 48 48"><use href="#p-poster"/></svg></span><span class="sr-only">Poster presentation</span>
+          <div>
+            <b>Poster presentation, SZUSICON 2024</b>
+            <span class="meta">Madurai</span>
+          </div>
+        </li>
+        <li class="honour">
+          <span class="pres" aria-hidden="true"><svg viewBox="0 0 48 48"><use href="#p-paper"/></svg></span><span class="sr-only">Paper presentation</span>
+          <div>
+            <b>Paper presentation, CRSA national conference</b>
+            <span class="meta">Clinical Robotic Surgery Association, India chapter</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="panel glass" id="p-affil" role="tabpanel" aria-labelledby="tab-affil" hidden>
+      <p class="panel-lede">Member of international, national and state urological and medical associations.</p>
+      <ul class="org-grid">
+      <li><a class="org" href="https://www.auanet.org" target="_blank" rel="noopener">
+        <span class="mark">AUA</span>
+        <span class="org-name">American Urological Association</span>
+        <span class="org-scope">International</span>
+      </a></li>
+      <li><a class="org" href="https://uroweb.org" target="_blank" rel="noopener">
+        <span class="mark">EAU</span>
+        <span class="org-name">European Association of Urology</span>
+        <span class="org-scope">International</span>
+      </a></li>
+      <li><a class="org" href="https://www.siu-urology.org" target="_blank" rel="noopener">
+        <span class="mark">SIU</span>
+        <span class="org-name">Société Internationale d'Urologie</span>
+        <span class="org-scope">International</span>
+      </a></li>
+      <li><a class="org" href="https://uaanet.org" target="_blank" rel="noopener">
+        <span class="mark">UAA</span>
+        <span class="org-name">Urological Association of Asia</span>
+        <span class="org-scope">Regional</span>
+      </a></li>
+      <li><a class="org" href="https://srobotics.org" target="_blank" rel="noopener">
+        <span class="mark">SRS</span>
+        <span class="org-name">Society of Robotic Surgery</span>
+        <span class="org-scope">International</span>
+      </a></li>
+      <li><a class="org" href="https://www.usi.org.in" target="_blank" rel="noopener">
+        <span class="mark">USI</span>
+        <span class="org-name">Urological Society of India</span>
+        <span class="org-scope">National</span>
+      </a></li>
+      <li><a class="org" href="https://www.ima-india.org" target="_blank" rel="noopener">
+        <span class="mark">IMA</span>
+        <span class="org-name">Indian Medical Association</span>
+        <span class="org-scope">National</span>
+      </a></li>
+      <li><a class="org" href="https://www.szusi.com" target="_blank" rel="noopener">
+        <span class="mark">ASU</span>
+        <span class="org-name">Association of Southern Urologists</span>
+        <span class="org-scope">Zonal</span>
+      </a></li>
+      <li><a class="org" href="https://www.uakonline.com" target="_blank" rel="noopener">
+        <span class="mark">UAK</span>
+        <span class="org-name">Urological Association of Kerala</span>
+        <span class="org-scope">State</span>
+      </a></li>
+      <li><span class="org">
+        <span class="mark">CUC</span>
+        <span class="org-name">Calicut Urology Club</span>
+        <span class="org-scope">Local</span>
+      </span></li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- ==================== ROBOTIC ==================== -->
+<section class="band robotic" id="robotic">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Robotic surgery</p>
+      <h2>The robot does not operate.<br>I do.</h2>
+      <p class="lede">It is an instrument, not an autonomous system. Every movement comes from my hands at a console a few feet from the table. What it adds is vision, reach and steadiness inside spaces where millimetres decide the result.</p>
+    </div>
+    <div class="robotic-grid">
+      <div class="rpanel glass">
+        <p class="k">Vision</p>
+        <h3>Ten times magnified, in 3D</h3>
+        <p>The console gives a stereoscopic view magnified up to tenfold. Nerve bundles and vessels that are hard to define through an open incision become distinct structures you can work around deliberately.</p>
+      </div>
+      <div class="rpanel glass">
+        <p class="k">Control</p>
+        <h3>Wristed instruments, no tremor</h3>
+        <p>The instruments rotate further than a human wrist, and the system filters out tremor. That matters most during nerve-sparing dissection and when reconstructing the urinary tract afterwards.</p>
+      </div>
+      <div class="rpanel glass">
+        <p class="k">Recovery</p>
+        <h3>Keyhole access, earlier discharge</h3>
+        <p>Four to five small incisions instead of one long one means less blood loss and less pain. Most patients are walking the next day and home within a few days, without trading away cancer control.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -1514,6 +1789,30 @@ footer{ padding:34px 0 44px; border-top:1px solid var(--edge-soft); }
   document.addEventListener('keydown', function(e){
     if (e.key === 'Escape' && scrim.classList.contains('open')) closeSheet();
   });
+
+  /* conditions: light the card that is passing through the middle of the view */
+  if ('IntersectionObserver' in window){
+    var lit = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        en.target.classList.toggle('lit', en.isIntersecting);
+      });
+    }, { rootMargin: '-38% 0px -38% 0px', threshold: 0 });
+    document.querySelectorAll('.tcard').forEach(function(c){ lit.observe(c); });
+  }
+
+  /* scroll progress */
+  var bar = document.getElementById('progress');
+  var barQueued = false;
+  function drawProgress(){
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    bar.style.setProperty('--p', (max > 0 ? (h.scrollTop / max) * 100 : 0).toFixed(2) + '%');
+    barQueued = false;
+  }
+  window.addEventListener('scroll', function(){
+    if (!barQueued){ barQueued = true; requestAnimationFrame(drawProgress); }
+  }, { passive:true });
+  drawProgress();
 
   /* pointer light in the hero + card spotlight + click ripple */
   var fine = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
