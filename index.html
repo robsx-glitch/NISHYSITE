@@ -1,284 +1,1581 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-IN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dr. Nisanth Puliyath | Surgical Excellence</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&family=Outfit:wght@300;600;800&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Robotic Urologist in Kerala, India | Dr. Nisanth Puliyath</title>
+<meta name="description" content="Dr. Nisanth Puliyath is a robotic uro-oncologist in Kerala, India, treating prostate, kidney and bladder cancer with robotic surgery and focal therapy including HIFU, cryotherapy and NanoKnife (IRE).">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#f4f7fb">
+<link rel="canonical" href="https://drnisanthpuliyathurologist.org/">
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brandBlue: '#0f172a', 
-                        medicalBlue: '#2563eb',
-                        awardBlue: '#f0f7ff', 
-                        glowBlue: '#3b82f6'
-                    },
-                    fontFamily: {
-                        sans: ['Plus Jakarta Sans', 'sans-serif'],
-                        heading: ['Outfit', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
+<meta name="geo.region" content="IN-KL">
+<meta name="geo.placename" content="Kerala, India">
+<meta name="keywords" content="urologist in Kerala, robotic urologist India, robotic surgery Kerala, prostate cancer treatment Kerala, HIFU India, focal therapy prostate India, NanoKnife IRE prostate India, kidney cancer surgery Kerala, bladder cancer Kerala, uro-oncologist Kerala">
 
-    <style>
-        html { scroll-behavior: smooth; }
-        * { text-decoration: none !important; }
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_IN">
+<meta property="og:site_name" content="Dr. Nisanth Puliyath">
+<meta property="og:title" content="Robotic Urologist in Kerala, India | Dr. Nisanth Puliyath">
+<meta property="og:description" content="Robotic surgery and focal therapy for prostate, kidney and bladder cancer, in Kerala, India.">
+<meta property="og:url" content="https://drnisanthpuliyathurologist.org/">
+<meta property="og:image" content="https://drnisanthpuliyathurologist.org/images/nishwebsite.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Robotic Urologist in Kerala, India | Dr. Nisanth Puliyath">
+<meta name="twitter:description" content="Robotic surgery and focal therapy for prostate, kidney and bladder cancer, in Kerala, India.">
+<meta name="twitter:image" content="https://drnisanthpuliyathurologist.org/images/nishwebsite.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   TOKENS
+   ============================================================ */
+:root{
+  --ink:        #0b1018;
+  --ink-2:      #0a0f1a;
+  --paper:      #eaf0f9;
+  --paper-2:    #ffffff;
 
-        .hero-visual-bg {
-            background: radial-gradient(circle at 20% 30%, rgba(37, 99, 235, 0.15) 0%, transparent 40%),
-                        radial-gradient(circle at 80% 70%, rgba(37, 99, 235, 0.1) 0%, transparent 40%),
-                        #0f172a;
-        }
+  --blue:       #0a6ed1;
+  --blue-ink:   #04539f;
+  --cyan:       #64d2ff;
+  --violet:     #1a5fd0;
+  --blue-bright:#2a90ff;
+  --c-edu:      #1272d8;
+  --c-fel:      #5b46d6;
+  --c-int:      #0a8f8f;
 
-        .nav-refined {
-            background: rgba(15, 23, 42, 0.85);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
-        }
+  --text:       #0b1018;
+  --muted:      rgba(11,16,24,.64);
+  --text-inv:   #f5f5f7;
+  --muted-inv:  rgba(245,245,247,.66);
+  --text-dark:  #0b1018;
+  --muted-dark: rgba(11,16,24,.64);
 
-        .treatment-section-bg {
-            background: linear-gradient(135deg, #f0f7ff 0%, #e0e7ff 100%);
-        }
+  --edge:       rgba(11,16,24,.12);
+  --edge-soft:  rgba(11,16,24,.09);
+  --edge-inv:   rgba(255,255,255,.16);
+  --edge-dark:  rgba(11,16,24,.10);
 
-        .treatment-scroll::-webkit-scrollbar { height: 4px; }
-        .treatment-scroll::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); }
-        .treatment-scroll::-webkit-scrollbar-thumb { background: #2563eb; border-radius: 10px; }
+  --r-sm: 14px;
+  --r-md: 22px;
+  --r-lg: 32px;
+  --r-xl: 44px;
 
-        .treatment-card {
-            min-width: 300px;
-            transition: all 0.4s ease;
-            border: 1px solid rgba(226, 232, 240, 0.8);
-            scroll-snap-align: start;
-        }
+  --pad: clamp(20px, 5vw, 64px);
+  --maxw: 1180px;
+}
 
-        .glass-section {
-            background-image: url('images/robotic-bg.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            position: relative;
-        }
+*,*::before,*::after{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; scroll-padding-top:96px; -webkit-text-size-adjust:100%; }
+body{
+  margin:0;
+  background:linear-gradient(180deg,#ffffff 0%,var(--paper) 38%,#d9e4f3 100%);
+  background-attachment:fixed;
+  color:var(--text);
+  font-family:'Inter','SF Pro Text',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+  font-size:17px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+body.locked{ overflow:hidden; }
+img{ max-width:100%; display:block; }
+a{ color:inherit; text-decoration:none; }
+button{ font:inherit; color:inherit; background:none; border:none; cursor:pointer; }
+:focus-visible{ outline:2px solid var(--blue); outline-offset:3px; border-radius:6px; }
 
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            overflow: hidden;
-        }
+h1,h2,h3,h4{
+  font-family:'Inter Tight','SF Pro Display',-apple-system,system-ui,sans-serif;
+  font-weight:600;
+  letter-spacing:-.035em;
+  line-height:1.05;
+  margin:0;
+}
+h1{ font-size:clamp(2.8rem, 7.5vw, 5.2rem); }
+h2{ font-size:clamp(2rem, 4.6vw, 3.3rem); }
+h3{ font-size:clamp(1.25rem, 2.2vw, 1.6rem); letter-spacing:-.025em; }
+p{ margin:0 0 1em; }
+p:last-child{ margin-bottom:0; }
 
-        .tab-btn-glass {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.6);
-            transition: all 0.3s ease;
-        }
+.eyebrow{
+  font-family:'IBM Plex Mono',ui-monospace,monospace;
+  font-size:11.5px;
+  font-weight:500;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--blue-ink);
+  margin:0 0 18px;
+}
+.eyebrow.on-light{ color:var(--blue-ink); }
+.lede{ color:var(--muted-dark); font-size:clamp(1rem,1.5vw,1.18rem); font-weight:300; max-width:62ch; }
+.lede.on-light{ color:var(--muted-dark); }
 
-        .tab-btn-glass.active {
-            background: rgba(37, 99, 235, 0.8);
-            color: white;
-            box-shadow: 0 0 20px rgba(37, 99, 235, 0.4);
-        }
+.wrap{ max-width:var(--maxw); margin:0 auto; padding-inline:var(--pad); }
+section{ position:relative; }
+.band{ padding-block:clamp(72px,11vw,140px); }
 
-        .tab-content { display: none; animation: fadeIn 0.6s ease; }
-        .tab-content.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+/* ============================================================
+   AMBIENT AURORA — the light source the glass reacts to
+   ============================================================ */
+.aurora{ position:fixed; inset:-20% -10%; z-index:-2; pointer-events:none; filter:blur(90px); opacity:.78; }
+.aurora span{ position:absolute; border-radius:50%; display:block; }
+.aurora .a1{ width:52vw; height:52vw; left:-8vw; top:-6vw;  background:radial-gradient(circle,rgba(10,110,209,.36),transparent 66%); animation:drift1 26s ease-in-out infinite; }
+.aurora .a2{ width:46vw; height:46vw; right:-6vw; top:22vh;  background:radial-gradient(circle,rgba(42,144,255,.30),transparent 66%); animation:drift2 32s ease-in-out infinite; }
+.aurora .a3{ width:40vw; height:40vw; left:22vw;  top:64vh;  background:radial-gradient(circle,rgba(100,210,255,.30),transparent 66%); animation:drift3 38s ease-in-out infinite; }
+@keyframes drift1{ 50%{ transform:translate3d(8vw,6vh,0) scale(1.12); } }
+@keyframes drift2{ 50%{ transform:translate3d(-9vw,-5vh,0) scale(1.08); } }
+@keyframes drift3{ 50%{ transform:translate3d(5vw,-8vh,0) scale(1.15); } }
+.grain{
+  position:fixed; inset:0; z-index:-1; pointer-events:none; opacity:.07;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+}
 
-        .image-frame { border: 12px solid white; box-shadow: 0 40px 100px -20px rgba(15, 23, 42, 0.15); }
-        .text-glow { text-shadow: 0 0 30px rgba(59, 130, 246, 0.5); }
-    </style>
+/* ============================================================
+   GLASS — the signature material
+   ============================================================ */
+.glass{
+  position:relative;
+  background:linear-gradient(150deg, rgba(255,255,255,.94), rgba(235,242,252,.78) 52%, rgba(255,255,255,.86));
+  backdrop-filter:blur(26px) saturate(170%);
+  -webkit-backdrop-filter:blur(26px) saturate(165%);
+  border:1px solid rgba(255,255,255,.85);
+  box-shadow:
+    inset 0 1px 0 #fff,
+    0 28px 64px -32px rgba(17,38,80,.4);
+  border-radius:var(--r-lg);
+  overflow:hidden;
+  color:var(--text);
+}
+/* specular sweep — the "liquid" in liquid glass */
+.glass::after{
+  content:''; position:absolute; inset:-40% -60%;
+  background:linear-gradient(105deg, transparent 42%, rgba(255,255,255,.55) 50%, transparent 58%);
+  transform:translateX(-42%); transition:transform 1.1s cubic-bezier(.2,.7,.2,1);
+  pointer-events:none;
+}
+.glass:hover::after{ transform:translateX(42%); }
+
+.glass-light{
+  background:linear-gradient(150deg, rgba(255,255,255,.94), rgba(255,255,255,.72));
+  backdrop-filter:blur(24px) saturate(160%);
+  -webkit-backdrop-filter:blur(24px) saturate(160%);
+  border:1px solid rgba(255,255,255,.9);
+  box-shadow:0 24px 60px -34px rgba(11,16,24,.35), inset 0 1px 0 #fff;
+  border-radius:var(--r-lg);
+  color:var(--text-dark);
+}
+
+/* ============================================================
+   NAV
+   ============================================================ */
+.nav{
+  position:fixed; top:14px; left:50%; transform:translateX(-50%);
+  width:min(calc(100% - 28px), var(--maxw)); z-index:80;
+  display:flex; align-items:center; justify-content:space-between; gap:20px;
+  padding:11px 12px 11px 22px; border-radius:999px;
+  background:rgba(255,255,255,.72);
+  backdrop-filter:blur(26px) saturate(180%);
+  -webkit-backdrop-filter:blur(26px) saturate(180%);
+  border:1px solid rgba(255,255,255,.9);
+  box-shadow:inset 0 1px 0 #fff, 0 16px 40px -26px rgba(11,16,24,.45);
+  transition:background .35s ease, box-shadow .35s ease;
+}
+.nav.scrolled{ background:rgba(255,255,255,.92); box-shadow:inset 0 1px 0 #fff, 0 18px 44px -26px rgba(6,16,40,.6); }
+.brand{ display:flex; flex-direction:column; line-height:1.15; }
+.brand b{ font-family:'Inter Tight',sans-serif; font-size:15.5px; font-weight:600; letter-spacing:-.02em; }
+.brand span{ font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); }
+.nav-links{ display:flex; align-items:center; gap:4px; }
+.nav-links a{
+  font-size:13.5px; font-weight:500; color:var(--muted);
+  padding:11px 14px; border-radius:999px; transition:color .2s, background .25s;
+}
+.nav-links a:hover{ color:var(--text); background:rgba(11,16,24,.06); }
+.nav-cta{
+  font-size:13.5px; font-weight:600; padding:11px 18px; border-radius:999px;
+  background:linear-gradient(135deg,#2a90ff,#0a55c7); color:#fff; box-shadow:0 10px 22px -9px rgba(10,85,199,.7);
+  transition:transform .2s, filter .2s;
+}
+.nav-cta:hover{ transform:translateY(-1px); filter:brightness(1.08); }
+.burger{ display:none; width:46px; height:46px; border-radius:999px; border:1px solid var(--edge); background:rgba(11,16,24,.04); }
+.burger i{ display:block; width:16px; height:1.5px; background:var(--text); margin:3.5px auto; transition:transform .3s, opacity .2s; }
+.menu{
+  position:fixed; inset:78px 14px auto 14px; z-index:79; padding:14px; border-radius:var(--r-lg);
+  background:rgba(255,255,255,.94); backdrop-filter:blur(30px) saturate(180%); -webkit-backdrop-filter:blur(30px) saturate(180%);
+  border:1px solid rgba(255,255,255,.9); box-shadow:0 30px 70px -30px rgba(11,16,24,.5);
+  display:none; flex-direction:column;
+}
+.menu.open{ display:flex; }
+.menu a{ padding:15px 16px; min-height:48px; display:flex; align-items:center; border-radius:var(--r-sm); font-size:16px; font-weight:500; }
+.menu a:hover{ background:rgba(11,16,24,.05); }
+
+/* ============================================================
+   HERO — the one deep, premium surface
+   ============================================================ */
+.hero{
+  position:relative; isolation:isolate; overflow:hidden;
+  min-height:100svh; display:flex; align-items:center; padding-block:136px 84px;
+  color:var(--text-inv);
+  background:
+    radial-gradient(1100px 620px at 10% 12%, rgba(56,132,255,.34), transparent 62%),
+    radial-gradient(900px 560px at 92% 84%, rgba(42,144,255,.34), transparent 64%),
+    linear-gradient(168deg,#04101f 0%,#08213f 46%,#0c2f63 100%);
+  border-radius:0 0 var(--r-xl) var(--r-xl);
+}
+/* fine specular sheen across the top edge, the Apple-glass tell */
+.hero::before{
+  content:''; position:absolute; inset:0 0 auto; height:1px; z-index:2;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);
+}
+.hero::after{
+  content:''; position:absolute; inset:auto 0 -1px; height:180px; z-index:-1;
+  background:linear-gradient(180deg,transparent,rgba(255,255,255,.10));
+}
+.hero > .wrap{ width:100%; }
+.hero-grid{ display:grid; grid-template-columns:1.15fr .85fr; gap:clamp(32px,5vw,72px); align-items:center; }
+.hero .eyebrow{ color:var(--cyan); }
+.hero h1{
+  color:#fff; letter-spacing:.005em; line-height:1.08; word-spacing:.03em;
+  background:linear-gradient(180deg,#ffffff 0%,#ffffff 58%,#cfe6ff 100%);
+  -webkit-background-clip:text; background-clip:text;
+  -webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 22px 46px rgba(0,0,0,.45));
+}
+.hero h1 span{
+  display:block; margin-top:18px;
+  font-size:clamp(1.15rem,2.4vw,1.95rem); font-weight:500; letter-spacing:-.03em;
+  background:linear-gradient(96deg,#8fd8ff 4%,var(--cyan) 46%,#3f9bff 96%);
+  -webkit-background-clip:text; background-clip:text;
+  -webkit-text-fill-color:transparent; color:transparent;
+}
+.hero .lede{ margin-top:24px; font-size:clamp(1.02rem,1.6vw,1.2rem); color:var(--muted-inv); }
+.hero .pill{ background:rgba(255,255,255,.09); border:1px solid var(--edge-inv); color:rgba(245,245,247,.86); }
+.hero .btn-ghost{ background:rgba(255,255,255,.12); border:1px solid var(--edge-inv); color:#fff; }
+.hero .btn-ghost:hover{ background:rgba(255,255,255,.2); }
+.hero .glass{
+  background:linear-gradient(150deg, rgba(255,255,255,.16), rgba(255,255,255,.05) 48%, rgba(255,255,255,.10));
+  border:1px solid var(--edge-inv);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 40px 90px -40px rgba(0,0,0,.9);
+  color:var(--text-inv);
+}
+.hero .portrait figcaption{ color:var(--muted-inv); }
+.pills{ display:flex; flex-wrap:wrap; gap:8px; margin-top:30px; }
+.pill{
+  font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.06em; text-transform:uppercase;
+  padding:8px 14px; border-radius:999px;
+  background:rgba(255,255,255,.75); border:1px solid var(--edge);
+  backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+  color:var(--muted);
+}
+.cta-row{ display:flex; flex-wrap:wrap; gap:12px; margin-top:36px; }
+.btn{
+  display:inline-flex; align-items:center; gap:9px; padding:15px 26px; border-radius:999px;
+  font-size:15px; font-weight:600; letter-spacing:-.01em; transition:transform .2s, filter .2s, background .25s;
+}
+.btn:hover{ transform:translateY(-2px); }
+.btn-primary{ background:linear-gradient(135deg,#2a90ff,#0a55c7); color:#fff; box-shadow:0 18px 38px -16px rgba(10,85,199,.75); }
+.btn-primary:hover{ filter:brightness(1.09); }
+.btn-ghost{
+  background:rgba(255,255,255,.8); border:1px solid var(--edge); color:var(--text);
+  backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px);
+}
+.btn-ghost:hover{ background:#fff; }
+.btn-dark{ background:var(--text-dark); color:#fff; }
+
+.portrait{ padding:12px; border-radius:var(--r-xl); }
+.portrait img{
+  width:100%; aspect-ratio:4/5; object-fit:cover; border-radius:calc(var(--r-xl) - 12px);
+  filter:grayscale(1) contrast(1.04); transition:filter 1.1s ease;
+}
+.portrait:hover img{ filter:grayscale(0); }
+.portrait figcaption{
+  display:flex; justify-content:space-between; gap:12px; align-items:center;
+  padding:14px 8px 4px; font-family:'IBM Plex Mono',monospace; font-size:10.5px;
+  letter-spacing:.12em; text-transform:uppercase; color:var(--muted);
+}
+
+/* ============================================================
+   LIGHT BANDS
+   ============================================================ */
+.light{ background:linear-gradient(180deg,rgba(255,255,255,.86),rgba(255,255,255,.42)); color:var(--text-dark); }
+.light h2,.light h3{ color:var(--text-dark); }
+.light .lede{ color:var(--muted-dark); }
+.section-head{ max-width:68ch; margin-bottom:clamp(40px,5vw,64px); }
+
+.about-grid{ display:grid; grid-template-columns:.9fr 1.1fr; gap:clamp(32px,5vw,72px); align-items:center; }
+.about-figure{ padding:10px; border-radius:var(--r-lg); }
+.about-figure img{ width:100%; border-radius:calc(var(--r-lg) - 10px); }
+.quote{
+  font-family:'Inter Tight',sans-serif; font-size:clamp(1.15rem,2vw,1.5rem); font-weight:500;
+  letter-spacing:-.025em; line-height:1.35; color:var(--text-dark);
+  border-left:3px solid transparent; border-image:linear-gradient(180deg,#2a90ff,#0a55c7) 1; padding-left:22px; margin:0 0 28px;
+}
+.about-body p{ color:var(--muted-dark); margin-bottom:1.1em; }
+
+/* ============================================================
+   TREATMENT CARDS + SHEETS
+   ============================================================ */
+.card-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); gap:18px; }
+.tcard{
+  text-align:left; width:100%; padding:28px 26px 24px; border-radius:var(--r-md);
+  background:linear-gradient(160deg,#ffffff 0%,rgba(238,244,252,.92) 100%);
+  border:1px solid rgba(255,255,255,.95);
+  box-shadow:0 22px 46px -28px rgba(17,38,80,.45);
+  backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  color:var(--text-dark); display:flex; flex-direction:column; gap:12px;
+  transition:transform .3s cubic-bezier(.2,.7,.2,1), box-shadow .3s;
+}
+.tcard:hover{ transform:translateY(-5px); box-shadow:0 34px 60px -32px rgba(11,16,24,.5); }
+.organ{
+  width:52px; height:52px; border-radius:16px; display:grid; place-items:center;
+  background:linear-gradient(150deg,#ffffff,rgba(226,238,253,.9));
+  border:1px solid rgba(255,255,255,.95);
+  box-shadow:0 12px 26px -14px rgba(10,60,140,.55), inset 0 1px 0 #fff;
+  margin-bottom:2px; position:relative; z-index:1;
+  transition:transform .35s cubic-bezier(.2,.7,.2,1);
+}
+.organ svg{ width:34px; height:34px; display:block; }
+.tcard:hover .organ{ transform:translateY(-2px) rotate(-4deg) scale(1.06); }
+.tcard.feature .organ{
+  background:linear-gradient(150deg,rgba(255,255,255,.18),rgba(255,255,255,.06));
+  border:1px solid rgba(255,255,255,.28); box-shadow:inset 0 1px 0 rgba(255,255,255,.35);
+}
+.tcard .tag{
+  font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase;
+  color:#0057b8;
+}
+.tcard h3{ font-size:1.22rem; }
+.tcard p{ font-size:14.5px; color:var(--muted-dark); line-height:1.55; }
+.tcard .more{ margin-top:auto; padding-top:6px; font-size:13.5px; font-weight:600; color:var(--blue); }
+.tcard.feature{
+  background:linear-gradient(155deg,#07182f,#0e2a52 55%,#12386f);
+  border:1px solid rgba(100,210,255,.35); color:var(--text);
+}
+.tcard.feature h3{ color:#fff; }
+.tcard.feature p{ color:rgba(245,245,247,.68); }
+.tcard.feature .tag{ color:var(--cyan); }
+.tcard.feature .more{ color:var(--cyan); }
+
+.scrim{
+  position:fixed; inset:0; z-index:90; display:none;
+  background:rgba(11,16,24,.42); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+  padding:clamp(14px,4vw,48px); overflow-y:auto;
+}
+.scrim.open{ display:grid; place-items:start center; }
+.sheet{
+  width:min(720px,100%); margin-block:auto; padding:clamp(26px,4vw,48px);
+  border-radius:var(--r-lg); position:relative;
+  background:linear-gradient(160deg,#ffffff,rgba(235,242,252,.96));
+  border:1px solid #fff; color:var(--text-dark);
+  box-shadow:0 50px 100px -40px rgba(0,0,0,.7);
+  animation:rise .4s cubic-bezier(.2,.8,.2,1);
+}
+@keyframes rise{ from{ opacity:0; transform:translateY(18px) scale(.985); } }
+.sheet h3{ font-size:clamp(1.5rem,3vw,2rem); margin-bottom:8px; }
+.sheet h4{ font-size:14px; letter-spacing:.01em; margin:26px 0 8px; color:var(--text-dark); }
+.sheet p, .sheet li{ font-size:15.5px; color:var(--muted-dark); }
+.sheet ul{ margin:0; padding-left:18px; }
+.sheet li{ margin-bottom:7px; }
+.sheet .note{
+  margin-top:28px; padding:16px 18px; border-radius:var(--r-sm);
+  background:rgba(10,132,255,.08); border:1px solid rgba(10,132,255,.18);
+  font-size:13.5px; color:#0b3f7a;
+}
+.close{
+  position:absolute; top:16px; right:16px; width:38px; height:38px; border-radius:999px;
+  background:rgba(11,16,24,.06); display:grid; place-items:center; font-size:18px; line-height:1;
+  color:var(--muted-dark); transition:background .2s;
+}
+.close:hover{ background:rgba(11,16,24,.12); }
+.sheet-src{ display:none; }
+
+/* ============================================================
+   ROBOTIC BAND
+   ============================================================ */
+.robotic{
+  background:
+    linear-gradient(rgba(6,12,26,.74),rgba(6,12,26,.84)),
+    url('images/robotic-bg.jpg') center/cover fixed;
+  color:var(--text-inv);
+  border-radius:var(--r-xl);
+  margin-inline:clamp(0px,2vw,28px);
+  overflow:hidden;
+}
+.robotic h2,.robotic h3{ color:#fff; }
+.robotic .eyebrow{ color:var(--cyan); }
+.robotic .lede{ color:var(--muted-inv); }
+.robotic .glass{
+  background:linear-gradient(150deg, rgba(255,255,255,.13), rgba(255,255,255,.05) 46%, rgba(255,255,255,.08));
+  border:1px solid var(--edge-inv);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.28), 0 30px 70px -35px rgba(0,0,0,.85);
+  color:var(--text-inv);
+}
+.robotic .glass::after{ background:linear-gradient(105deg, transparent 42%, rgba(255,255,255,.22) 50%, transparent 58%); }
+.robotic-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:18px; margin-top:52px; }
+.rpanel{ padding:30px 28px; border-radius:var(--r-md); }
+.rpanel .k{
+  font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--cyan); margin-bottom:16px;
+}
+.rpanel h3{ font-size:1.18rem; margin-bottom:10px; }
+.rpanel p{ font-size:14.5px; color:var(--muted-inv); line-height:1.55; }
+
+/* ============================================================
+   ACADEMIC TABS
+   ============================================================ */
+.tabs{ display:flex; flex-wrap:wrap; gap:6px; padding:6px; border-radius:999px; margin-bottom:26px;
+  background:rgba(255,255,255,.7); border:1px solid var(--edge);
+  backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); width:fit-content; max-width:100%; }
+.tab{
+  padding:12px 22px; border-radius:999px; font-size:13.5px; font-weight:500;
+  color:var(--muted); transition:background .25s, color .25s;
+}
+.tab:hover{ color:var(--text); }
+.tab[aria-selected="true"]{ background:linear-gradient(135deg,#2a90ff,#0a55c7); color:#fff; box-shadow:0 12px 26px -12px rgba(10,85,199,.8); }
+.panel{ display:none; padding:clamp(24px,3.6vw,44px); }
+.panel.active{ display:block; animation:rise .45s cubic-bezier(.2,.8,.2,1); }
+
+.cred{ display:flex; gap:20px; align-items:flex-start; padding:20px 4px; border-bottom:1px solid var(--edge-soft); }
+.cred:last-child{ border-bottom:none; }
+.cred{ --c:var(--c-edu); padding-left:14px; border-left:2px solid transparent; border-radius:0 var(--r-sm) var(--r-sm) 0; transition:border-color .25s, background .25s; }
+.cred:hover{ border-left-color:var(--c); background:linear-gradient(90deg,rgba(255,255,255,.75),transparent 70%); }
+.cred.g-fel{ --c:var(--c-fel); }
+.cred.g-int{ --c:var(--c-int); }
+.cred .yr{
+  font-family:'IBM Plex Mono',monospace; font-size:10.5px; font-weight:500;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--c);
+  align-self:flex-start; min-width:74px; text-align:center;
+  padding:6px 10px; border-radius:999px;
+  background:color-mix(in srgb, var(--c) 12%, #ffffff);
+  border:1px solid color-mix(in srgb, var(--c) 30%, #ffffff);
+  box-shadow:inset 0 1px 0 #fff;
+}
+@supports not (background:color-mix(in srgb,#000 10%,#fff)){
+  .cred .yr{ background:rgba(255,255,255,.9); border:1px solid var(--edge); }
+}
+.cred h4{ font-size:1.05rem; margin-bottom:3px; }
+.cred .where{ color:var(--c); }
+.cred p{ font-size:14.5px; color:var(--muted); letter-spacing:-.005em; }
+.cred .where{ font-weight:600; }
+
+.cred-group{
+  display:flex; align-items:center; gap:14px; margin:34px 0 4px;
+  font-family:'IBM Plex Mono',monospace; font-size:10.5px; font-weight:500;
+  letter-spacing:.16em; text-transform:uppercase; color:var(--muted);
+}
+.cred-group:first-child{ margin-top:0; }
+.cred-group::before{
+  content:''; width:9px; height:9px; border-radius:3px; flex:0 0 auto;
+  background:linear-gradient(140deg,var(--c,var(--c-edu)),color-mix(in srgb, var(--c,var(--c-edu)) 55%, #ffffff));
+  box-shadow:0 4px 10px -3px var(--c,var(--c-edu));
+}
+.cred-group.g-fel{ --c:var(--c-fel); }
+.cred-group.g-int{ --c:var(--c-int); }
+.cred-group::after{ content:''; flex:1; height:1px; background:var(--edge-soft); }
+
+.institutes{ margin-top:34px; padding-top:26px; border-top:1px solid var(--edge-soft); }
+.institutes span{
+  display:block; margin-bottom:14px;
+  font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--muted);
+}
+.institutes ul{ display:flex; flex-wrap:wrap; gap:8px; list-style:none; margin:0; padding:0; }
+.institutes li{
+  --c:var(--c-edu);
+  padding:8px 14px; border-radius:999px;
+  border:1px solid color-mix(in srgb, var(--c) 32%, #ffffff);
+  background:linear-gradient(150deg,#ffffff,color-mix(in srgb, var(--c) 10%, #ffffff));
+  box-shadow:0 8px 18px -14px var(--c), inset 0 1px 0 #fff;
+  font-size:13px; font-weight:600; color:var(--c);
+  transition:transform .25s ease;
+}
+.institutes li:hover{ transform:translateY(-2px); }
+.institutes li:nth-child(3){ --c:var(--c-fel); }
+.institutes li:nth-child(4),
+.institutes li:nth-child(5),
+.institutes li:nth-child(6){ --c:var(--c-int); }
+@supports not (background:color-mix(in srgb,#000 10%,#fff)){
+  .institutes li{ background:rgba(255,255,255,.85); border:1px solid var(--edge); }
+}
+
+/* ============================================================
+   AWARDS & ACHIEVEMENTS
+   ============================================================ */
+.honour-grid{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+  gap:0 clamp(24px,4vw,56px); list-style:none; margin:0; padding:0;
+}
+.honour{ display:grid; grid-template-columns:50px 1fr; gap:16px; padding:19px 0; border-top:1px solid var(--edge-soft); }
+.honour .rank{
+  font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:500;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--blue-ink); padding-top:5px;
+}
+.honour b{
+  display:block; font-family:'Inter Tight',system-ui,sans-serif; font-weight:600;
+  font-size:1.02rem; letter-spacing:-.02em; line-height:1.35;
+}
+.honour .meta{
+  display:block; margin-top:5px; font-family:'Inter',system-ui,sans-serif;
+  font-size:14px; font-weight:400; line-height:1.55; color:var(--muted);
+  letter-spacing:-.005em;
+}
+.honour .meta i{ font-style:italic; color:var(--blue-ink); }
+@media (max-width:640px){ .honour{ grid-template-columns:42px 1fr; gap:12px; } }
+
+.pub{ padding:16px 2px; border-bottom:1px solid var(--edge-soft); }
+.pub:last-child{ border-bottom:none; }
+.pub p{
+  font-family:'Inter Tight',system-ui,sans-serif; font-weight:500;
+  font-size:15.5px; line-height:1.4; letter-spacing:-.015em; color:var(--text);
+}
+.pub em{
+  display:block; margin-top:5px; font-style:normal;
+  font-size:13.5px; font-weight:500; color:var(--blue-ink); letter-spacing:-.005em;
+}
+.pub em b{ font-weight:500; color:var(--muted); }
+
+.panel-lede{
+  margin:0 0 22px; padding-bottom:20px; border-bottom:1px solid var(--edge-soft);
+  font-size:15px; color:var(--muted); letter-spacing:-.005em;
+}
+
+.metrics{
+  display:flex; flex-wrap:wrap; gap:10px; margin-bottom:26px;
+  padding-bottom:24px; border-bottom:1px solid var(--edge-soft);
+}
+.metric{
+  flex:1 1 150px; padding:14px 18px; border-radius:var(--r-sm);
+  background:linear-gradient(150deg,rgba(255,255,255,.9),rgba(233,240,251,.8));
+  border:1px solid var(--edge);
+}
+.metric b{
+  display:block; font-family:'Inter Tight',sans-serif; font-size:1.6rem;
+  font-weight:600; letter-spacing:-.03em; line-height:1;
+  background:linear-gradient(135deg,#2a90ff,#0a55c7);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.metric span{
+  display:block; margin-top:6px; font-family:'IBM Plex Mono',monospace;
+  font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted);
+}
+
+/* ============================================================
+   CONTACT + FOOTER
+   ============================================================ */
+.contact-grid{ display:grid; grid-template-columns:1.05fr .95fr; gap:clamp(28px,4vw,56px); align-items:start; }
+.info{ padding:clamp(26px,3.4vw,42px); }
+.info-row{ padding:18px 0; border-bottom:1px solid var(--edge-soft); }
+.info-row:last-child{ border-bottom:none; }
+.info-row span{ font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:6px; }
+.info-row a,.info-row p{ font-size:16px; font-weight:500; }
+.info-row a:hover{ color:var(--blue); }
+.notice{
+  padding:22px 24px; border-radius:var(--r-md); margin-top:18px;
+  background:rgba(255,255,255,.72); border:1px solid var(--edge);
+  font-size:13.5px; color:var(--muted); line-height:1.6;
+}
+.notice b{ color:var(--text); display:block; margin-bottom:6px; font-weight:600; }
+footer{ padding:34px 0 44px; border-top:1px solid var(--edge-soft); }
+.foot{ display:flex; flex-wrap:wrap; gap:16px; justify-content:space-between; align-items:center;
+  font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); }
+.foot a:hover{ color:var(--blue); }
+
+/* ============================================================
+   POINTER LIGHT + CLICK RIPPLE
+   ============================================================ */
+.cursor-glow{
+  position:absolute; top:0; left:0; width:560px; height:560px; margin:-280px 0 0 -280px;
+  border-radius:50%; pointer-events:none; z-index:1; opacity:0;
+  background:radial-gradient(circle, rgba(64,155,255,.30), rgba(42,144,255,.10) 45%, transparent 68%);
+  transition:opacity .5s ease;
+  will-change:transform;
+}
+.hero.lit .cursor-glow{ opacity:1; }
+.hero > .wrap{ position:relative; z-index:2; }
+
+.tcard{ position:relative; overflow:hidden; }
+.tcard::before{
+  content:''; position:absolute; inset:0; opacity:0; pointer-events:none;
+  transition:opacity .35s ease;
+  background:radial-gradient(320px circle at var(--mx,50%) var(--my,50%), rgba(42,144,255,.16), transparent 62%);
+}
+.tcard:hover::before{ opacity:1; }
+.tcard.feature::before{ background:radial-gradient(320px circle at var(--mx,50%) var(--my,50%), rgba(100,190,255,.22), transparent 62%); }
+
+.btn, .tab, .tcard{ position:relative; overflow:hidden; }
+.ripple{
+  position:absolute; border-radius:50%; pointer-events:none;
+  transform:translate(-50%,-50%) scale(0); opacity:.55;
+  background:radial-gradient(circle, rgba(42,144,255,.55), rgba(42,144,255,0) 70%);
+  animation:ripple .62s cubic-bezier(.2,.7,.2,1) forwards;
+}
+.btn-primary .ripple, .tab[aria-selected="true"] .ripple{
+  background:radial-gradient(circle, rgba(255,255,255,.6), rgba(255,255,255,0) 70%);
+}
+@keyframes ripple{ to{ transform:translate(-50%,-50%) scale(1); opacity:0; } }
+
+/* ============================================================
+   REVEAL
+   ============================================================ */
+.reveal{ opacity:0; transform:translateY(26px); transition:opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); }
+.reveal.in{ opacity:1; transform:none; }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width:1000px){
+  .nav-links,.nav-cta{ display:none; }
+  .burger{ display:block; }
+  .hero-grid,.about-grid,.contact-grid{ grid-template-columns:1fr; }
+  .hero-grid .portrait{ order:-1; max-width:340px; }
+  .about-figure{ max-width:520px; }
+}
+@media (max-width:640px){
+  body{ font-size:16px; }
+  h1{ font-size:clamp(2.1rem,9vw,3rem); }
+  .hero{ min-height:auto; padding-block:104px 60px; border-radius:0 0 var(--r-lg) var(--r-lg); }
+  .hero h1{ letter-spacing:.01em; line-height:1.1; }
+  .hero h1 span{ margin-top:14px; }
+  .robotic{ background-attachment:scroll; border-radius:0; margin-inline:0; }
+  .pub{ grid-template-columns:1fr; gap:4px; }
+  .nav{ padding:9px 9px 9px 16px; top:10px; width:calc(100% - 20px); }
+  .brand b{ font-size:14.5px; }
+  .cta-row .btn{ flex:1 1 100%; justify-content:center; }
+  .card-grid{ grid-template-columns:1fr; gap:14px; }
+  .tcard{ padding:22px 20px 20px; }
+  .tabs{ width:100%; overflow-x:auto; flex-wrap:nowrap; scrollbar-width:none; }
+  .tabs::-webkit-scrollbar{ display:none; }
+  .tab{ white-space:nowrap; }
+  .panel{ padding:22px 18px; }
+  .cred{ gap:14px; }
+  .cred .yr{ min-width:52px; }
+  .institutes ul{ gap:6px; }
+  .sheet{ padding:24px 20px 32px; border-radius:var(--r-md); }
+  .close{ width:44px; height:44px; }
+  .foot{ flex-direction:column; align-items:flex-start; gap:10px; }
+  /* heavy blur is expensive on phones */
+  .aurora{ filter:blur(60px); opacity:.4; }
+  .glass, .nav, .menu, .pill, .btn-ghost{ backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); }
+  .glass::after{ display:none; }
+}
+@media (hover:none){
+  .cursor-glow{ display:none; }
+  .tcard::before{ display:none; }
+  .glass::after{ display:none; }
+  .tcard:hover{ transform:none; }
+  .btn:hover{ transform:none; }
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{ animation:none !important; transition:none !important; }
+  html{ scroll-behavior:auto; }
+  .reveal{ opacity:1; transform:none; }
+}
+</style>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Physician",
+  "name": "Dr. Nisanth Puliyath",
+  "alternateName": "Dr. Nisanth P",
+  "medicalSpecialty": "Urologic",
+  "description": "Urologist specialising in robotic uro-oncology and focal therapy for prostate, kidney and bladder cancer, practising in Kerala, India.",
+  "url": "https://drnisanthpuliyathurologist.org/",
+  "image": "https://drnisanthpuliyathurologist.org/images/nishwebsite.png",
+  "email": "drnishyurology@gmail.com",
+  "address": {
+    "@type": "PostalAddress",
+    "addressRegion": "Kerala",
+    "addressCountry": "IN"
+  },
+  "areaServed": [
+    { "@type": "State", "name": "Kerala" },
+    { "@type": "Country", "name": "India" }
+  ],
+  "knowsAbout": [
+    "Robotic radical prostatectomy",
+    "Focal therapy for prostate cancer",
+    "NanoKnife irreversible electroporation (IRE)",
+    "HIFU",
+    "Cryotherapy",
+    "MRI-fusion prostate biopsy",
+    "Transperineal prostate biopsy",
+    "Robotic partial nephrectomy",
+    "Robotic radical cystectomy",
+    "Kidney transplant surgery",
+    "Adrenal surgery"
+  ],
+  "availableService": [
+    { "@type": "MedicalProcedure", "name": "Robotic radical prostatectomy" },
+    { "@type": "MedicalProcedure", "name": "Focal therapy (HIFU, cryotherapy and NanoKnife IRE)" },
+    { "@type": "MedicalProcedure", "name": "MRI-fusion and transperineal prostate biopsy" },
+    { "@type": "MedicalProcedure", "name": "Robotic partial and radical nephrectomy" },
+    { "@type": "MedicalProcedure", "name": "Robotic radical cystectomy" },
+    { "@type": "MedicalProcedure", "name": "Kidney transplant surgery" },
+    { "@type": "MedicalProcedure", "name": "Adrenal surgery (laparoscopic and robotic)" }
+  ],
+  "alumniOf": [
+    { "@type": "CollegeOrUniversity", "name": "Government Medical College, Kozhikode" },
+    { "@type": "CollegeOrUniversity", "name": "All India Institute of Medical Sciences, Rishikesh" },
+    { "@type": "MedicalOrganization", "name": "Medanta, The Medicity" },
+    { "@type": "MedicalOrganization", "name": "Johns Hopkins Hospital" },
+    { "@type": "MedicalOrganization", "name": "University of California San Diego" },
+    { "@type": "MedicalOrganization", "name": "AdventHealth Orlando" }
+  ],
+  "potentialAction": {
+    "@type": "ReserveAction",
+    "name": "Book consultation",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://cloudurologist.setmore.com",
+      "actionPlatform": [
+        "http://schema.org/DesktopWebPlatform",
+        "http://schema.org/MobileWebPlatform"
+      ]
+    },
+    "result": { "@type": "Reservation", "name": "Urology consultation" }
+  },
+  "sameAs": ["https://linkedin.com/in/nisanthpuliyath", "https://cloudurologist.setmore.com"]
+}
+</script>
 </head>
+<body>
 
-<body class="bg-white text-slate-900 font-sans">
 
-    <!-- HERO SECTION -->
-    <header class="hero-visual-bg min-h-screen flex items-center relative overflow-hidden">
-        <nav class="fixed top-0 w-full z-50 py-6 px-12 flex justify-between items-center text-white nav-refined">
-            <div class="flex flex-col text-left">
-                <span class="text-2xl font-black tracking-tighter uppercase italic">DR. NISANTH PULIYATH</span>
-                <span class="text-[10px] font-bold text-glowBlue uppercase tracking-[0.3em]">ROBOTIC URO-ONCOLOGIST</span>
-            </div>
-            <div class="hidden lg:flex space-x-10 text-[10px] font-black uppercase tracking-widest text-white/70">
-                <a href="#about" class="hover:text-white transition">BIOGRAPHY</a>
-                <a href="#treatments" class="hover:text-white transition">TREATMENTS</a>
-                <a href="#academic-profile" class="hover:text-white transition uppercase">Academic Profile</a>
-                <a href="#blog" class="hover:text-white transition">Blog Posts</a>
-                <a href="#contact" class="hover:text-white transition">CONTACT</a>
-            </div>
-        </nav>
-        <div class="max-w-7xl mx-auto px-12 grid lg:grid-cols-2 gap-20 items-center w-full relative z-10 pt-20">
-            <div data-aos="fade-right">
-                <h1 class="text-white text-6xl md:text-8xl font-heading font-black leading-[0.9] tracking-tighter italic">
-                    Precision Surgery.<br>
-                    <span class="text-glowBlue text-glow">Compassionate Care.</span>
-                </h1>
-                <div class="mt-10 space-y-3 text-white/80 text-lg md:text-xl lg:text-2xl italic font-medium">
-                    <p>MBBS, MS (General Surgery-AIIMS), MCh (Urology) </p>
-                    <p>Vattikuti Fellow in Robotic Uro-Oncology (Medanta).</p>
-                    <p>Clinical Visiting Fellow (USA) | Researcher </p>
-                </div>
-            </div>
-            <div data-aos="zoom-in" class="flex justify-center">
-                <div class="w-full max-w-sm aspect-[4/5] bg-slate-800 rounded-[3rem] overflow-hidden border-2 border-white/10 shadow-2xl">
-                    <img src="images/nishwebsite.png" alt="Dr. Nisanth" class="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-1000">
-                </div>
-            </div>
-        </div>
-    </header>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="og" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#6cc0ff"/><stop offset="1" stop-color="#0a55c7"/>
+    </linearGradient>
+    <linearGradient id="og2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#9ad6ff"/><stop offset="1" stop-color="#1367cf"/>
+    </linearGradient>
+    <radialGradient id="ogl" cx="34%" cy="26%" r="52%">
+      <stop offset="0" stop-color="#ffffff" stop-opacity=".85"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
 
-    <!-- KNOW YOUR SURGEON -->
-    <section id="about" class="py-32 bg-white">
-        <div class="max-w-7xl mx-auto px-12 grid lg:grid-cols-2 gap-24 items-center">
-            <div data-aos="fade-right">
-                <div class="relative rounded-[3rem] overflow-hidden image-frame">
-                    <img src="images/davinci-surgeon.jpg" alt="Dr. Nisanth" class="w-full h-auto transform hover:scale-105 transition duration-1000">
-                </div>
-            </div>
-            <div data-aos="fade-left">
-                <div class="h-1.5 w-16 bg-medicalBlue mb-10"></div>
-                <h2 class="text-4xl md:text-6xl font-heading font-black text-brandBlue mb-10 leading-tight italic uppercase tracking-tighter">Know Your Surgeon.</h2>
-                <div class="space-y-6 text-slate-600 text-lg leading-relaxed font-medium italic">
-                    <p>Dr Nisanth Puliyath is a urologist specializing in robotic uro-oncology, with expertise in minimally invasive surgery for urological cancers, including prostate, kidney, and bladder malignancies. His practice is rooted in precision, evidence-based medicine, and individualized patient care.</p>
-                    <p>He completed his MBBS from Government Medical College Kozhikode, followed by MS in General Surgery from the prestigious All India Institute of Medical Sciences (AIIMS), and subsequently MCh in Urology from Government Medical College Kozhikode.</p>
-                    <p>He further advanced his training in robotic surgery and uro-oncology at Medanta, Gurugram, through the esteemed Vattikuti Fellowship.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+    <symbol id="o-prostate" viewBox="0 0 48 48">
+      <path d="M24 11c8 0 15 5.5 15 13.5S32.5 39 24 39 9 32.5 9 24.5 16 11 24 11z" fill="url(#og)"/>
+      <path d="M24 11c8 0 15 5.5 15 13.5S32.5 39 24 39 9 32.5 9 24.5 16 11 24 11z" fill="url(#ogl)"/>
+      <path d="M24 9v9M24 31v8" stroke="#e8f4ff" stroke-width="2.4" stroke-linecap="round" opacity=".9"/>
+      <path d="M15 24.5c3-3 15-3 18 0" stroke="#0a3d80" stroke-width="1.6" stroke-linecap="round" fill="none" opacity=".55"/>
+    </symbol>
 
-    <!-- OUR TREATMENTS -->
-    <section id="treatments" class="py-24 treatment-section-bg overflow-hidden border-y border-blue-100">
-        <div class="max-w-7xl mx-auto px-12">
-            <h3 class="text-4xl md:text-5xl font-heading font-black text-brandBlue italic tracking-tighter uppercase mb-12">Our Treatments.</h3>
-            <div class="treatment-scroll flex gap-6 overflow-x-auto snap-x snap-mandatory pb-10 px-2 italic">
-                <div class="treatment-card snap-start bg-white p-10 rounded-[2.5rem] flex flex-col justify-between h-64 shadow-sm">
-                    <div class="w-12 h-12 bg-blue-50 text-medicalBlue rounded-xl flex items-center justify-center text-xl italic"><i class="fas fa-robot"></i></div>
-                    <h4 class="text-xl font-bold text-brandBlue leading-tight">Robotic <br>Prostatectomy</h4>
-                </div>
-                <div class="treatment-card snap-start bg-white p-10 rounded-[2.5rem] flex flex-col justify-between h-64 shadow-sm">
-                    <div class="w-12 h-12 bg-blue-50 text-medicalBlue rounded-xl flex items-center justify-center text-xl italic"><i class="fas fa-microscope"></i></div>
-                    <h4 class="text-xl font-bold text-brandBlue leading-tight">Robotic Kidney <br>Surgery</h4>
-                </div>
-                <div class="treatment-card snap-start bg-white p-10 rounded-[2.5rem] flex flex-col justify-between h-64 shadow-sm">
-                    <div class="w-12 h-12 bg-blue-50 text-medicalBlue rounded-xl flex items-center justify-center text-xl italic"><i class="fas fa-procedures"></i></div>
-                    <h4 class="text-xl font-bold text-brandBlue leading-tight">Bladder <br>Surgery</h4>
-                </div>
-                <div class="treatment-card snap-start bg-white p-10 rounded-[2.5rem] flex flex-col justify-between h-64 shadow-sm">
-                    <div class="w-12 h-12 bg-blue-600 text-white rounded-xl flex items-center justify-center text-xl shadow-lg italic"><i class="fas fa-laptop-medical"></i></div>
-                    <h4 class="text-xl font-bold text-brandBlue leading-tight">Robotic <br>Surgery</h4>
-                </div>
-                <div class="treatment-card snap-start bg-white p-10 rounded-[2.5rem] flex flex-col justify-between h-64 shadow-sm">
-                    <div class="w-12 h-12 bg-blue-50 text-medicalBlue rounded-xl flex items-center justify-center text-xl italic"><i class="fas fa-dna"></i></div>
-                    <h4 class="text-xl font-bold text-brandBlue leading-tight">Testicular & <br>Penile Cancer</h4>
-                </div>
-                <div class="treatment-card snap-start bg-white p-10 rounded-[2.5rem] flex flex-col justify-between h-64 shadow-sm">
-                    <div class="w-12 h-12 bg-blue-50 text-medicalBlue rounded-xl flex items-center justify-center text-xl italic"><i class="fas fa-user-md"></i></div>
-                    <h4 class="text-xl font-bold text-brandBlue leading-tight">TURBT <br>Procedures</h4>
-                </div>
-                <div class="treatment-card snap-start bg-white p-10 rounded-[2.5rem] flex flex-col justify-between h-64 shadow-sm">
-                    <div class="w-12 h-12 bg-blue-50 text-medicalBlue rounded-xl flex items-center justify-center text-xl italic"><i class="fas fa-gem"></i></div>
-                    <h4 class="text-xl font-bold text-brandBlue leading-tight">Endourology <br>Excellence</h4>
-                </div>
-                <div class="treatment-card snap-start bg-white p-10 rounded-[2.5rem] flex flex-col justify-between h-64 shadow-sm">
-                    <div class="w-12 h-12 bg-blue-50 text-medicalBlue rounded-xl flex items-center justify-center text-xl italic"><i class="fas fa-male"></i></div>
-                    <h4 class="text-xl font-bold text-brandBlue leading-tight">Advanced <br>Andrology</h4>
-                </div>
-            </div>
-        </div>
-    </section>
+    <symbol id="o-focal" viewBox="0 0 48 48">
+      <path d="M24 11c8 0 15 5.5 15 13.5S32.5 39 24 39 9 32.5 9 24.5 16 11 24 11z" fill="url(#og)" opacity=".55"/>
+      <path d="M24 11c8 0 15 5.5 15 13.5S32.5 39 24 39 9 32.5 9 24.5 16 11 24 11z" fill="url(#ogl)" opacity=".7"/>
+      <circle cx="30" cy="21" r="6.5" fill="#ffffff" opacity=".92"/>
+      <circle cx="30" cy="21" r="3.4" fill="#0a55c7"/>
+      <path d="M30 10.5v4M30 27.5v4M19.5 21h4M36.5 21h4" stroke="#eaf4ff" stroke-width="1.8" stroke-linecap="round"/>
+    </symbol>
 
-    <!-- GLASS ACADEMIC PROFILE (FULL RECOVERY) -->
-    <section id="academic-profile" class="glass-section py-32">
-        <div class="absolute inset-0 bg-brandBlue/50 pointer-events-none"></div>
+    <symbol id="o-kidney" viewBox="0 0 48 48">
+      <path d="M30 8c6 0 10 6.5 10 15.5S35.5 41 29 41c-6 0-8-4.5-11.5-8.5S8 26 8 21.5 12 12 17 12c4.5 0 6-4 13-4z" fill="url(#og2)"/>
+      <path d="M30 8c6 0 10 6.5 10 15.5S35.5 41 29 41c-6 0-8-4.5-11.5-8.5S8 26 8 21.5 12 12 17 12c4.5 0 6-4 13-4z" fill="url(#ogl)"/>
+      <path d="M27 17c-4 3-4 11 0 15" stroke="#dcefff" stroke-width="2.2" fill="none" stroke-linecap="round" opacity=".85"/>
+    </symbol>
 
-        <div class="max-w-6xl mx-auto px-12 relative z-10">
-            <div class="flex flex-col md:flex-row justify-center items-center gap-3 mb-16 bg-white/5 p-2 rounded-2xl border border-white/10 backdrop-blur-xl italic">
-                <button onclick="switchTab('credentials')" id="btn-credentials" class="tab-btn-glass active px-8 py-4 rounded-xl text-[10px] font-black uppercase tracking-widest">Expertise & Credentials</button>
-                <button onclick="switchTab('awards')" id="btn-awards" class="tab-btn-glass px-8 py-4 rounded-xl text-[10px] font-black uppercase tracking-widest">Awards & Honors</button>
-                <button onclick="switchTab('research')" id="btn-research" class="tab-btn-glass px-8 py-4 rounded-xl text-[10px] font-black uppercase tracking-widest">Research & Publications</button>
-            </div>
+    <symbol id="o-transplant" viewBox="0 0 48 48">
+      <path d="M24 9c5 0 8 5 8 12s-3.5 13-8.5 13c-4.5 0-6-3.5-9-7S7 22 7 18.5 10 11 14 11c3.5 0 4-2 10-2z" fill="url(#og2)" opacity=".9"/>
+      <path d="M24 9c5 0 8 5 8 12s-3.5 13-8.5 13c-4.5 0-6-3.5-9-7S7 22 7 18.5 10 11 14 11c3.5 0 4-2 10-2z" fill="url(#ogl)"/>
+      <circle cx="35" cy="33" r="9" fill="#ffffff" opacity=".95"/>
+      <path d="M35 28.5v9M30.5 33h9" stroke="#0a55c7" stroke-width="2.6" stroke-linecap="round"/>
+    </symbol>
 
-            <div class="relative min-h-[650px]">
-                
-                <!-- TAB 1: ALL 5 CREDENTIALS -->
-                <div id="credentials" class="tab-content active glass-panel p-10 md:p-16 rounded-[3rem]">
-                    <div class="space-y-2 text-white">
-                        <div class="p-6 border-b border-white/10 flex items-center gap-8"><div class="w-12 h-12 bg-medicalBlue/20 text-white rounded-xl flex items-center justify-center text-xl italic"><i class="fas fa-graduation-cap"></i></div><div><h4 class="text-xl font-bold italic">MBBS</h4><p class="text-blue-100/70 italic">Government Medical College Kozhikode</p></div></div>
-                        <div class="p-6 border-b border-white/10 flex items-center gap-8"><div class="w-12 h-12 bg-medicalBlue/20 text-white rounded-xl flex items-center justify-center text-xl italic"><i class="fas fa-stethoscope"></i></div><div><h4 class="text-xl font-bold italic">MS General Surgery</h4><p class="text-blue-100/70 italic">AIIMS Rishikesh</p></div></div>
-                        <div class="p-6 border-b border-white/10 flex items-center gap-8"><div class="w-12 h-12 bg-medicalBlue/20 text-white rounded-xl flex items-center justify-center text-xl italic"><i class="fas fa-microscope"></i></div><div><h4 class="text-xl font-bold italic">MCh Urology</h4><p class="text-blue-100/70 italic">Government Medical College Kozhikode</p></div></div>
-                        <div class="p-6 border-b border-white/10 flex items-center gap-8 border-l-4 border-medicalBlue"><div class="w-12 h-12 bg-medicalBlue text-white rounded-xl flex items-center justify-center text-xl italic"><i class="fas fa-robot"></i></div><div><h4 class="text-xl font-bold italic">Vattikuti Fellowship</h4><p class="text-blue-100/70 italic">Medanta, Gurugram</p></div></div>
-                        <div class="p-6 flex items-center gap-8"><div class="w-12 h-12 bg-medicalBlue/20 text-white rounded-xl flex items-center justify-center text-xl italic"><i class="fas fa-plane-departure"></i></div><div><h4 class="text-xl font-bold italic">Clinical Visiting Fellowship</h4><p class="text-blue-100/70 italic">UC San Diego and AdventHealth Orlando, USA</p></div></div>
-                    </div>
-                </div>
+    <symbol id="o-adrenal" viewBox="0 0 48 48">
+      <path d="M30 16c6 0 9 6 9 13.5S34.5 43 29 43c-5.5 0-7.5-4-10.5-7.5S10 30 10 26.5 13.5 19 18 19c4 0 5.5-3 12-3z" fill="url(#og2)" opacity=".65"/>
+      <path d="M17 15c3.5-6 12.5-6 16 0 1.6 2.7-.6 5-3 4.2-3.6-1.2-6.4-1.2-10 0-2.4.8-4.6-1.5-3-4.2z" fill="url(#og)"/>
+      <path d="M17 15c3.5-6 12.5-6 16 0 1.6 2.7-.6 5-3 4.2-3.6-1.2-6.4-1.2-10 0-2.4.8-4.6-1.5-3-4.2z" fill="url(#ogl)"/>
+    </symbol>
 
-                <!-- TAB 2: ALL 10 AWARDS -->
-                <div id="awards" class="tab-content glass-panel p-10 md:p-16 rounded-[3rem]">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-[13px] text-white font-medium italic">
-                        <div class="pb-4 border-b border-white/10 flex items-start gap-4"><i class="fas fa-medal text-medicalBlue mt-1"></i> AUA–USI Fellowship 2025 (Las Vegas)</div>
-                        <div class="pb-4 border-b border-white/10 flex items-start gap-4"><i class="fas fa-globe-americas text-medicalBlue mt-1"></i> Represented India in GRLR USA 2025</div>
-                        <div class="pb-4 border-b border-white/10 flex items-start gap-4"><i class="fas fa-trophy text-medicalBlue mt-1"></i> 1st Prize: Poster USICON 2025, Chennai</div>
-                        <div class="pb-4 border-b border-white/10 flex items-start gap-4"><i class="fas fa-certificate text-medicalBlue mt-1"></i> 1st Prize: Best Paper Presentation – UAKON 2024</div>
-                        <div class="pb-4 border-b border-white/10 flex items-start gap-4"><i class="fas fa-award text-medicalBlue mt-1"></i> 1st Prize: Urology Quiz UAKON 2024</div>
-                        <div class="pb-4 border-b border-white/10 flex items-start gap-4"><i class="fas fa-award text-medicalBlue mt-1"></i> 2nd Prize: Best Poster Presentation – KTCON 2024</div>
-                        <div class="pb-4 border-b border-white/10 flex items-start gap-4"><i class="fas fa-trophy text-medicalBlue mt-1"></i> 1st Prize: Bladder Cancer CME 2024 (ASU)</div>
-                        <div class="pb-4 border-b border-white/10 flex items-start gap-4"><i class="fas fa-file-alt text-medicalBlue mt-1"></i> 1st Prize: Best Review Article – UAKON/SZUSICON 2023</div>
-                        <div class="pb-4 border-b border-white/10 flex items-start gap-4"><i class="fas fa-award text-medicalBlue mt-1"></i> 2nd Prize: ISWM Wound Management 2019</div>
-                        <div class="flex items-start gap-4"><i class="fas fa-robot text-medicalBlue mt-1"></i> 2nd Prize: Best Poster – ROBOLAPCON 2019</div>
-                    </div>
-                </div>
+    <symbol id="o-bladder" viewBox="0 0 48 48">
+      <path d="M24 16c9 0 15 6 15 13.5S32 42 24 42 9 37 9 29.5 15 16 24 16z" fill="url(#og)"/>
+      <path d="M24 16c9 0 15 6 15 13.5S32 42 24 42 9 37 9 29.5 15 16 24 16z" fill="url(#ogl)"/>
+      <path d="M16 17c-1.5-6-3-8-4.5-11M32 17c1.5-6 3-8 4.5-11" stroke="#5fb4ff" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+      <path d="M24 42v4" stroke="#5fb4ff" stroke-width="2.6" stroke-linecap="round"/>
+    </symbol>
 
-                <!-- TAB 3: ALL 12 RESEARCH ENTRIES -->
-                <div id="research" class="tab-content glass-panel p-10 md:p-16 rounded-[3rem] overflow-y-auto max-h-[650px]">
-                    <div class="space-y-6 text-white">
-                        <div class="flex gap-4 items-start pb-4 border-b border-white/10"><span class="text-medicalBlue font-black text-sm">01</span><p class="text-sm">Trial comparing 5 Fr and 6 Fr ureteral stents – <span class="font-bold text-glowBlue">European Urology, 2026</span></p></div>
-                        <div class="flex gap-4 items-start pb-4 border-b border-white/10"><span class="text-medicalBlue font-black text-sm">02</span><p class="text-sm">Chromobacterium violaceum UTI: Case study – <span class="font-bold text-glowBlue">Tropical Doctor, 2025</span></p></div>
-                        <div class="flex gap-4 items-start pb-4 border-b border-white/10"><span class="text-medicalBlue font-black text-sm">03</span><p class="text-sm">Navigating unregulated testosterone boosters – <span class="font-bold text-glowBlue">The Aging Male, 2024</span></p></div>
-                        <div class="flex gap-4 items-start pb-4 border-b border-white/10"><span class="text-medicalBlue font-black text-sm">04</span><p class="text-sm">Thermal effect of lasers in urology – <span class="font-bold text-glowBlue">Lasers in Medical Science, 2024</span></p></div>
-                        <div class="flex gap-4 items-start pb-4 border-b border-white/10"><span class="text-medicalBlue font-black text-sm">05</span><p class="text-sm">ProtecT trial 15-year outcomes – <span class="font-bold text-glowBlue">Indian Journal of Urology, 2023</span></p></div>
-                        <div class="flex gap-4 items-start pb-4 border-b border-white/10"><span class="text-medicalBlue font-black text-sm">06</span><p class="text-sm">Bilateral cervical rib with subclavian aneurysm – <span class="font-bold text-glowBlue">BMJ Case Reports, 2021</span></p></div>
-                        <div class="flex gap-4 items-start pb-4 border-b border-white/10"><span class="text-medicalBlue font-black text-sm">07</span><p class="text-sm">Splenic artery aneurysm with EPHVO – <span class="font-bold text-glowBlue">Journal of Medical Evidence, 2021</span></p></div>
-                        <div class="flex gap-4 items-start pb-4 border-b border-white/10"><span class="text-medicalBlue font-black text-sm">08</span><p class="text-sm">Telemedicine utility in general surgery – <span class="font-bold text-glowBlue">IJCMPR, 2020 (First Author)</span></p></div>
-                        <div class="flex gap-4 items-start pb-4 border-b border-white/10"><span class="text-medicalBlue font-black text-sm">09</span><p class="text-sm">Utility of CA19-9 in predict gallbladder carcinoma – <span class="font-bold text-glowBlue">International Surgery Journal, 2020</span></p></div>
-                        <div class="flex gap-4 items-start pb-4 border-b border-white/10"><span class="text-medicalBlue font-black text-sm">10</span><p class="text-sm">BJS Commission on Surgery Post-COVID-19 – <span class="font-bold text-glowBlue">British Journal of Surgery</span></p></div>
-                        <div class="flex gap-4 items-start pb-4 border-b border-white/10"><span class="text-medicalBlue font-black text-sm">11</span><p class="text-sm">Gossypiboma as non-healing wound – <span class="font-bold text-glowBlue">Sri Lanka Journal of Surgery, 2021</span></p></div>
-                        <div class="flex gap-4 items-start"><span class="text-medicalBlue font-black text-sm">12</span><p class="text-sm">N-acetyl cysteine for catheter retrieval in liver – <span class="font-bold text-glowBlue">Tropical Doctor, 2020</span></p></div>
-                    </div>
-                </div>
+    <symbol id="o-biopsy" viewBox="0 0 48 48">
+      <path d="M24 14c7.5 0 13 5 13 11.5S31 37 24 37s-13-5-13-11.5S16.5 14 24 14z" fill="url(#og)" opacity=".8"/>
+      <path d="M24 14c7.5 0 13 5 13 11.5S31 37 24 37s-13-5-13-11.5S16.5 14 24 14z" fill="url(#ogl)"/>
+      <path d="M11 25.5h26M24 14v23" stroke="#eaf4ff" stroke-width="1.2" opacity=".55"/>
+      <path d="M40 6L27 19" stroke="#0a3d80" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="26" cy="20" r="3" fill="#ffffff"/>
+    </symbol>
 
-            </div>
-        </div>
-    </section>
+    <symbol id="o-testes" viewBox="0 0 48 48">
+      <ellipse cx="22" cy="27" rx="12" ry="14" fill="url(#og)"/>
+      <ellipse cx="22" cy="27" rx="12" ry="14" fill="url(#ogl)"/>
+      <path d="M34 16c4 4 4 14 0 19" stroke="#5fb4ff" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <path d="M22 7v7" stroke="#5fb4ff" stroke-width="2.6" stroke-linecap="round"/>
+    </symbol>
 
-    <!-- FOOTER -->
-    <footer id="contact" class="bg-brandBlue text-white py-24 px-12 text-center border-t border-white/5">
-        <h2 class="text-4xl font-heading font-black italic mb-8 uppercase tracking-tighter italic">Schedule Consultation</h2>
-        <p class="mb-14 text-lightBlue text-xl font-medium italic">drnishyurology@gmail.com</p>
-        <div class="flex justify-center space-x-12 text-3xl italic">
-            <a href="https://linkedin.com/in/nisanthpuliyath" class="hover:text-lightBlue transition duration-300"><i class="fab fa-linkedin italic"></i></a>
-            <a href="mailto:drnishyurology@gmail.com" class="hover:text-lightBlue transition duration-300"><i class="fas fa-envelope italic"></i></a>
-        </div>
-        <p class="mt-20 text-[10px] uppercase tracking-[0.5em] font-bold opacity-30 italic font-sans">&copy; 2025 Dr. Nisanth Puliyath. All Rights Reserved.</p>
-    </footer>
+    <symbol id="o-bph" viewBox="0 0 48 48">
+      <path d="M24 9c9.5 0 17 6.5 17 15.5S33.5 41 24 41 7 33.5 7 24.5 14.5 9 24 9z" fill="url(#og)"/>
+      <path d="M24 9c9.5 0 17 6.5 17 15.5S33.5 41 24 41 7 33.5 7 24.5 14.5 9 24 9z" fill="url(#ogl)"/>
+      <path d="M24 6v6M24 38v6" stroke="#e8f4ff" stroke-width="2.4" stroke-linecap="round"/>
+      <path d="M13 24.5h22" stroke="#0a3d80" stroke-width="1.6" opacity=".5"/>
+      <path d="M35 18l5-4M13 18l-5-4" stroke="#5fb4ff" stroke-width="2" stroke-linecap="round"/>
+    </symbol>
 
-    <script>
-        AOS.init({ once: true });
-        function switchTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-            document.querySelectorAll('.tab-btn-glass').forEach(el => el.classList.remove('active'));
-            document.getElementById('btn-' + tabId).classList.add('active');
+    <symbol id="o-stones" viewBox="0 0 48 48">
+      <path d="M30 8c6 0 10 6.5 10 15.5S35.5 41 29 41c-6 0-8-4.5-11.5-8.5S8 26 8 21.5 12 12 17 12c4.5 0 6-4 13-4z" fill="url(#og2)" opacity=".75"/>
+      <path d="M30 8c6 0 10 6.5 10 15.5S35.5 41 29 41c-6 0-8-4.5-11.5-8.5S8 26 8 21.5 12 12 17 12c4.5 0 6-4 13-4z" fill="url(#ogl)"/>
+      <circle cx="26" cy="20" r="4.2" fill="#ffffff" opacity=".95"/>
+      <circle cx="21" cy="28" r="3" fill="#ffffff" opacity=".8"/>
+      <circle cx="30" cy="28" r="2.2" fill="#ffffff" opacity=".7"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="aurora" aria-hidden="true"><span class="a1"></span><span class="a2"></span><span class="a3"></span></div>
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ==================== NAV ==================== -->
+<nav class="nav" id="nav">
+  <a href="#top" class="brand">
+    <b>Dr. Nisanth Puliyath</b>
+    <span>Urology &middot; Robotic Uro-Oncology</span>
+  </a>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#treatments">Treatments</a>
+    <a href="#robotic">Robotic surgery</a>
+    <a href="#academics">Academics</a>
+  </div>
+  <a href="https://cloudurologist.setmore.com?utm_source=in-app&amp;utm_medium=iosapp&amp;utm_campaign=settsharebp" class="nav-cta" target="_blank" rel="noopener">Book consultation</a>
+  <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="menu">
+    <i></i><i></i><i></i>
+  </button>
+</nav>
+<div class="menu" id="menu">
+  <a href="#about">About</a>
+  <a href="#treatments">Treatments</a>
+  <a href="#robotic">Robotic surgery</a>
+  <a href="#academics">Academics</a>
+  <a href="#contact">Get in touch</a>
+  <a href="https://cloudurologist.setmore.com?utm_source=in-app&amp;utm_medium=iosapp&amp;utm_campaign=settsharebp" target="_blank" rel="noopener">Book consultation</a>
+</div>
+
+<!-- ==================== HERO ==================== -->
+<header class="hero" id="top">
+  <div class="cursor-glow" id="glow" aria-hidden="true"></div>
+  <div class="wrap">
+  <div class="hero-grid">
+    <div>
+      <p class="eyebrow">Urology &middot; Uro-Oncology &middot; Robotic Surgery &middot; Focal Therapy</p>
+      <h1>Dr. Nisanth<br>Puliyath<span>Cancer surgery, explained clearly.</span></h1>
+      <p class="lede">Robotic and focal treatment for prostate, kidney and bladder cancer in Kerala, India, with the reasoning behind every recommendation set out in language you can act on.</p>
+      <div class="pills">
+        <span class="pill">MBBS</span>
+        <span class="pill">MS, AIIMS</span>
+        <span class="pill">MCh Urology</span>
+        <span class="pill">Vattikuti Fellow</span>
+        <span class="pill">UCSD &amp; AdventHealth</span>
+      </div>
+      <div class="cta-row">
+        <a href="https://cloudurologist.setmore.com?utm_source=in-app&amp;utm_medium=iosapp&amp;utm_campaign=settsharebp" class="btn btn-primary" target="_blank" rel="noopener">Book consultation</a>
+        <a href="#treatments" class="btn btn-ghost">Understand your treatment</a>
+      </div>
+    </div>
+    <figure class="portrait glass" style="margin:0">
+      <img src="images/nishwebsite.png" alt="Dr. Nisanth Puliyath, robotic uro-oncologist in Kerala, India" width="800" height="1000" fetchpriority="high" decoding="async">
+      <figcaption><span>Kerala, India</span><span>Consultant Urologist</span></figcaption>
+    </figure>
+  </div>
+  </div>
+</header>
+
+<!-- ==================== ABOUT ==================== -->
+<section class="band light" id="about">
+  <div class="wrap about-grid">
+    <figure class="about-figure glass-light" style="margin:0">
+      <img src="images/davinci-surgeon.jpg" alt="Dr. Nisanth Puliyath operating at the robotic surgical console" loading="lazy" decoding="async">
+    </figure>
+    <div>
+      <p class="eyebrow on-light">About</p>
+      <blockquote class="quote">A good operation starts with a decision you understand and agree with.</blockquote>
+      <div class="about-body">
+        <p>I am a urologist working in robotic uro-oncology, meaning minimally invasive surgery for cancers of the prostate, kidney and bladder, alongside focal therapy for men who are suitable for treatment targeted to the tumour rather than the whole gland.</p>
+        <p>I completed MBBS and MCh Urology at Government Medical College Kozhikode, with MS General Surgery at AIIMS in between. I then trained in robotic surgery and uro-oncology at Medanta, Gurugram, through the Vattikuti Fellowship, with further training as a visiting fellow at international centres of excellence, including Johns Hopkins, UC San Diego and AdventHealth Orlando, where I learned focal therapy and robotic uro-oncology from surgeons who helped develop these techniques.</p>
+        <p>I now offer these treatments here in Kerala: MRI-fusion and transperineal biopsy, HIFU and cryotherapy for suitable men, and nerve-sparing robotic prostatectomy. This site exists so you can arrive at a consultation already knowing what your diagnosis means and which questions matter.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== TREATMENTS ==================== -->
+<section class="band light" id="treatments" style="padding-top:0">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow on-light">Conditions &amp; treatments</p>
+      <h2>What I treat, and how.</h2>
+      <p class="lede on-light">Each card opens a plain-language explanation: what the condition is, how it is assessed, and what treatment actually involves. Tap any one to read more.</p>
+    </div>
+    <div class="card-grid">
+      <div class="tcard" role="button" tabindex="0" data-sheet="prostate">
+        <span class="organ" aria-hidden="true"><svg viewBox="0 0 48 48"><use href="#o-prostate"/></svg></span>
+        <span class="tag">Most common &middot; Uro-oncology</span>
+        <h3>Prostate cancer</h3>
+        <p>Robotic radical prostatectomy with nerve-sparing technique, plus surveillance and focal options for suitable disease.</p>
+        <span class="more">Read more &rarr;</span>
+      </div>
+
+      <div class="tcard feature" role="button" tabindex="0" data-sheet="focal">
+        <span class="organ" aria-hidden="true"><svg viewBox="0 0 48 48"><use href="#o-focal"/></svg></span>
+        <span class="tag">Targeted treatment</span>
+        <h3>Focal therapy: HIFU, cryotherapy &amp; NanoKnife (IRE)</h3>
+        <p>Treating the tumour rather than the whole prostate, for carefully selected men. Still uncommon in this region.</p>
+        <span class="more">Read more &rarr;</span>
+      </div>
+
+      <div class="tcard" role="button" tabindex="0" data-sheet="kidney">
+        <span class="organ" aria-hidden="true"><svg viewBox="0 0 48 48"><use href="#o-kidney"/></svg></span>
+        <span class="tag">Uro-oncology</span>
+        <h3>Kidney cancer</h3>
+        <p>Robotic partial nephrectomy to remove the tumour and keep the kidney, or radical surgery for larger tumours.</p>
+        <span class="more">Read more &rarr;</span>
+      </div>
+
+      <div class="tcard" role="button" tabindex="0" data-sheet="transplant">
+        <span class="organ" aria-hidden="true"><svg viewBox="0 0 48 48"><use href="#o-transplant"/></svg></span>
+        <span class="tag">Reconstructive</span>
+        <h3>Kidney transplant surgery</h3>
+        <p>Live donor and deceased donor transplantation, including donor nephrectomy and the work-up that decides suitability.</p>
+        <span class="more">Read more &rarr;</span>
+      </div>
+
+      <div class="tcard" role="button" tabindex="0" data-sheet="adrenal">
+        <span class="organ" aria-hidden="true"><svg viewBox="0 0 48 48"><use href="#o-adrenal"/></svg></span>
+        <span class="tag">Uro-oncology &middot; Endocrine</span>
+        <h3>Adrenal surgery</h3>
+        <p>Minimally invasive removal of adrenal tumours, including hormone-producing lesions that drive blood pressure.</p>
+        <span class="more">Read more &rarr;</span>
+      </div>
+
+      <div class="tcard" role="button" tabindex="0" data-sheet="bladder">
+        <span class="organ" aria-hidden="true"><svg viewBox="0 0 48 48"><use href="#o-bladder"/></svg></span>
+        <span class="tag">Uro-oncology</span>
+        <h3>Bladder cancer</h3>
+        <p>From TURBT and BCG for early disease through to robotic cystectomy with urinary reconstruction.</p>
+        <span class="more">Read more &rarr;</span>
+      </div>
+
+      <div class="tcard" role="button" tabindex="0" data-sheet="biopsy">
+        <span class="organ" aria-hidden="true"><svg viewBox="0 0 48 48"><use href="#o-biopsy"/></svg></span>
+        <span class="tag">Diagnosis</span>
+        <h3>MRI-fusion &amp; transperineal biopsy</h3>
+        <p>Targeting the biopsy to what the MRI actually shows, through the skin rather than the rectum.</p>
+        <span class="more">Read more &rarr;</span>
+      </div>
+
+      <div class="tcard" role="button" tabindex="0" data-sheet="testes">
+        <span class="organ" aria-hidden="true"><svg viewBox="0 0 48 48"><use href="#o-testes"/></svg></span>
+        <span class="tag">Uro-oncology</span>
+        <h3>Testicular &amp; penile cancer</h3>
+        <p>Highly curable cancers of young and older men, where surgical timing and node management drive the outcome.</p>
+        <span class="more">Read more &rarr;</span>
+      </div>
+
+      <div class="tcard" role="button" tabindex="0" data-sheet="bph">
+        <span class="organ" aria-hidden="true"><svg viewBox="0 0 48 48"><use href="#o-bph"/></svg></span>
+        <span class="tag">Benign &middot; Very common</span>
+        <h3>BPH (enlarged prostate)</h3>
+        <p>Urinary symptoms from a benign prostate. Medication first, with laser and endoscopic surgery when it is needed.</p>
+        <span class="more">Read more &rarr;</span>
+      </div>
+
+      <div class="tcard" role="button" tabindex="0" data-sheet="stones">
+        <span class="organ" aria-hidden="true"><svg viewBox="0 0 48 48"><use href="#o-stones"/></svg></span>
+        <span class="tag">Endourology</span>
+        <h3>Stones &amp; laser surgery</h3>
+        <p>Ureteroscopy, RIRS and PCNL for kidney and ureteric stones, with a plan to stop them coming back.</p>
+        <span class="more">Read more &rarr;</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== ROBOTIC ==================== -->
+<section class="band robotic" id="robotic">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Robotic surgery</p>
+      <h2>The robot does not operate.<br>I do.</h2>
+      <p class="lede">It is an instrument, not an autonomous system. Every movement comes from my hands at a console a few feet from the table. What it adds is vision, reach and steadiness inside spaces where millimetres decide the result.</p>
+    </div>
+    <div class="robotic-grid">
+      <div class="rpanel glass">
+        <p class="k">Vision</p>
+        <h3>Ten times magnified, in 3D</h3>
+        <p>The console gives a stereoscopic view magnified up to tenfold. Nerve bundles and vessels that are hard to define through an open incision become distinct structures you can work around deliberately.</p>
+      </div>
+      <div class="rpanel glass">
+        <p class="k">Control</p>
+        <h3>Wristed instruments, no tremor</h3>
+        <p>The instruments rotate further than a human wrist, and the system filters out tremor. That matters most during nerve-sparing dissection and when reconstructing the urinary tract afterwards.</p>
+      </div>
+      <div class="rpanel glass">
+        <p class="k">Recovery</p>
+        <h3>Keyhole access, earlier discharge</h3>
+        <p>Four to five small incisions instead of one long one means less blood loss and less pain. Most patients are walking the next day and home within a few days, without trading away cancer control.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== ACADEMICS ==================== -->
+<section class="band" id="academics">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Academic profile</p>
+      <h2>Training, recognition, research.</h2>
+    </div>
+    <div class="tabs" role="tablist" aria-label="Academic profile">
+      <button class="tab" role="tab" id="tab-cred" aria-controls="p-cred" aria-selected="true">Know your surgeon</button>
+      <button class="tab" role="tab" id="tab-awards" aria-controls="p-awards" aria-selected="false">Awards</button>
+      <button class="tab" role="tab" id="tab-conf" aria-controls="p-conf" aria-selected="false">Conferences</button>
+      <button class="tab" role="tab" id="tab-research" aria-controls="p-research" aria-selected="false">Publications</button>
+    </div>
+
+    <div class="panel glass active" id="p-cred" role="tabpanel" aria-labelledby="tab-cred">
+      <p class="cred-group">Medical education</p>
+      <div class="cred"><span class="yr">MBBS</span><div><h4>Bachelor of Medicine, Bachelor of Surgery</h4><p><span class="where">Government Medical College, Kozhikode</span> &middot; Kerala</p></div></div>
+      <div class="cred"><span class="yr">MS</span><div><h4>General Surgery</h4><p><span class="where">All India Institute of Medical Sciences (AIIMS)</span> &middot; Rishikesh</p></div></div>
+      <div class="cred"><span class="yr">MCh</span><div><h4>Urology (superspecialty training)</h4><p><span class="where">Government Medical College, Kozhikode</span> &middot; Kerala</p></div></div>
+
+      <p class="cred-group g-fel">Robotic fellowship</p>
+      <div class="cred g-fel"><span class="yr">Fellow</span><div><h4>Vattikuti Fellowship in Robotic Surgery &amp; Uro-Oncology</h4><p><span class="where">Medanta, The Medicity</span> &middot; Gurugram</p></div></div>
+
+      <p class="cred-group g-int">Clinical visiting fellowships, United States</p>
+      <div class="cred g-int"><span class="yr">Focal</span><div><h4>Focal Therapy: HIFU, cryotherapy &amp; NanoKnife (IRE)</h4><p><span class="where">Johns Hopkins Hospital</span> &middot; Baltimore, Maryland</p></div></div>
+      <div class="cred g-int"><span class="yr">Robotic</span><div><h4>Uro-Oncology &amp; Robotic Surgery</h4><p><span class="where">University of California San Diego</span> &middot; California</p></div></div>
+      <div class="cred g-int"><span class="yr">Robotic</span><div><h4>Uro-Oncology &amp; Robotic Surgery</h4><p><span class="where">AdventHealth</span> &middot; Orlando, Florida</p></div></div>
+
+      <div class="institutes">
+        <span>Trained at</span>
+        <ul>
+          <li>Government Medical College, Kozhikode</li>
+          <li>AIIMS</li>
+          <li>Medanta, The Medicity</li>
+          <li>AdventHealth Orlando</li>
+          <li>UC San Diego</li>
+          <li>Johns Hopkins Hospital</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="panel glass" id="p-awards" role="tabpanel" aria-labelledby="tab-awards" hidden>
+      <ul class="honour-grid">
+        <li class="honour">
+          <span class="rank">Fellow</span>
+          <div>
+            <b>AUA&ndash;USI International Travelling Fellowship</b>
+            <span class="meta">American Urological Association &middot; AUA 2025, Las Vegas</span>
+          </div>
+        </li>
+        <li class="honour">
+          <span class="rank">India</span>
+          <div>
+            <b>Global Residents Leadership Retreat (GRLR)</b>
+            <span class="meta">AUA 2025, Las Vegas &middot; invited as the sole representative from India</span>
+          </div>
+        </li>
+        <li class="honour">
+          <span class="rank">1st</span>
+          <div>
+            <b>Best moderated poster, USICON 2025</b>
+            <span class="meta">Chennai</span>
+          </div>
+        </li>
+        <li class="honour">
+          <span class="rank">1st</span>
+          <div>
+            <b>Best paper presentation, Urological Association of Kerala</b>
+            <span class="meta">UAKON, Kollam</span>
+          </div>
+        </li>
+        <li class="honour">
+          <span class="rank">1st</span>
+          <div>
+            <b>Urology quiz, UAKON</b>
+            <span class="meta">UAKON 2024, Kollam</span>
+          </div>
+        </li>
+        <li class="honour">
+          <span class="rank">2nd</span>
+          <div>
+            <b>Best poster presentation, KTCON</b>
+            <span class="meta">Bhubaneswar &middot; Kidney Transplantation section, Urological Society of India</span>
+          </div>
+        </li>
+        <li class="honour">
+          <span class="rank">1st</span>
+          <div>
+            <b>Bladder cancer quiz</b>
+            <span class="meta">Association of Southern Urologists (ASU)</span>
+          </div>
+        </li>
+        <li class="honour">
+          <span class="rank">1st</span>
+          <div>
+            <b>Best review article, UAKON / SZUSICON</b>
+            <span class="meta">Trivandrum, 2023 &middot; <i>Recent advancements in the management of high-risk NMIBC</i></span>
+          </div>
+        </li>
+        <li class="honour">
+          <span class="rank">2nd</span>
+          <div>
+            <b>Best poster presentation, Indian Society of Wound Management</b>
+            <span class="meta">21st National Conference</span>
+          </div>
+        </li>
+        <li class="honour">
+          <span class="rank">2nd</span>
+          <div>
+            <b>Best poster presentation, ROBOLAPCON</b>
+            <span class="meta">AIIMS, Rishikesh</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="panel glass" id="p-conf" role="tabpanel" aria-labelledby="tab-conf" hidden>
+      <p class="panel-lede">Multiple national and international presentations, including:</p>
+      <ul class="honour-grid">
+        <li class="honour">
+          <span class="rank">Paper</span>
+          <div>
+            <b>Paper presentation, AUA 2026</b>
+            <span class="meta">Washington D.C., USA</span>
+          </div>
+        </li>
+        <li class="honour">
+          <span class="rank">Podium</span>
+          <div>
+            <b>Podium presentation, AUA 2026</b>
+            <span class="meta">Washington D.C., USA &middot; Global Urology Leadership and GRLR</span>
+          </div>
+        </li>
+        <li class="honour">
+          <span class="rank">Poster</span>
+          <div>
+            <b>Poster presentation, EAU 2026</b>
+            <span class="meta">London, United Kingdom</span>
+          </div>
+        </li>
+        <li class="honour">
+          <span class="rank">Poster</span>
+          <div>
+            <b>Best poster presentation, USICON 2025</b>
+            <span class="meta">Chennai</span>
+          </div>
+        </li>
+        <li class="honour">
+          <span class="rank">Paper</span>
+          <div>
+            <b>Paper presentation, YOUCON 2025</b>
+            <span class="meta">Shillong</span>
+          </div>
+        </li>
+        <li class="honour">
+          <span class="rank">Podium</span>
+          <div>
+            <b>Podium presentation, USICON 2024</b>
+            <span class="meta">Patna</span>
+          </div>
+        </li>
+        <li class="honour">
+          <span class="rank">Paper</span>
+          <div>
+            <b>Best paper presentation, UAKON 2024</b>
+            <span class="meta">Kollam</span>
+          </div>
+        </li>
+        <li class="honour">
+          <span class="rank">Poster</span>
+          <div>
+            <b>Poster presentation, USICON 2024</b>
+            <span class="meta">Patna</span>
+          </div>
+        </li>
+        <li class="honour">
+          <span class="rank">Video</span>
+          <div>
+            <b>Best video presentation, SZUSICON 2024</b>
+            <span class="meta">Madurai &middot; <i>Laparoscopic partial cystectomy for bladder leiomyoma</i></span>
+          </div>
+        </li>
+        <li class="honour">
+          <span class="rank">Poster</span>
+          <div>
+            <b>Poster presentation, SZUSICON 2024</b>
+            <span class="meta">Madurai</span>
+          </div>
+        </li>
+        <li class="honour">
+          <span class="rank">Paper</span>
+          <div>
+            <b>Paper presentation, CRSA national conference</b>
+            <span class="meta">Clinical Robotic Surgery Association, India chapter</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="panel glass" id="p-research" role="tabpanel" aria-labelledby="tab-research" hidden>
+      <div class="metrics">
+        <div class="metric"><b>3</b><span>h-index</span></div>
+        <div class="metric"><b>33</b><span>Citations</span></div>
+        <div class="metric"><b>10</b><span>First-author papers</span></div>
+      </div>
+      <div class="pub"><p>Predicting pathological upstaging in prostate cancer: an artificial neural network integrating PSMA PET, PSA and MRI in a South Asian cohort</p><em>Journal of Urology</em></div>
+      <div class="pub"><p>A prospective randomised controlled trial comparing 5 Fr and 6 Fr ureteral stents on stent-related symptoms following ureterorenoscopy</p><em>European Urology <b>&middot; 2026</b></em></div>
+      <div class="pub"><p>UCF-04 Global Residents Leadership Retreat (GRLR) by AUA: a one-of-a-kind global urology event, a participant&rsquo;s experience</p><em>Journal of Urology</em></div>
+      <div class="pub"><p>Recent trends in the management of high-risk non&ndash;muscle-invasive bladder cancer: a review article</p><em>JASU</em></div>
+      <div class="pub"><p><i>Chromobacterium violaceum</i>: an uncommon source of urinary tract infection, a case study with review of literature</p><em>Tropical Doctor <b>&middot; 2025</b></em></div>
+      <div class="pub"><p>The thermal effect of lasers in urology: a review article</p><em>Lasers in Medical Science <b>&middot; 2024</b></em></div>
+      <div class="pub"><p>Navigating the unregulated terrain of testosterone boosters: a growing concern in men&rsquo;s health</p><em>The Aging Male <b>&middot; 2024</b></em></div>
+      <div class="pub"><p>Fifteen-year outcomes of the ProtecT trial: should patients be &ldquo;protected&rdquo; from radical treatments?</p><em>Indian Journal of Urology <b>&middot; 2023</b></em></div>
+      <div class="pub"><p>Undiagnosed bilateral complete cervical rib with subclavian artery aneurysm presenting as acute ischaemic limb following high-altitude expedition</p><em>BMJ Case Reports <b>&middot; 2021</b></em></div>
+      <div class="pub"><p>Giant splenic artery aneurysm with extrahepatic portal vein obstruction, a rare entity: case report with literature review</p><em>Journal of Medical Evidence <b>&middot; 2021</b></em></div>
+      <div class="pub"><p>Gossypiboma presenting as a non-healing post-operative wound: an atypical presentation of a rare surgical complication</p><em>Sri Lanka Journal of Surgery <b>&middot; 2021</b></em></div>
+      <div class="pub"><p>BJS commission on surgery and perioperative care post-COVID-19</p><em>British Journal of Surgery</em></div>
+      <div class="pub"><p>The utility of telemedicine in general surgery during the COVID-19 pandemic and beyond: our experience</p><em>IJCMPR <b>&middot; 2020</b></em></div>
+      <div class="pub"><p>Utility of triple tumour markers CA 19-9, CA 125 and CEA in predicting advanced stage carcinoma of the gallbladder: a retrospective study</p><em>International Surgery Journal <b>&middot; 2020</b></em></div>
+      <div class="pub"><p>Use of N-acetyl cysteine to retrieve an entrapped Malecot catheter in the liver: an old agent for a novel application</p><em>Tropical Doctor <b>&middot; 2020</b></em></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CONTACT ==================== -->
+<section class="band" id="contact">
+  <div class="wrap contact-grid">
+    <div>
+      <p class="eyebrow">Get in touch</p>
+      <h2>Start a conversation about your care.</h2>
+      <p class="lede" style="margin-top:22px">A new diagnosis, a second opinion, or a question about a procedure you have been offered: all are welcome. Email is the most reliable way to reach me, and I reply as soon as clinical work allows.</p>
+      <div class="cta-row">
+        <a href="https://cloudurologist.setmore.com?utm_source=in-app&amp;utm_medium=iosapp&amp;utm_campaign=settsharebp" class="btn btn-primary" target="_blank" rel="noopener">Book consultation</a>
+        <a href="mailto:drnishyurology@gmail.com" class="btn btn-ghost">Email me</a>
+      </div>
+      <div class="notice">
+        <b>Please read</b>
+        This website is for education only. It is not medical advice and does not create a doctor&ndash;patient relationship. If this is an emergency, go to your nearest hospital or call 112.
+      </div>
+    </div>
+    <div class="info glass">
+      <div class="info-row"><span>Appointments</span><a href="https://cloudurologist.setmore.com?utm_source=in-app&amp;utm_medium=iosapp&amp;utm_campaign=settsharebp" target="_blank" rel="noopener">Book online</a></div>
+      <div class="info-row"><span>Email</span><a href="mailto:drnishyurology@gmail.com">drnishyurology@gmail.com</a></div>
+      <div class="info-row"><span>Clinical base</span><p>Kerala, India</p></div>
+      <div class="info-row"><span>Focus</span><p>Urology &middot; uro-oncology &middot; robotic surgery &middot; focal therapy</p></div>
+    </div>
+  </div>
+</section>
+
+<footer class="wrap">
+  <div class="foot">
+    <span>&copy; 2026 Dr. Nisanth Puliyath</span>
+    <span>Educational content only</span>
+    <a href="mailto:drnishyurology@gmail.com">drnishyurology@gmail.com</a>
+  </div>
+</footer>
+
+<!-- ==================== SHEET CONTENT ==================== -->
+<div class="sheet-src" id="src-prostate">
+  <h3>Prostate cancer</h3>
+  <h4>What it is</h4>
+  <p>A cancer arising in the prostate, the gland that sits below the bladder and produces part of the seminal fluid. It is the most common cancer in men over 50, and among the most treatable when it is found while still confined to the gland.</p>
+  <h4>How it is assessed</h4>
+  <p>A PSA blood test is usually the first step. If it is raised, an MRI comes next, and a targeted biopsy only if the MRI shows something suspicious. The biopsy gives a Gleason score and grade group; the MRI and, where needed, a PSMA PET scan give the stage.</p>
+  <h4>Treatment options</h4>
+  <ul>
+    <li><b>Active surveillance</b>: for low-risk disease. Monitoring with PSA, MRI and repeat biopsy, treating only if the cancer behaves differently than expected.</li>
+    <li><b>Robotic radical prostatectomy</b>: removal of the whole prostate through keyhole incisions, with nerve-sparing where the cancer allows, to protect continence and erectile function.</li>
+    <li><b>Radiation therapy</b>: equally effective for many men, with a different side-effect profile.</li>
+    <li><b>Focal therapy</b>: treating only the part of the gland containing the tumour, in carefully selected cases.</li>
+  </ul>
+  <div class="note">Grade, stage and your own priorities all shape this decision. There is rarely only one correct answer, so ask for the trade-offs of each option in your specific case.</div>
+</div>
+
+<div class="sheet-src" id="src-focal">
+  <h3>Focal therapy: HIFU, cryotherapy and NanoKnife (IRE)</h3>
+  <h4>The idea</h4>
+  <p>In selected men, prostate cancer is confined to one part of the gland. Focal therapy destroys that area and leaves the rest of the prostate intact. It sits between surveillance and removing or irradiating the whole gland.</p>
+  <h4>How it is done</h4>
+  <ul>
+    <li><b>HIFU</b> uses focused ultrasound energy to heat and destroy the target tissue, delivered through a probe in the rectum.</li>
+    <li><b>Cryotherapy</b> destroys the same tissue by controlled freezing through fine needles.</li>
+    <li><b>NanoKnife (irreversible electroporation)</b> uses short electrical pulses between fine needles to break down the tumour cells, without heating or freezing. Because it is non-thermal, nearby nerves, the urethra and the sphincter are less likely to be affected, which makes it useful for tumours close to those structures.</li>
+  </ul>
+  <p>Both are day-case or short-stay procedures done under anaesthesia, with no surgical incision.</p>
+  <h4>Who it suits</h4>
+  <p>It depends on accurate mapping: a good quality MRI and, usually, a transperineal or fusion biopsy showing disease in one region only. It is not appropriate for high-risk or widespread cancer, and it commits you to close follow-up afterwards, since the untreated prostate remains.</p>
+  <div class="note">Focal therapy remains uncommon in this part of India. If you are considering it, ask specifically about patient selection criteria and the follow-up protocol, because those matter as much as the technology.</div>
+</div>
+
+<div class="sheet-src" id="src-kidney">
+  <h3>Kidney cancer</h3>
+  <h4>What it is</h4>
+  <p>Renal cell carcinoma is the commonest type, arising from the lining of the kidney tubules. Most cases today are found by chance on a scan done for something else, before any symptoms appear.</p>
+  <h4>Warning signs</h4>
+  <p>The classical triad of blood in the urine, flank pain and a palpable mass is now rare, and usually indicates advanced disease. Most patients feel entirely well.</p>
+  <h4>Treatment</h4>
+  <ul>
+    <li><b>Robotic partial nephrectomy</b>: for smaller tumours, only the tumour is removed and the kidney is preserved. Cancer outcomes match radical surgery while protecting long-term kidney function.</li>
+    <li><b>Robotic radical nephrectomy</b>: for larger or centrally placed tumours. Most people live normally with one kidney.</li>
+    <li><b>Surveillance or ablation</b>: considered for very small tumours, particularly in older or frail patients.</li>
+  </ul>
+  <div class="note">If you have been told your kidney must be removed, it is reasonable to ask whether a partial nephrectomy has been considered and why it was ruled out.</div>
+</div>
+
+<div class="sheet-src" id="src-bladder">
+  <h3>Bladder cancer</h3>
+  <h4>The symptom that matters</h4>
+  <p>Painless blood in the urine is the classic sign. A single episode that clears up on its own still needs investigating, because that is the point at which the disease is most treatable.</p>
+  <h4>Two very different diseases</h4>
+  <ul>
+    <li><b>Non-muscle-invasive</b>: confined to the inner lining. Treated by endoscopic resection (TURBT), often followed by BCG or chemotherapy instilled into the bladder, then regular cystoscopic follow-up.</li>
+    <li><b>Muscle-invasive</b>: growing into the bladder wall. Usually requires chemotherapy followed by radical cystectomy, increasingly performed robotically, or a bladder-preserving protocol in selected cases.</li>
+  </ul>
+  <h4>After cystectomy</h4>
+  <p>Urine has to be rerouted, either into an ileal conduit with a stoma bag or a neobladder reconstructed from bowel. Which suits you depends on the tumour, kidney function and how you want to live afterwards, and it is worth discussing in detail before surgery.</p>
+  <div class="note">Follow-up cystoscopy is not optional in bladder cancer. Recurrence is common and almost always manageable when caught early.</div>
+</div>
+
+<div class="sheet-src" id="src-biopsy">
+  <h3>MRI-fusion and transperineal biopsy</h3>
+  <h4>Why the method matters</h4>
+  <p>An older-style random biopsy samples the prostate blindly and can miss significant cancer or find insignificant disease. Fusion biopsy overlays your MRI onto live ultrasound so the needle goes to the lesion the radiologist actually flagged.</p>
+  <h4>Transperineal access</h4>
+  <p>The needle passes through the skin between the scrotum and anus rather than through the rectal wall. This substantially reduces the risk of serious infection and gives better access to the front of the gland, where tumours are otherwise easy to miss.</p>
+  <h4>What to expect</h4>
+  <p>It is usually a day procedure under sedation or general anaesthesia. Blood in the urine or semen for a few weeks afterwards is expected and settles on its own.</p>
+  <div class="note">If a biopsy has been recommended, ask whether an MRI has been done first and whether the biopsy will be targeted. The sequence changes what the result can tell you.</div>
+</div>
+
+<div class="sheet-src" id="src-testes">
+  <h3>Testicular and penile cancer</h3>
+  <h4>Testicular cancer</h4>
+  <p>The commonest solid tumour in men aged roughly 15 to 35, and one of the most curable cancers in medicine even when it has spread. A painless lump or firmness in one testis needs an ultrasound scan promptly, not a wait-and-see approach.</p>
+  <p>Treatment begins with removal of the affected testis, which is both diagnostic and therapeutic. What follows (surveillance, chemotherapy, or retroperitoneal node surgery) depends on the type and stage. Sperm banking should be discussed before chemotherapy.</p>
+  <h4>Penile cancer</h4>
+  <p>Uncommon, usually a squamous cell carcinoma. Any sore, lump or growth that has not healed within about four weeks should be biopsied rather than treated repeatedly with creams.</p>
+  <p>Where it is oncologically safe, penile-preserving surgery is preferred. Management of the groin lymph nodes has a large effect on survival and is decided by the risk profile of the tumour.</p>
+  <div class="note">Both cancers are strongly time-sensitive. Delay, rather than the disease itself, is often what changes the outcome.</div>
+</div>
+
+<div class="sheet-src" id="src-bph">
+  <h3>BPH (enlarged prostate)</h3>
+  <h4>What it is</h4>
+  <p>Benign prostatic hyperplasia is non-cancerous enlargement of the prostate, affecting most men to some degree with age. It is not cancer and does not turn into cancer.</p>
+  <h4>Symptoms</h4>
+  <p>A slow stream, hesitancy before starting, waking at night to pass urine, urgency, and a sense of not emptying fully.</p>
+  <h4>Treatment</h4>
+  <ul>
+    <li><b>Lifestyle</b>: reducing caffeine and late-evening fluids, and bladder training, help mild symptoms.</li>
+    <li><b>Medication</b>: alpha-blockers relax the prostate within days; 5-alpha-reductase inhibitors shrink it over months.</li>
+    <li><b>Surgery</b>: TURP remains the benchmark, with laser techniques such as HoLEP offering less bleeding and shorter catheter times.</li>
+  </ul>
+  <div class="note">Surgery becomes the right answer when medication stops working or complications appear: retention, recurrent infection, stones, or pressure on the kidneys.</div>
+</div>
+
+<div class="sheet-src" id="src-stones">
+  <h3>Stones and laser surgery</h3>
+  <h4>Options</h4>
+  <ul>
+    <li><b>Conservative management</b>: many small ureteric stones pass on their own with fluids, analgesia and medical expulsive therapy.</li>
+    <li><b>Ureteroscopy and RIRS</b>: a flexible scope passed through the natural urinary tract, with a laser used to fragment the stone. No incision.</li>
+    <li><b>PCNL</b>: for large or staghorn stones, through a small track in the flank.</li>
+  </ul>
+  <h4>Preventing the next one</h4>
+  <p>Recurrence is common and largely preventable. Stone analysis and a metabolic evaluation identify why the stone formed, which turns treatment into a plan rather than a repeated procedure.</p>
+  <div class="note">If you have had more than one stone, ask for the stone to be analysed and for a metabolic work-up. It changes what you should be doing daily.</div>
+</div>
+
+<div class="sheet-src" id="src-transplant">
+  <h3>Kidney transplant surgery</h3>
+  <h4>Why a transplant</h4>
+  <p>For most people with kidney failure, a transplant offers a longer life and a freer one than remaining on dialysis. It is an operation on two people at once when the donor is living, so the assessment is as important as the surgery.</p>
+  <h4>What is involved</h4>
+  <ul>
+    <li><b>Live donor transplant</b>: a healthy relative or approved donor gives one kidney. The donor kidney is removed laparoscopically or robotically, which means a shorter recovery for the donor.</li>
+    <li><b>Deceased donor transplant</b>: allocation through the state registry, with waiting time depending on blood group and matching.</li>
+    <li><b>Work-up</b>: tissue typing, cross-match, cardiac and infection screening, and legal clearance for donation.</li>
+  </ul>
+  <h4>Afterwards</h4>
+  <p>The new kidney usually starts working within days. Lifelong immunosuppression is needed, with regular blood tests to balance rejection risk against infection risk.</p>
+  <div class="note">Ask about donor safety data, expected waiting time for your blood group, and what the medication will cost each month. These shape the decision as much as the surgery does.</div>
+</div>
+
+<div class="sheet-src" id="src-adrenal">
+  <h3>Adrenal surgery</h3>
+  <h4>Why the adrenal gland matters</h4>
+  <p>The adrenal glands sit above each kidney and produce hormones that control blood pressure, salt balance and the stress response. A tumour there may be silent and found incidentally on a scan, or it may announce itself through hormone effects.</p>
+  <h4>When surgery is advised</h4>
+  <ul>
+    <li><b>Functioning tumours</b>: those producing excess hormone, such as phaeochromocytoma, aldosterone-producing adenoma or cortisol-producing adenoma. Removing them can resolve blood pressure or metabolic problems.</li>
+    <li><b>Size or growth</b>: larger tumours, or those growing on follow-up scans, are removed because of cancer risk.</li>
+    <li><b>Suspected malignancy</b>: adrenal cancer, or a deposit from a cancer elsewhere.</li>
+  </ul>
+  <h4>How it is done</h4>
+  <p>Most adrenalectomies are performed laparoscopically or robotically through small incisions, usually with an overnight or two-night stay. Hormone-producing tumours need careful preparation with medication beforehand, and close monitoring of blood pressure during surgery.</p>
+  <div class="note">If a scan has found an adrenal nodule, the first step is hormone testing, not surgery. Ask which hormone tests have been done before any operation is planned.</div>
+</div>
+
+<!-- ==================== SCRIM ==================== -->
+<div class="scrim" id="scrim" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+  <div class="sheet" id="sheet">
+    <button class="close" id="close" aria-label="Close">&#10005;</button>
+    <div id="sheet-body"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  /* nav state */
+  var nav = document.getElementById('nav');
+  var onScroll = function(){ nav.classList.toggle('scrolled', window.scrollY > 24); };
+  window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+  /* mobile menu */
+  var burger = document.getElementById('burger'), menu = document.getElementById('menu');
+  burger.addEventListener('click', function(){
+    var open = menu.classList.toggle('open');
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  });
+  menu.addEventListener('click', function(e){
+    if (e.target.tagName === 'A'){
+      menu.classList.remove('open');
+      burger.setAttribute('aria-expanded','false');
+    }
+  });
+
+  /* tabs */
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+  function selectTab(tab){
+    tabs.forEach(function(t){
+      var panel = document.getElementById(t.getAttribute('aria-controls'));
+      var on = (t === tab);
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      panel.classList.toggle('active', on);
+      if (on) { panel.removeAttribute('hidden'); } else { panel.setAttribute('hidden',''); }
+    });
+  }
+  tabs.forEach(function(t){
+    t.addEventListener('click', function(){ selectTab(t); });
+    t.addEventListener('keydown', function(e){
+      var i = tabs.indexOf(t), next = null;
+      if (e.key === 'ArrowRight') next = tabs[(i+1) % tabs.length];
+      if (e.key === 'ArrowLeft')  next = tabs[(i-1+tabs.length) % tabs.length];
+      if (next){ e.preventDefault(); next.focus(); selectTab(next); }
+    });
+  });
+
+  /* condition sheets */
+  var scrim = document.getElementById('scrim'),
+      body  = document.getElementById('sheet-body'),
+      close = document.getElementById('close'),
+      last  = null;
+
+  function openSheet(key){
+    var src = document.getElementById('src-' + key);
+    if (!src) return;
+    body.innerHTML = src.innerHTML;
+    var h = body.querySelector('h3'); if (h) h.id = 'sheet-title';
+    scrim.classList.add('open');
+    document.body.classList.add('locked');
+    close.focus();
+  }
+  function closeSheet(){
+    scrim.classList.remove('open');
+    document.body.classList.remove('locked');
+    body.innerHTML = '';
+    if (last) last.focus();
+  }
+  document.querySelectorAll('[data-sheet]').forEach(function(card){
+    card.addEventListener('click', function(){
+      last = card;
+      openSheet(card.getAttribute('data-sheet'));
+    });
+    card.addEventListener('keydown', function(e){
+      if (e.key === 'Enter' || e.key === ' '){
+        e.preventDefault(); last = card;
+        openSheet(card.getAttribute('data-sheet'));
+      }
+    });
+  });
+  close.addEventListener('click', closeSheet);
+  scrim.addEventListener('click', function(e){ if (e.target === scrim) closeSheet(); });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && scrim.classList.contains('open')) closeSheet();
+  });
+
+  /* pointer light in the hero + card spotlight + click ripple */
+  var fine = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+  var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (fine && !still){
+    var hero = document.getElementById('top');
+    var glow = document.getElementById('glow');
+    var gx = 0, gy = 0, queued = false;
+    hero.addEventListener('pointermove', function(e){
+      var r = hero.getBoundingClientRect();
+      gx = e.clientX - r.left; gy = e.clientY - r.top;
+      if (!queued){
+        queued = true;
+        requestAnimationFrame(function(){
+          glow.style.transform = 'translate3d(' + gx + 'px,' + gy + 'px,0)';
+          queued = false;
+        });
+      }
+    });
+    hero.addEventListener('pointerenter', function(){ hero.classList.add('lit'); });
+    hero.addEventListener('pointerleave', function(){ hero.classList.remove('lit'); });
+
+    document.querySelectorAll('.tcard').forEach(function(card){
+      card.addEventListener('pointermove', function(e){
+        var r = card.getBoundingClientRect();
+        card.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+        card.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
+      });
+    });
+  }
+
+  if (!still){
+    document.addEventListener('pointerdown', function(e){
+      var host = e.target.closest('.tcard, .btn, .tab, .nav-cta');
+      if (!host) return;
+      var r = host.getBoundingClientRect();
+      var size = Math.max(r.width, r.height) * 2.2;
+      var dot = document.createElement('span');
+      dot.className = 'ripple';
+      dot.style.width = dot.style.height = size + 'px';
+      dot.style.left = (e.clientX - r.left) + 'px';
+      dot.style.top = (e.clientY - r.top) + 'px';
+      host.appendChild(dot);
+      setTimeout(function(){ dot.remove(); }, 650);
+    }, true);
+  }
+
+  /* reveal on scroll */
+  var targets = document.querySelectorAll('.section-head, .hero-grid > *, .card-grid > *, .robotic-grid > *, .panel, .contact-grid > *, .about-grid > *');
+  if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en, i){
+        if (en.isIntersecting){
+          setTimeout(function(){ en.target.classList.add('in'); }, Math.min(i * 70, 280));
+          io.unobserve(en.target);
         }
-    </script>
+      });
+    }, {rootMargin:'0px 0px -8% 0px'});
+    targets.forEach(function(el){ el.classList.add('reveal'); io.observe(el); });
+  }
+})();
+</script>
 </body>
 </html>
