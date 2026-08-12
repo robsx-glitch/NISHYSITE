@@ -262,6 +262,7 @@ section{ position:relative; }
   color:var(--text-inv);
 }
 .hero .portrait figcaption{ color:var(--muted-inv); }
+.hero .glass::after{ content:none; }
 .pills{ display:flex; flex-wrap:wrap; gap:8px; margin-top:30px; }
 .pill{
   font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.06em; text-transform:uppercase;
@@ -288,9 +289,7 @@ section{ position:relative; }
 .portrait{ padding:12px; border-radius:var(--r-xl); }
 .portrait img{
   width:100%; aspect-ratio:4/5; object-fit:cover; border-radius:calc(var(--r-xl) - 12px);
-  filter:grayscale(1) contrast(1.04); transition:filter 1.1s ease;
 }
-.portrait:hover img{ filter:grayscale(0); }
 .portrait figcaption{
   display:flex; justify-content:space-between; gap:12px; align-items:center;
   padding:14px 8px 4px; font-family:'IBM Plex Mono',monospace; font-size:10.5px;
