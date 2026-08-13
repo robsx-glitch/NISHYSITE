@@ -245,16 +245,8 @@ section{ position:relative; }
   background:none; border:none; box-shadow:none;
   backdrop-filter:none; -webkit-backdrop-filter:none;
 }
-/* frosted arch that lifts the navy scrubs off the navy background */
-.hero .portrait::before{
-  content:''; position:absolute; left:50%; bottom:0; transform:translateX(-50%);
-  width:min(100%,430px); height:86%; z-index:0; pointer-events:none;
-  border-radius:999px 999px var(--r-lg) var(--r-lg);
-  background:linear-gradient(180deg, rgba(255,255,255,.17), rgba(255,255,255,.05) 62%, rgba(255,255,255,.02));
-  border:1px solid rgba(255,255,255,.24);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.34), 0 40px 90px -50px rgba(0,0,0,.9);
-  backdrop-filter:blur(18px) saturate(150%); -webkit-backdrop-filter:blur(18px) saturate(150%);
-}
+/* no frame: only the soft light behind the head */
+.hero .portrait::before{ content:none; }
 /* soft light behind the head */
 .hero .portrait::after{
   content:''; position:absolute; left:50%; top:4%; transform:translateX(-50%);
@@ -310,6 +302,23 @@ section{ position:relative; }
   text-transform:uppercase; color:#fff;
 }
 .hero .glass::after{ content:none; }
+.creds{
+  margin-top:30px; padding:18px 22px; border-radius:var(--r-md);
+  background:linear-gradient(150deg, rgba(255,255,255,.14), rgba(255,255,255,.05));
+  border:1px solid rgba(255,255,255,.22);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.26);
+  backdrop-filter:blur(16px) saturate(160%); -webkit-backdrop-filter:blur(16px) saturate(160%);
+  max-width:62ch;
+}
+.creds p{
+  margin:0; font-family:'Inter Tight',system-ui,sans-serif;
+  font-size:14.5px; font-weight:400; line-height:1.55; letter-spacing:-.012em;
+  color:rgba(245,245,247,.78);
+}
+.creds p + p{ margin-top:7px; padding-top:7px; border-top:1px solid rgba(255,255,255,.12); }
+.creds b{ font-weight:700; color:#fff; }
+@media (max-width:640px){ .creds{ padding:15px 17px; } .creds p{ font-size:13.5px; } }
+
 .pills{ display:flex; flex-wrap:wrap; gap:8px; margin-top:30px; }
 .pill{
   font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.06em; text-transform:uppercase;
@@ -332,7 +341,7 @@ section{ position:relative; }
 }
 .btn-ghost:hover{ background:#fff; }
 .arrow{ display:inline-block; transition:transform .3s cubic-bezier(.2,.7,.2,1); }
-.btn:hover .arrow, .nav-cta:hover .arrow{ transform:translateX(4px); }
+.btn:hover .arrow, .nav-cta:hover .arrow{ transform:translate(3px,-3px); }
 @media (max-width:560px){ .nav-cta{ display:none; } }
 .btn-dark{ background:var(--text-dark); color:#fff; }
 
@@ -408,7 +417,40 @@ section{ position:relative; }
 /* ============================================================
    TREATMENT CARDS + SHEETS
    ============================================================ */
-.card-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); gap:18px; }
+.rail-wrap{ position:relative; }
+.card-grid{
+  display:grid; grid-auto-flow:column;
+  grid-auto-columns:calc((100% - 54px) / 4);
+  gap:18px; overflow-x:auto; scroll-snap-type:x mandatory;
+  scroll-behavior:smooth; padding:4px 4px 10px;
+  scrollbar-width:none; -ms-overflow-style:none;
+}
+.card-grid::-webkit-scrollbar{ display:none; }
+.card-grid > *{ scroll-snap-align:start; }
+
+.rail-btn{
+  position:absolute; top:50%; transform:translateY(-50%); z-index:5;
+  width:48px; height:48px; border-radius:50%; cursor:pointer; display:grid; place-items:center;
+  background:linear-gradient(135deg,#2a90ff,#0a55c7); color:#fff;
+  border:1px solid rgba(255,255,255,.55);
+  box-shadow:0 16px 34px -14px rgba(10,85,199,.85), inset 0 1px 0 rgba(255,255,255,.4);
+  transition:transform .25s cubic-bezier(.2,.7,.2,1), opacity .25s;
+}
+.rail-btn:hover{ transform:translateY(-50%) scale(1.07); }
+.rail-btn svg{ width:20px; height:20px; }
+.rail-prev{ left:-22px; }
+.rail-next{ right:-22px; }
+.rail-btn[disabled]{ opacity:.28; pointer-events:none; }
+.rail-hint{
+  display:flex; align-items:center; justify-content:center; gap:10px; margin-top:16px;
+  font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--muted);
+}
+.rail-dots{ display:flex; gap:6px; }
+.rail-dots i{ width:22px; height:3px; border-radius:999px; background:rgba(11,16,24,.16); transition:background .3s; }
+.rail-dots i.on{ background:linear-gradient(90deg,#2a90ff,#0a55c7); }
+@media (max-width:1100px){ .card-grid{ grid-auto-columns:calc((100% - 36px) / 3); } .rail-prev{ left:-14px; } .rail-next{ right:-14px; } }
+@media (max-width:820px){ .card-grid{ grid-auto-columns:calc((100% - 18px) / 2); } }
 .tcard{
   text-align:left; width:100%; padding:28px 26px 24px; border-radius:var(--r-md);
   background:linear-gradient(160deg,#ffffff 0%,rgba(238,244,252,.92) 100%);
@@ -554,9 +596,12 @@ section{ position:relative; }
 .cred .where{ font-weight:600; }
 
 .cred-group{
-  display:flex; align-items:center; gap:14px; margin:34px 0 4px;
-  font-family:'IBM Plex Mono',monospace; font-size:10.5px; font-weight:500;
-  letter-spacing:.16em; text-transform:uppercase; color:var(--muted);
+  display:inline-flex; align-items:center; gap:10px; margin:34px 0 10px;
+  padding:8px 15px; border-radius:999px;
+  font-family:'Inter Tight',system-ui,sans-serif; font-size:11px; font-weight:700;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--blue-ink);
+  background:linear-gradient(150deg,rgba(42,144,255,.15),rgba(42,144,255,.06));
+  border:1px solid rgba(42,144,255,.26);
 }
 .cred-group:first-child{ margin-top:0; }
 .cred-group::before{
@@ -566,13 +611,16 @@ section{ position:relative; }
 }
 .cred-group.g-fel{ --c:var(--c-fel); }
 .cred-group.g-int{ --c:var(--c-int); }
-.cred-group::after{ content:''; flex:1; height:1px; background:var(--edge-soft); }
+
 
 .institutes{ margin-top:34px; padding-top:26px; border-top:1px solid var(--edge-soft); }
-.institutes span{
-  display:block; margin-bottom:14px;
-  font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.16em;
-  text-transform:uppercase; color:var(--muted);
+.institutes > span{
+  display:inline-flex; align-items:center; margin-bottom:14px;
+  padding:8px 15px; border-radius:999px;
+  font-family:'Inter Tight',system-ui,sans-serif; font-size:11px; font-weight:700;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--blue-ink);
+  background:linear-gradient(150deg,rgba(42,144,255,.15),rgba(42,144,255,.06));
+  border:1px solid rgba(42,144,255,.26);
 }
 .institutes ul{ display:flex; flex-wrap:wrap; gap:8px; list-style:none; margin:0; padding:0; }
 .institutes li{
@@ -761,10 +809,12 @@ footer{ padding:34px 0 44px; border-top:1px solid var(--edge-soft); }
   border:1px solid color-mix(in srgb, var(--c) 70%, transparent);
   box-shadow:none;
 }
-.deep .cred-group{ color:rgba(245,245,247,.62); }
-.deep .cred-group::after{ background:var(--edge-inv); }
+.deep .cred-group, .deep .institutes > span{
+  color:#cfe8ff;
+  background:linear-gradient(150deg,rgba(255,255,255,.16),rgba(255,255,255,.06));
+  border:1px solid rgba(255,255,255,.24);
+}
 .deep .institutes{ border-top-color:var(--edge-inv); }
-.deep .institutes span{ color:rgba(245,245,247,.62); }
 .deep .institutes li{
   color:#fff;
   background:color-mix(in srgb, var(--c) 32%, transparent);
@@ -789,6 +839,55 @@ footer{ padding:34px 0 44px; border-top:1px solid var(--edge-soft); }
 }
 .deep .metric b{ background:linear-gradient(135deg,#8fd8ff,#3f9bff); -webkit-background-clip:text; background-clip:text; color:transparent; }
 .deep .metric span{ color:rgba(245,245,247,.62); }
+
+/* ============================================================
+   VIDEO
+   ============================================================ */
+.video-frame{
+  margin-top:clamp(28px,4vw,44px); padding:12px; border-radius:var(--r-xl);
+  background:linear-gradient(150deg, rgba(255,255,255,.94), rgba(235,242,252,.8) 52%, rgba(255,255,255,.86));
+  border:1px solid rgba(255,255,255,.9);
+  box-shadow:0 30px 70px -34px rgba(17,38,80,.45);
+}
+.video-frame > div{
+  position:relative; aspect-ratio:16/9; border-radius:calc(var(--r-xl) - 12px); overflow:hidden;
+  background:#08213f;
+}
+.video-frame iframe{ position:absolute; inset:0; width:100%; height:100%; border:0; }
+.video-note{
+  display:flex; flex-wrap:wrap; align-items:center; gap:10px 18px; margin-top:16px; padding:0 6px;
+  font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--muted);
+}
+.video-note a{ color:var(--blue-ink); font-weight:500; }
+.video-note a:hover{ color:var(--blue); }
+
+/* ============================================================
+   SOCIAL
+   ============================================================ */
+.social-head{
+  margin:0 0 16px; text-align:center;
+  font-family:'Inter Tight',system-ui,sans-serif; font-size:11px; font-weight:700;
+  letter-spacing:.18em; text-transform:uppercase; color:var(--blue-ink);
+}
+.social{
+  display:flex; flex-wrap:wrap; justify-content:center; gap:12px;
+  padding-bottom:26px; margin-bottom:24px; border-bottom:1px solid var(--edge);
+}
+.social a{
+  width:46px; height:46px; border-radius:14px; display:grid; place-items:center;
+  color:var(--blue-ink);
+  background:linear-gradient(150deg,#ffffff,rgba(233,240,251,.88));
+  border:1px solid var(--edge);
+  box-shadow:0 14px 30px -20px rgba(17,38,80,.6), inset 0 1px 0 #fff;
+  transition:transform .28s cubic-bezier(.2,.7,.2,1), color .28s, box-shadow .28s;
+}
+.social a svg{ width:22px; height:22px; }
+.social a:hover{
+  transform:translateY(-3px); color:#fff;
+  background:linear-gradient(150deg,#2a90ff,#0a55c7);
+  box-shadow:0 18px 34px -16px rgba(10,85,199,.8);
+}
 
 /* ============================================================
    PARALLAX — subtle depth on scroll
@@ -878,7 +977,10 @@ html{ scrollbar-width:thin; scrollbar-color:#0c2f63 rgba(11,16,24,.06); }
   .nav{ padding:9px 9px 9px 16px; top:10px; width:calc(100% - 20px); }
   .brand b{ font-size:14.5px; }
   .cta-row .btn{ flex:1 1 100%; justify-content:center; }
-  .card-grid{ grid-template-columns:1fr; gap:14px; }
+  .card-grid{ grid-auto-columns:86%; gap:14px; }
+  .rail-btn{ width:42px; height:42px; }
+  .rail-prev{ left:-8px; }
+  .rail-next{ right:-8px; }
   .tcard{ padding:22px 20px 20px; }
   .tabs{ width:100%; overflow-x:auto; flex-wrap:nowrap; scrollbar-width:none; }
   .tabs::-webkit-scrollbar{ display:none; }
@@ -972,7 +1074,13 @@ html{ scrollbar-width:thin; scrollbar-color:#0c2f63 rgba(11,16,24,.06); }
     },
     "result": { "@type": "Reservation", "name": "Urology consultation" }
   },
-  "sameAs": ["https://linkedin.com/in/nisanthpuliyath", "https://cloudurologist.setmore.com"]
+  "sameAs": [
+    "https://www.linkedin.com/in/dr-nisanth-puliyath-497b65133",
+    "https://www.instagram.com/dr.nisanth.urologist",
+    "https://youtube.com/@drnisanthpuliyath",
+    "https://www.facebook.com/share/1D41VoBPns/",
+    "https://cloudurologist.setmore.com"
+  ]
 }
 </script>
 </head>
@@ -1108,9 +1216,10 @@ html{ scrollbar-width:thin; scrollbar-color:#0c2f63 rgba(11,16,24,.06); }
     <a href="#treatments">Treatments</a>
     <a href="#academics">Academics</a>
     <a href="#robotic">Robotic surgery</a>
-    <a href="blog.html">Blog</a>
+    <a href="#videos">Videos</a>
+    <a href="blog.html">Blogs</a>
   </div>
-  <a href="https://cloudurologist.setmore.com?utm_source=in-app&amp;utm_medium=iosapp&amp;utm_campaign=settsharebp" class="nav-cta" target="_blank" rel="noopener">Book Your Consultation <span class="arrow" aria-hidden="true">&rarr;</span></a>
+  <a href="https://cloudurologist.setmore.com?utm_source=in-app&amp;utm_medium=iosapp&amp;utm_campaign=settsharebp" class="nav-cta" target="_blank" rel="noopener">Book Your Consultation <span class="arrow" aria-hidden="true">&#8599;</span></a>
   <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="menu">
     <i></i><i></i><i></i>
   </button>
@@ -1120,9 +1229,10 @@ html{ scrollbar-width:thin; scrollbar-color:#0c2f63 rgba(11,16,24,.06); }
   <a href="#treatments">Treatments</a>
   <a href="#academics">Academics</a>
   <a href="#robotic">Robotic surgery</a>
-  <a href="blog.html">Blog</a>
+  <a href="#videos">Videos</a>
+  <a href="blog.html">Blogs</a>
   <a href="#contact">Get in touch</a>
-  <a href="https://cloudurologist.setmore.com?utm_source=in-app&amp;utm_medium=iosapp&amp;utm_campaign=settsharebp" target="_blank" rel="noopener">Book Your Consultation <span class="arrow" aria-hidden="true">&rarr;</span></a>
+  <a href="https://cloudurologist.setmore.com?utm_source=in-app&amp;utm_medium=iosapp&amp;utm_campaign=settsharebp" target="_blank" rel="noopener">Book Your Consultation <span class="arrow" aria-hidden="true">&#8599;</span></a>
 </div>
 
 <!-- ==================== HERO ==================== -->
@@ -1134,15 +1244,13 @@ html{ scrollbar-width:thin; scrollbar-color:#0c2f63 rgba(11,16,24,.06); }
       <p class="eyebrow">Urology &middot; Uro-Oncology &middot; Robotic Surgery &middot; Focal Therapy</p>
       <h1>Dr. Nisanth<br>Puliyath<span>Cancer surgery, explained clearly.</span></h1>
       <p class="lede">Robotic and focal treatment for prostate, kidney and bladder cancer in Kerala, India, with the reasoning behind every recommendation set out in language you can act on.</p>
-      <div class="pills">
-        <span class="pill">MBBS</span>
-        <span class="pill">MS, AIIMS</span>
-        <span class="pill">MCh Urology</span>
-        <span class="pill">Vattikuti Fellow</span>
-        <span class="pill">UCSD &amp; AdventHealth</span>
+      <div class="creds">
+        <p><b>MBBS</b> &middot; <b>MS</b> (AIIMS) &middot; <b>MCh</b> (Urology)</p>
+        <p>Fellowship trained <b>Uro-Oncologist &amp; Robotic Surgeon</b> (Vattikuti Foundation)</p>
+        <p>Clinical Visiting Fellowship, <b>Robotic Surgery &amp; Focal Therapy</b> (USA)</p>
       </div>
       <div class="cta-row">
-        <a href="https://cloudurologist.setmore.com?utm_source=in-app&amp;utm_medium=iosapp&amp;utm_campaign=settsharebp" class="btn btn-primary" target="_blank" rel="noopener">Book Your Consultation <span class="arrow" aria-hidden="true">&rarr;</span></a>
+        <a href="https://cloudurologist.setmore.com?utm_source=in-app&amp;utm_medium=iosapp&amp;utm_campaign=settsharebp" class="btn btn-primary" target="_blank" rel="noopener">Book Your Consultation <span class="arrow" aria-hidden="true">&#8599;</span></a>
         <a href="#treatments" class="btn btn-ghost">Understand your treatment</a>
       </div>
     </div>
@@ -1187,7 +1295,10 @@ html{ scrollbar-width:thin; scrollbar-color:#0c2f63 rgba(11,16,24,.06); }
       <h2>What I treat, and how.</h2>
       <p class="lede on-light">Each card opens a plain-language explanation: what the condition is, how it is assessed, and what treatment actually involves. Tap any one to read more.</p>
     </div>
-    <div class="card-grid">
+    <div class="rail-wrap">
+      <button class="rail-btn rail-prev" id="railPrev" aria-label="Previous treatments" type="button"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5 8 12 15 19" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="rail-btn rail-next" id="railNext" aria-label="More treatments" type="button"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5 16 12 9 19" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <div class="card-grid" id="rail" tabindex="0" role="group" aria-label="Conditions and treatments">
       <div class="tcard" role="button" tabindex="0" data-sheet="prostate">
         <span class="organ" aria-hidden="true"><svg viewBox="0 0 48 48"><use href="#o-prostate"/></svg></span>
         <span class="tag">Most common &middot; Uro-oncology</span>
@@ -1267,6 +1378,11 @@ html{ scrollbar-width:thin; scrollbar-color:#0c2f63 rgba(11,16,24,.06); }
         <p>Ureteroscopy, RIRS and PCNL for kidney and ureteric stones, with a plan to stop them coming back.</p>
         <span class="more">Read more &rarr;</span>
       </div>
+    </div>
+    <div class="rail-hint">
+      <span>Scroll for more</span>
+      <span class="rail-dots" id="railDots" aria-hidden="true"></span>
+    </div>
     </div>
   </div>
 </section>
@@ -1580,6 +1696,31 @@ html{ scrollbar-width:thin; scrollbar-color:#0c2f63 rgba(11,16,24,.06); }
   </div>
 </section>
 
+<!-- ==================== VIDEOS ==================== -->
+<section class="band light" id="videos">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow on-light">Videos</p>
+      <h2>Explained on camera.</h2>
+      <p class="lede on-light">Short talks on the conditions and procedures I treat, for patients and families who would rather watch than read.</p>
+    </div>
+
+    <div class="video-frame">
+      <div>
+        <iframe src="https://www.youtube-nocookie.com/embed/U65JeIohrxI"
+                title="Dr. Nisanth Puliyath on robotic uro-oncology"
+                loading="lazy" allowfullscreen
+                allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"></iframe>
+      </div>
+    </div>
+    <div class="video-note">
+      <span>More on the channel</span>
+      <a href="https://youtube.com/@drnisanthpuliyath?si=EzuBg6qo5IoruWQy" target="_blank" rel="noopener">youtube.com/@drnisanthpuliyath &#8599;</a>
+    </div>
+  </div>
+</section>
+
 <!-- ==================== CONTACT ==================== -->
 <section class="band" id="contact">
   <div class="wrap contact-grid">
@@ -1588,7 +1729,7 @@ html{ scrollbar-width:thin; scrollbar-color:#0c2f63 rgba(11,16,24,.06); }
       <h2>Start a conversation about your care.</h2>
       <p class="lede" style="margin-top:22px">A new diagnosis, a second opinion, or a question about a procedure you have been offered: all are welcome. Email is the most reliable way to reach me, and I reply as soon as clinical work allows.</p>
       <div class="cta-row">
-        <a href="https://cloudurologist.setmore.com?utm_source=in-app&amp;utm_medium=iosapp&amp;utm_campaign=settsharebp" class="btn btn-primary" target="_blank" rel="noopener">Book Your Consultation <span class="arrow" aria-hidden="true">&rarr;</span></a>
+        <a href="https://cloudurologist.setmore.com?utm_source=in-app&amp;utm_medium=iosapp&amp;utm_campaign=settsharebp" class="btn btn-primary" target="_blank" rel="noopener">Book Your Consultation <span class="arrow" aria-hidden="true">&#8599;</span></a>
         <a href="mailto:drnishyurology@gmail.com" class="btn btn-ghost">Email me</a>
       </div>
       <div class="notice">
@@ -1606,6 +1747,21 @@ html{ scrollbar-width:thin; scrollbar-color:#0c2f63 rgba(11,16,24,.06); }
 </section>
 
 <footer class="wrap">
+  <p class="social-head">Connect with me</p>
+  <div class="social">
+    <a href="https://www.instagram.com/dr.nisanth.urologist?igsh=MXNhZWNmbmNmbGRldQ%3D%3D&amp;utm_source=qr" target="_blank" rel="noopener" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5.4" fill="none" stroke="currentColor" stroke-width="1.9"/><circle cx="12" cy="12" r="4.3" fill="none" stroke="currentColor" stroke-width="1.9"/><circle cx="17.3" cy="6.7" r="1.35" fill="currentColor"/></svg>
+    </a>
+    <a href="https://youtube.com/@drnisanthpuliyath?si=EzuBg6qo5IoruWQy" target="_blank" rel="noopener" aria-label="YouTube">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="1.8" y="5" width="20.4" height="14" rx="4.4" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M10 8.9l5.4 3.1L10 15.1z" fill="currentColor"/></svg>
+    </a>
+    <a href="https://www.linkedin.com/in/dr-nisanth-puliyath-497b65133/" target="_blank" rel="noopener" aria-label="LinkedIn">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="4" fill="none" stroke="currentColor" stroke-width="1.9"/><circle cx="7.3" cy="7.5" r="1.5" fill="currentColor"/><path d="M6.2 10.4h2.3v7.4H6.2zM11 17.8v-7.4h2.2v1a2.9 2.9 0 0 1 2.5-1.2c1.8 0 2.9 1.1 2.9 3.2v4.4h-2.3v-4c0-1.1-.5-1.7-1.4-1.7s-1.6.6-1.6 1.8v3.9z" fill="currentColor"/></svg>
+    </a>
+    <a href="https://www.facebook.com/share/1D41VoBPns/?mibextid=wwXIfr" target="_blank" rel="noopener" aria-label="Facebook">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="4.6" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M14.6 21.4v-7h2.3l.4-2.8h-2.7V9.9c0-.8.2-1.3 1.4-1.3h1.4V6.1a19 19 0 0 0-2.1-.1c-2.1 0-3.5 1.3-3.5 3.6v2h-2.3v2.8h2.3v7z" fill="currentColor"/></svg>
+    </a>
+  </div>
   <div class="foot">
     <span>&copy; 2026 Dr. Nisanth Puliyath</span>
     <span>Educational content only</span>
@@ -1854,6 +2010,28 @@ html{ scrollbar-width:thin; scrollbar-color:#0c2f63 rgba(11,16,24,.06); }
       });
     }, { rootMargin: '-38% 0px -38% 0px', threshold: 0 });
     document.querySelectorAll('.tcard').forEach(function(c){ lit.observe(c); });
+  }
+
+  /* treatments rail */
+  var rail = document.getElementById('rail');
+  if (rail){
+    var prev = document.getElementById('railPrev');
+    var next = document.getElementById('railNext');
+    var dots = document.getElementById('railDots');
+    var pages = function(){ return Math.max(1, Math.round(rail.scrollWidth / rail.clientWidth)); };
+    for (var i = 0; i < pages(); i++){ dots.appendChild(document.createElement('i')); }
+    var sync = function(){
+      var max = rail.scrollWidth - rail.clientWidth;
+      prev.disabled = rail.scrollLeft < 8;
+      next.disabled = rail.scrollLeft > max - 8;
+      var idx = Math.round(rail.scrollLeft / rail.clientWidth);
+      [].forEach.call(dots.children, function(d, n){ d.classList.toggle('on', n === idx); });
+    };
+    prev.addEventListener('click', function(){ rail.scrollBy({ left: -rail.clientWidth, behavior:'smooth' }); });
+    next.addEventListener('click', function(){ rail.scrollBy({ left:  rail.clientWidth, behavior:'smooth' }); });
+    rail.addEventListener('scroll', function(){ requestAnimationFrame(sync); }, { passive:true });
+    window.addEventListener('resize', sync);
+    sync();
   }
 
   /* subtle parallax */
