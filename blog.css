@@ -192,15 +192,6 @@
 }
 .post-card:hover .arrow{ transform:translate(3px,-3px); }
 
-/* ---------- comparison diagram ---------- */
-.rapn-diagram{
-  border-radius:var(--r-lg); padding:14px;
-  background:linear-gradient(150deg,#ffffff,rgba(233,240,251,.9));
-  border:1px solid rgba(255,255,255,.95);
-  box-shadow:0 30px 64px -34px rgba(17,38,80,.5);
-}
-.rapn-diagram svg{ width:100%; height:auto; display:block; }
-
 /* ---------- comparison table ---------- */
 .table-wrap{ overflow-x:auto; margin:26px 0; border-radius:var(--r-md); box-shadow:0 24px 52px -32px rgba(17,38,80,.45); }
 .compare-table{
