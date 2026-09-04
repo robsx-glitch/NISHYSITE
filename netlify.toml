@@ -1,0 +1,5 @@
+[build]
+  # Skip a deploy build when the only changes are outside the deployed site
+  # (e.g. GitHub Actions workflow files under .github/). Saves build minutes
+  # on commits that can't affect what's actually published.
+  ignore = "git diff --quiet HEAD^ HEAD -- . ':!.github'"
