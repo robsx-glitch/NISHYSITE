@@ -70,8 +70,8 @@
   .byline{
     display:flex; flex-wrap:wrap; align-items:center; gap:10px 16px;
     padding-top:20px; border-top:1px solid var(--edge);
-    font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.12em;
-    text-transform:uppercase; color:var(--muted);
+    font-family:'Inter Tight',sans-serif; font-size:13.5px; font-weight:500; letter-spacing:.01em;
+    text-transform:none; color:var(--blue-ink);
   }
   .byline b{ font-family:'Inter Tight',sans-serif; font-size:14px; font-weight:600; letter-spacing:-.01em; text-transform:none; color:var(--text); }
 
@@ -102,8 +102,8 @@
     box-shadow:0 30px 64px -34px rgba(17,38,80,.5);
   }
   figcaption{
-    margin-top:12px; font-family:'IBM Plex Mono',monospace; font-size:11px;
-    letter-spacing:.1em; text-transform:uppercase; color:var(--muted); text-align:center;
+    margin-top:14px; font-family:'Inter Tight',sans-serif; font-size:13.5px; font-weight:500;
+    letter-spacing:.005em; text-transform:none; color:var(--blue-ink); text-align:center;
   }
   .benefits{ list-style:none; margin:26px 0; padding:0; display:grid; gap:12px; }
   .benefits li{
