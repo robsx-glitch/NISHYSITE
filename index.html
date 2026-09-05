@@ -7,6 +7,8 @@
 <meta name="description" content="Dr. Nisanth Puliyath is a robotic uro-oncologist in Kerala, India, treating prostate, kidney and bladder cancer with robotic surgery and focal therapy including HIFU, cryotherapy and NanoKnife (IRE).">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <meta name="theme-color" content="#f4f7fb">
+<link rel="icon" type="image/png" href="images/favicon.png">
+<link rel="apple-touch-icon" href="images/favicon.png">
 <link rel="canonical" href="https://drnisanthpuliyathurologist.org/">
 
 <meta name="geo.region" content="IN-KL">
@@ -188,9 +190,14 @@ section{ position:relative; }
   transition:background .35s ease, box-shadow .35s ease;
 }
 .nav.scrolled{ background:rgba(255,255,255,.92); box-shadow:inset 0 1px 0 #fff, 0 18px 44px -26px rgba(6,16,40,.6); }
-.brand{ display:flex; flex-direction:column; line-height:1.15; }
-.brand b{ font-family:'Inter Tight',sans-serif; font-size:15.5px; font-weight:600; letter-spacing:-.02em; }
-.brand span{ font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); }
+.brand{ display:flex; align-items:center; gap:10px; }
+.brand-mark{ width:34px; height:34px; border-radius:9px; object-fit:cover; flex:0 0 auto; }
+.brand-copy{ display:flex; flex-direction:column; line-height:1.15; }
+.brand-copy b{
+  font-family:'Inter Tight',sans-serif; font-size:15.5px; font-weight:600; letter-spacing:-.02em;
+  background:linear-gradient(135deg,#2a90ff,#0a55c7); -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.brand-copy span{ font-family:'Inter Tight',sans-serif; font-size:11.5px; font-weight:500; letter-spacing:.02em; text-transform:none; color:var(--blue-ink); }
 .nav-links{ display:flex; align-items:center; gap:4px; }
 .nav-links a{
   font-size:13.5px; font-weight:500; color:var(--muted);
@@ -997,7 +1004,8 @@ html{ scrollbar-width:thin; scrollbar-color:#0c2f63 rgba(11,16,24,.06); }
   .deep{ border-radius:0; margin-inline:0; }
   .pub{ grid-template-columns:1fr; gap:4px; }
   .nav{ padding:9px 9px 9px 16px; top:10px; width:calc(100% - 20px); }
-  .brand b{ font-size:14.5px; }
+  .brand-copy b{ font-size:14.5px; }
+  .brand-mark{ width:30px; height:30px; }
   .cta-row .btn{ flex:1 1 100%; justify-content:center; }
 
   .tcard{ padding:22px 20px 20px; }
@@ -1227,8 +1235,11 @@ html{ scrollbar-width:thin; scrollbar-color:#0c2f63 rgba(11,16,24,.06); }
 <!-- ==================== NAV ==================== -->
 <nav class="nav" id="nav">
   <a href="#top" class="brand">
-    <b>Dr. Nisanth Puliyath</b>
-    <span>Urology &middot; Robotic Uro-Oncology</span>
+    <img src="images/favicon.png" alt="" class="brand-mark" width="34" height="34">
+    <span class="brand-copy">
+      <b>Dr. Nisanth Puliyath</b>
+      <span>Urology &middot; Robotic Uro-Oncology</span>
+    </span>
   </a>
   <div class="nav-links">
     <a href="#about">About</a>
