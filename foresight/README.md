@@ -184,17 +184,22 @@ reports the raw probability only, with no risk-tier label.
 
 ## Architecture
 
-- `index.html` — page shell, header/lockup, static copy, mounts three
-  empty containers (`#foresight-audience`, `#foresight-form`,
-  `#foresight-results`) that `app.js` renders into.
+- `index.html` — page shell, header/lockup, static copy, mounts two
+  empty containers (`#foresight-form`, `#foresight-results`) that
+  `app.js` renders into, plus the report/print styling.
 - `models.js` — one exported function per model, framework-free, no DOM
   access. Exports via `module.exports` (for the Node test) and
   `window.ForesightModels` (for the browser).
 - `app.js` — owns form state/validation and tab rendering; calls into
   `models.js` and never computes a clinical number itself. Each tab in
-  its `TABS` array has a `run(values)` function (calls the model) and,
-  for implemented models, a `renderOk(result, wrap)` function that draws
-  that model's specific result shape.
+  its `TABS` array has a `run(values)` function (calls the model), a
+  `renderOk(result, wrap)` function that draws the live tab's simplified
+  result, and a `reportDetail(result)` function that returns the precise
+  value(s) shown in the "Generate report" tab's printable summary (which
+  consolidates all four headings onto one page — see `renderReportPanel`
+  — with a "Download / print report" button that calls `window.print()`;
+  no PDF library, no server, the browser's native print-to-PDF handles
+  the download).
 - `models.test.js` — plain-`assert` Node tests, run with
   `node foresight/models.test.js`.
 

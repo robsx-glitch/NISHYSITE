@@ -182,6 +182,14 @@
         renderStatRow(wrap, 'Seminal vesicle invasion', result.seminalVesicleInvasion);
         renderStatRow(wrap, 'Lymph node involvement', result.lymphNodeInvolvement);
       },
+      reportDetail: function (result) {
+        return [
+          { label: 'Organ-confined disease', value: preciseStat(result.organConfined) },
+          { label: 'Extraprostatic extension', value: preciseStat(result.extraprostaticExtension) },
+          { label: 'Seminal vesicle invasion', value: preciseStat(result.seminalVesicleInvasion) },
+          { label: 'Lymph node involvement', value: preciseStat(result.lymphNodeInvolvement) },
+        ];
+      },
     },
     {
       id: 'lni',
@@ -190,6 +198,9 @@
       renderOk: function (result, wrap) {
         renderStatRow(wrap, 'Lymph node involvement', { value: result.probabilityPercent, ci: null });
         appendEl(wrap, 'p', 'fs-interp', result.thresholdNote);
+      },
+      reportDetail: function (result) {
+        return [{ label: 'Lymph node involvement', value: result.probabilityPercent + '%' }];
       },
       run: function (v) {
         return models.predictLymphNodeInvasion({
@@ -219,6 +230,9 @@
       ],
       renderOk: function (result, wrap) {
         renderStatRow(wrap, 'Positive surgical margin', { value: result.probabilityPercent, ci: null });
+      },
+      reportDetail: function (result) {
+        return [{ label: 'Positive surgical margin', value: result.probabilityPercent + '%' }];
       },
       run: function (v) {
         return models.predictPositiveSurgicalMargin({
@@ -259,52 +273,56 @@
         row.appendChild(v2);
         wrap.appendChild(row);
 
-        if (state.audience === 'patient') {
-          appendEl(
-            wrap,
-            'p',
-            'fs-interp',
-            'In the published study this is based on, about ' +
-              result.cohortIncontinencePercent.sixMonth +
-              '% of men overall were not yet continent at 6 months, ' +
-              result.cohortIncontinencePercent.twelveMonth +
-              '% at 12 months, and ' +
-              result.cohortIncontinencePercent.twentyFourMonth +
-              '% at 24 months — most men keep improving over the first two years.'
-          );
-        } else {
-          var ul = document.createElement('ul');
-          ul.className = 'fs-needed-list';
-          ['sixMonth', 'twelveMonth', 'twentyFourMonth'].forEach(function (key) {
-            var label = { sixMonth: '6-month', twelveMonth: '12-month', twentyFourMonth: '24-month' }[key];
-            var or = result.ors[key];
-            var li = document.createElement('li');
-            li.textContent =
-              label +
-              ': age ≥60 OR(continence) ' +
-              or.ageOver60.or +
-              ' (95% CI ' +
-              or.ageOver60.ci[0] +
-              '–' +
-              or.ageOver60.ci[1] +
-              ', p=' +
-              or.ageOver60.p +
-              '); erectile function firm-enough OR(continence) ' +
-              or.erectileFirm.or +
-              ' (95% CI ' +
-              or.erectileFirm.ci[0] +
-              '–' +
-              or.erectileFirm.ci[1] +
-              ', p=' +
-              or.erectileFirm.p +
-              '); cohort incontinence rate ' +
-              result.cohortIncontinencePercent[key] +
-              '%.';
-            ul.appendChild(li);
-          });
-          wrap.appendChild(ul);
-        }
+        appendEl(
+          wrap,
+          'p',
+          'fs-interp',
+          'In the published study this is based on, about ' +
+            result.cohortIncontinencePercent.sixMonth +
+            '% of men overall were not yet continent at 6 months, ' +
+            result.cohortIncontinencePercent.twelveMonth +
+            '% at 12 months, and ' +
+            result.cohortIncontinencePercent.twentyFourMonth +
+            '% at 24 months — most men keep improving over the first two years.'
+        );
       },
+      reportDetail: function (result) {
+        var tierLabel = { early: 'Early', intermediate: 'Intermediate', delayed: 'Delayed' }[result.tier];
+        return [{ label: 'Expected continence recovery', value: tierLabel }];
+      },
+      reportNotes: function (result) {
+        return ['sixMonth', 'twelveMonth', 'twentyFourMonth'].map(function (key) {
+          var label = { sixMonth: '6-month', twelveMonth: '12-month', twentyFourMonth: '24-month' }[key];
+          var or = result.ors[key];
+          return (
+            label +
+            ' cohort incontinence rate ' +
+            result.cohortIncontinencePercent[key] +
+            '% — age ≥60 OR(continence) ' +
+            or.ageOver60.or +
+            ' (95% CI ' +
+            or.ageOver60.ci[0] +
+            '–' +
+            or.ageOver60.ci[1] +
+            ', p=' +
+            or.ageOver60.p +
+            '); erectile function firm-enough OR(continence) ' +
+            or.erectileFirm.or +
+            ' (95% CI ' +
+            or.erectileFirm.ci[0] +
+            '–' +
+            or.erectileFirm.ci[1] +
+            ', p=' +
+            or.erectileFirm.p +
+            ')'
+          );
+        });
+      },
+    },
+    {
+      id: 'report',
+      label: 'Generate report',
+      isReport: true,
     },
   ];
 
@@ -312,7 +330,6 @@
     values: {},
     errors: {},
     activeTab: TABS[0].id,
-    audience: 'patient',
   };
 
   function fieldByName(name) {
@@ -482,32 +499,12 @@
     var statusText = result.status === 'unsupported' ? 'Not available for this combination.' : 'Not yet available.';
     appendEl(wrap, 'p', 'fs-status fs-status--pending', statusText);
 
-    var interpText;
-    if (result.status === 'unsupported') {
-      interpText =
-        state.audience === 'patient'
-          ? "This exact combination of details isn't covered by the published data this tool uses."
-          : result.reason;
-    } else {
-      interpText =
-        state.audience === 'patient'
-          ? 'This estimate is not published in a form we can safely calculate yet, so it is left blank rather than guessed.'
-          : 'Pending: model coefficients/table values could not be verified against the primary source in this build and are not implemented.';
-    }
+    var interpText =
+      result.status === 'unsupported'
+        ? "This exact combination of details isn't covered by the published data this tool uses."
+        : 'This estimate is not published in a form we can safely calculate yet, so it is left blank rather than guessed.';
     appendEl(wrap, 'p', 'fs-interp', interpText);
     appendEl(wrap, 'p', 'fs-model', 'Model: ' + result.model);
-
-    if (state.audience === 'clinician' && result.needed) {
-      var ul = document.createElement('ul');
-      ul.className = 'fs-needed-list';
-      result.needed.forEach(function (item) {
-        var li = document.createElement('li');
-        li.textContent = item;
-        ul.appendChild(li);
-      });
-      wrap.appendChild(ul);
-    }
-
     appendEl(wrap, 'p', 'fs-citation', result.citation);
     appendValidityNote(wrap);
     return wrap;
@@ -556,16 +553,14 @@
     l.textContent = label;
     var v = document.createElement('span');
     v.className = 'fs-stat-value';
-    if (state.audience === 'patient') {
-      v.textContent = patientLabel(stat.value) + ' — ' + plainOdds(stat.value);
-    } else if (stat.ci) {
-      v.textContent = stat.value + '% (95% CI ' + stat.ci[0] + '–' + stat.ci[1] + '%)';
-    } else {
-      v.textContent = stat.value + '%';
-    }
+    v.textContent = patientLabel(stat.value) + ' — ' + plainOdds(stat.value);
     row.appendChild(l);
     row.appendChild(v);
     wrap.appendChild(row);
+  }
+
+  function preciseStat(stat) {
+    return stat.ci ? stat.value + '% (95% CI ' + stat.ci[0] + '–' + stat.ci[1] + '%)' : stat.value + '%';
   }
 
   var resultsRootRef = null;
@@ -618,9 +613,13 @@
       panel.setAttribute('aria-labelledby', 'fs-tab-' + tab.id);
       if (tab.id !== state.activeTab) panel.hidden = true;
 
-      var missing = missingFields(tab);
-      var result = missing.length ? null : tab.run(state.values);
-      panel.appendChild(formatPending(tab, result, missing));
+      if (tab.isReport) {
+        panel.appendChild(renderReportPanel());
+      } else {
+        var missing = missingFields(tab);
+        var result = missing.length ? null : tab.run(state.values);
+        panel.appendChild(formatPending(tab, result, missing));
+      }
       panels.appendChild(panel);
     });
 
@@ -628,33 +627,135 @@
     root.appendChild(panels);
   }
 
-  function renderAudienceToggle(root) {
-    var wrap = document.createElement('div');
-    wrap.className = 'fs-audience';
-    ['patient', 'clinician'].forEach(function (mode) {
-      var btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'fs-audience-btn' + (state.audience === mode ? ' fs-audience-btn--active' : '');
-      btn.setAttribute('aria-pressed', state.audience === mode ? 'true' : 'false');
-      btn.textContent = mode === 'patient' ? 'Patient view' : 'Clinician view';
-      btn.addEventListener('click', function () {
-        state.audience = mode;
-        renderAudienceToggle(root);
-        renderResults(resultsRootRef);
-      });
-      wrap.appendChild(btn);
+  function modelTabs() {
+    return TABS.filter(function (t) {
+      return !t.isReport;
     });
-    root.innerHTML = '';
-    root.appendChild(wrap);
+  }
+
+  function renderReportPanel() {
+    var wrap = document.createElement('div');
+    wrap.className = 'fs-report';
+
+    var printBtn = document.createElement('button');
+    printBtn.type = 'button';
+    printBtn.className = 'btn btn-primary no-print';
+    printBtn.textContent = 'Download / print report (PDF)';
+    printBtn.addEventListener('click', function () {
+      window.print();
+    });
+    wrap.appendChild(printBtn);
+    appendEl(wrap, 'p', 'fs-report-hint no-print', 'Opens your browser’s print dialog — choose “Save as PDF” as the destination to download it.');
+
+    var doc = document.createElement('div');
+    doc.className = 'fs-report-doc';
+
+    var header = document.createElement('div');
+    header.className = 'fs-report-header';
+    var mark = document.createElement('img');
+    mark.src = '../images/foresight-logo.png';
+    mark.alt = 'Foresight by URObotics';
+    mark.className = 'fs-report-logo';
+    header.appendChild(mark);
+    var headerText = document.createElement('div');
+    var docTitle = document.createElement('div');
+    docTitle.className = 'fs-report-title';
+    docTitle.textContent = 'Personalised outcome report';
+    var docMeta = document.createElement('div');
+    docMeta.className = 'fs-report-meta';
+    docMeta.textContent = 'Generated ' + new Date().toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }) + ' · Dr. Nisanth Puliyath, Uro-Oncologist & Robotic Surgeon';
+    headerText.appendChild(docTitle);
+    headerText.appendChild(docMeta);
+    header.appendChild(headerText);
+    doc.appendChild(header);
+
+    modelTabs().forEach(function (tab) {
+      var section = document.createElement('div');
+      section.className = 'fs-report-section';
+      appendEl(section, 'h3', 'fs-report-heading', tab.label);
+
+      var missing = missingFields(tab);
+      if (missing.length) {
+        appendEl(
+          section,
+          'p',
+          'fs-report-empty',
+          'Not completed — fill in: ' +
+            missing
+              .map(function (n) {
+                var f = fieldByName(n);
+                return f ? f.label : n;
+              })
+              .join(', ')
+        );
+        doc.appendChild(section);
+        return;
+      }
+
+      var result = tab.run(state.values);
+      if (result.status === 'ok') {
+        var list = document.createElement('div');
+        list.className = 'fs-report-lines';
+        tab.reportDetail(result).forEach(function (line) {
+          var row = document.createElement('div');
+          row.className = 'fs-report-line';
+          appendEl(row, 'span', 'fs-report-line-label', line.label);
+          appendEl(row, 'span', 'fs-report-line-value', line.value);
+          list.appendChild(row);
+        });
+        section.appendChild(list);
+        if (result.note) appendEl(section, 'p', 'fs-report-note', result.note);
+        if (tab.reportNotes) {
+          tab.reportNotes(result).forEach(function (text) {
+            appendEl(section, 'p', 'fs-report-note', text);
+          });
+        }
+        appendEl(section, 'p', 'fs-report-source', result.model + ' — ' + result.citation);
+      } else {
+        appendEl(
+          section,
+          'p',
+          'fs-report-empty',
+          result.status === 'unsupported'
+            ? "Not available for this combination of details — not covered by the published data this tool uses."
+            : 'Not yet available.'
+        );
+      }
+      doc.appendChild(section);
+    });
+
+    var disclaimer = document.createElement('div');
+    disclaimer.className = 'fs-report-disclaimer';
+    appendEl(
+      disclaimer,
+      'p',
+      '',
+      'These estimates come from published, peer-reviewed prediction models and are for education only. They do not replace consultation with your urologist.'
+    );
+    appendEl(
+      disclaimer,
+      'p',
+      '',
+      'External validity: these models were derived largely in Western (or, for the surgical margin model, a single Chinese-centre) cohorts. Indian men often present with higher PSA and grade group at diagnosis, on average, than the cohorts these models were built on.'
+    );
+    doc.appendChild(disclaimer);
+
+    var footer = document.createElement('div');
+    footer.className = 'fs-report-footer';
+    footer.innerHTML =
+      '<b>Dr. Nisanth Puliyath</b> &middot; Urology &middot; Robotic Uro-Oncology &middot; Kerala, India<br>' +
+      'drnishyurology@gmail.com &middot; Foresight is a tool by URObotics. No data entered on this page is stored or transmitted; all calculations run in your browser.';
+    doc.appendChild(footer);
+
+    wrap.appendChild(doc);
+    return wrap;
   }
 
   function init() {
     var formRoot = document.getElementById('foresight-form');
     var resultsRoot = document.getElementById('foresight-results');
-    var audienceRoot = document.getElementById('foresight-audience');
     if (!formRoot || !resultsRoot) return;
     resultsRootRef = resultsRoot;
-    renderAudienceToggle(audienceRoot);
     renderForm(formRoot);
     renderResults(resultsRoot);
   }

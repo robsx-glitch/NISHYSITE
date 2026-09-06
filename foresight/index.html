@@ -17,7 +17,7 @@
 <meta property="og:title" content="Foresight by URObotics">
 <meta property="og:description" content="An educational pre-operative outcome calculator for men considering robotic radical prostatectomy, built on published prediction models.">
 <meta property="og:url" content="https://drnisanthpuliyathurologist.org/foresight/">
-<meta property="og:image" content="https://drnisanthpuliyathurologist.org/images/favicon.png">
+<meta property="og:image" content="https://drnisanthpuliyathurologist.org/images/foresight-logo.png">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Foresight by URObotics">
 <meta name="twitter:description" content="An educational pre-operative outcome calculator for men considering robotic radical prostatectomy.">
@@ -33,6 +33,9 @@
   --edge:rgba(11,16,24,.12); --edge-soft:rgba(11,16,24,.09);
   --r-sm:14px; --r-md:22px; --r-lg:32px; --r-xl:44px;
   --maxw:1180px; --pad:clamp(20px,5vw,64px);
+  /* Foresight's own accent palette, from the Foresight by URObotics logo */
+  --fs-navy:#16365c; --fs-teal:#2f9e78; --fs-teal-ink:#1f6b52;
+  --fs-gradient:linear-gradient(135deg,var(--fs-navy),var(--fs-teal));
 }
 *,*::before,*::after{ box-sizing:border-box; }
 html{ scroll-behavior:smooth; }
@@ -91,11 +94,9 @@ p:last-child{ margin-bottom:0; }
 .menu a:hover{ background:rgba(11,16,24,.05); }
 @media (max-width:860px){ .nav-links,.nav-cta{ display:none; } .burger{ display:block; } }
 
-/* lockup + gauge */
+/* lockup */
 .fs-hero{ text-align:center; padding-top:clamp(28px,5vw,48px); }
-.fs-lockup h1{ font-size:clamp(2.6rem,7vw,4.4rem); letter-spacing:-.04em; }
-.fs-lockup .by{ display:block; font-size:clamp(1rem,2vw,1.3rem); font-weight:400; color:var(--muted); letter-spacing:0; margin-top:6px; }
-.fs-gauge{ width:96px; height:64px; margin:0 auto 18px; }
+.fs-lockup-img{ max-width:min(480px,90%); margin:0 auto 8px; }
 .fs-intro{ max-width:64ch; margin:22px auto 0; text-align:center; color:var(--muted); font-size:1.05rem; }
 .fs-intro p{ margin-bottom:.5em; }
 
@@ -107,14 +108,6 @@ p:last-child{ margin-bottom:0; }
   box-shadow:0 28px 64px -34px rgba(17,38,80,.4); padding:clamp(20px,3.4vw,36px);
 }
 
-/* audience toggle */
-.fs-audience{ display:flex; justify-content:center; gap:8px; margin:32px 0 0; }
-.fs-audience-btn{
-  padding:10px 20px; border-radius:999px; font-size:13.5px; font-weight:600;
-  border:1px solid var(--edge); background:rgba(255,255,255,.7); color:var(--muted);
-}
-.fs-audience-btn--active{ background:linear-gradient(135deg,#2a90ff,#0a55c7); color:#fff; border-color:transparent; }
-
 /* form */
 .fs-form-wrap{ margin-top:22px; }
 .fs-form{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:18px; }
@@ -123,7 +116,7 @@ p:last-child{ margin-bottom:0; }
 .fs-field label{ font-size:13.5px; font-weight:600; color:var(--text); }
 .fs-tip{
   width:20px; height:20px; border-radius:50%; border:1px solid var(--edge); background:#fff;
-  font-size:11px; font-weight:700; color:var(--blue-ink); line-height:1; flex:0 0 auto;
+  font-size:11px; font-weight:700; color:var(--fs-teal-ink); line-height:1; flex:0 0 auto;
 }
 .fs-tip-text{
   display:none; font-size:12.5px; color:var(--muted); background:rgba(235,242,252,.9);
@@ -134,7 +127,7 @@ p:last-child{ margin-bottom:0; }
   font:inherit; font-size:15px; padding:12px 14px; border-radius:var(--r-sm);
   border:1px solid var(--edge); background:#fff; color:var(--text); min-height:48px;
 }
-.fs-field input:focus,.fs-field select:focus{ border-color:var(--blue-bright); }
+.fs-field input:focus,.fs-field select:focus{ border-color:var(--fs-teal); }
 .fs-field input[aria-invalid="true"],.fs-field select[aria-invalid="true"]{ border-color:#c0392b; }
 .fs-error{ min-height:16px; font-size:12.5px; color:#c0392b; margin:0; }
 
@@ -144,20 +137,20 @@ p:last-child{ margin-bottom:0; }
   padding:12px 18px; border-radius:999px; font-size:13.5px; font-weight:600;
   border:1px solid var(--edge); background:rgba(255,255,255,.7); color:var(--muted); min-height:44px;
 }
-.fs-tab[aria-selected="true"]{ background:linear-gradient(135deg,#2a90ff,#0a55c7); color:#fff; border-color:transparent; }
+.fs-tab[aria-selected="true"]{ background:var(--fs-gradient); color:#fff; border-color:transparent; }
 .fs-panels{ margin-top:18px; }
 .fs-panel{ padding:22px 24px; border-radius:var(--r-md); background:rgba(255,255,255,.75); border:1px solid var(--edge-soft); }
 .fs-need{ font-size:14.5px; color:var(--muted); }
 .fs-status{ font-family:'Inter Tight',sans-serif; font-weight:700; font-size:1.05rem; margin-bottom:6px; }
 .fs-status--pending{ color:#a8681b; }
-.fs-status--ok{ color:#0a55c7; }
+.fs-status--ok{ color:var(--fs-navy); }
 .fs-stat-row{
   display:flex; flex-wrap:wrap; justify-content:space-between; gap:8px 16px;
   padding:10px 0; border-bottom:1px solid var(--edge-soft); font-size:14.5px;
 }
 .fs-stat-row:last-of-type{ border-bottom:none; }
 .fs-stat-label{ color:var(--text); font-weight:600; }
-.fs-stat-value{ color:var(--blue-ink); font-weight:600; text-align:right; }
+.fs-stat-value{ color:var(--fs-teal-ink); font-weight:600; text-align:right; }
 .fs-interp{ font-size:14.5px; color:var(--text); }
 .fs-model{ font-size:13px; color:var(--muted); font-style:italic; }
 .fs-citation{ font-size:12.5px; color:var(--muted); margin-top:10px; }
@@ -175,8 +168,36 @@ p:last-child{ margin-bottom:0; }
   display:inline-flex; align-items:center; gap:8px; font-family:'Inter Tight',sans-serif;
   font-size:14.5px; font-weight:600; padding:14px 24px; border-radius:999px;
 }
-.btn-primary{ background:linear-gradient(135deg,#2a90ff,#0a55c7); color:#fff; box-shadow:0 18px 38px -16px rgba(10,85,199,.75); }
+.btn-primary{ background:var(--fs-gradient); color:#fff; box-shadow:0 18px 38px -16px rgba(22,54,92,.55); }
 .btn-ghost{ background:rgba(255,255,255,.8); border:1px solid var(--edge); color:var(--text); }
+
+/* report tab */
+.fs-report{ display:flex; flex-direction:column; gap:22px; align-items:flex-start; }
+.fs-report-hint{ font-size:12.5px; color:var(--muted); margin-top:-14px; }
+.fs-report-doc{ width:100%; }
+.fs-report-header{ display:flex; align-items:center; gap:16px; padding-bottom:18px; border-bottom:2px solid var(--fs-teal); margin-bottom:18px; }
+.fs-report-logo{ width:52px; height:auto; flex:0 0 auto; }
+.fs-report-title{ font-family:'Inter Tight',sans-serif; font-weight:700; font-size:1.15rem; color:var(--fs-navy); }
+.fs-report-meta{ font-size:12.5px; color:var(--muted); margin-top:2px; }
+.fs-report-section{ margin-bottom:20px; }
+.fs-report-heading{ font-family:'Inter Tight',sans-serif; font-weight:700; font-size:1rem; color:var(--fs-navy); margin:0 0 8px; }
+.fs-report-lines{ display:flex; flex-direction:column; gap:6px; }
+.fs-report-line{ display:flex; flex-wrap:wrap; justify-content:space-between; gap:6px 16px; font-size:13.5px; }
+.fs-report-line-label{ color:var(--text); }
+.fs-report-line-value{ color:var(--fs-teal-ink); font-weight:600; text-align:right; }
+.fs-report-note,.fs-report-source{ font-size:12px; color:var(--muted); margin-top:6px; }
+.fs-report-empty{ font-size:13.5px; color:var(--muted); font-style:italic; }
+.fs-report-disclaimer{ font-size:12px; color:var(--muted); border-top:1px solid var(--edge-soft); padding-top:14px; margin-top:6px; }
+.fs-report-footer{ font-size:11.5px; color:var(--muted); margin-top:14px; line-height:1.6; }
+
+@media print{
+  .nav, .menu, .fs-hero, .fs-form-wrap, .fs-tablist, .fs-note, .fs-cta-row, footer, .no-print{ display:none !important; }
+  body{ background:#fff !important; }
+  main.wrap.band{ padding:0 !important; max-width:100% !important; }
+  .fs-panels, .fs-panel{ padding:0 !important; margin:0 !important; border:none !important; box-shadow:none !important; background:#fff !important; border-radius:0 !important; }
+  .fs-panel[hidden]{ display:none !important; }
+  .fs-report{ gap:0; }
+}
 
 /* footer */
 footer{ padding:34px 0 44px; border-top:1px solid var(--edge-soft); margin-top:20px; }
@@ -225,22 +246,13 @@ footer{ padding:34px 0 44px; border-top:1px solid var(--edge-soft); margin-top:2
 <main class="wrap band">
 
   <div class="fs-hero">
-    <svg class="fs-gauge" viewBox="0 0 100 64" aria-hidden="true">
-      <path d="M6 60 A44 44 0 0 1 94 60" fill="none" stroke="#0a55c7" stroke-width="8" stroke-linecap="round"/>
-      <line x1="50" y1="60" x2="76" y2="26" stroke="#0a55c7" stroke-width="4" stroke-linecap="round"/>
-      <circle cx="50" cy="60" r="5" fill="#0a55c7"/>
-    </svg>
-    <div class="fs-lockup">
-      <h1>Foresight<span class="by">by URObotics</span></h1>
-    </div>
+    <h1><img class="fs-lockup-img" src="../images/foresight-logo.png" alt="Foresight by URObotics — clarity before the cut"></h1>
     <div class="fs-intro">
       <p>Foresight estimates likely outcomes of robotic radical prostatectomy from the details in your biopsy and MRI report.</p>
       <p>It is built for men weighing surgery and the clinicians discussing it with them.</p>
       <p><strong>It is educational only, and does not replace a consultation with your urologist.</strong></p>
     </div>
   </div>
-
-  <div id="foresight-audience"></div>
 
   <div class="glass fs-form-wrap">
     <h2 style="font-size:1.3rem;margin-bottom:4px">Your details</h2>
