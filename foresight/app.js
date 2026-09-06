@@ -197,10 +197,13 @@
       requires: ['psa', 'gradeGroup', 'maxLesionDiameterMM', 'percentClinicallySignificantCores', 'mriEPE', 'mriSVI'],
       renderOk: function (result, wrap) {
         renderStatRow(wrap, 'Lymph node involvement', { value: result.probabilityPercent, ci: null });
-        appendEl(wrap, 'p', 'fs-interp', result.thresholdNote);
+        appendEl(wrap, 'p', 'fs-interp', humanize(result.thresholdNote));
       },
       reportDetail: function (result) {
         return [{ label: 'Lymph node involvement', value: result.probabilityPercent + '%' }];
+      },
+      reportNotes: function (result) {
+        return [humanize(result.thresholdNote)];
       },
       run: function (v) {
         return models.predictLymphNodeInvasion({
@@ -488,7 +491,7 @@
     if (result.status === 'ok') {
       appendEl(wrap, 'p', 'fs-status fs-status--ok', 'Estimate');
       if (tab.renderOk) tab.renderOk(result, wrap);
-      if (result.note) appendEl(wrap, 'p', 'fs-interp', result.note);
+      if (result.note) appendEl(wrap, 'p', 'fs-interp', humanize(result.note));
       appendEl(wrap, 'p', 'fs-model', 'Model: ' + result.model);
       appendEl(wrap, 'p', 'fs-citation', result.citation);
       appendValidityNote(wrap);
@@ -516,6 +519,14 @@
     el.textContent = text;
     parent.appendChild(el);
     return el;
+  }
+
+  // Model-source comments use the "TODO_VERIFY:" prefix as an internal flag
+  // for what's been checked; strip it before any such note reaches the UI.
+  function humanize(text) {
+    if (!text) return text;
+    var stripped = text.replace(/^TODO_VERIFY:\s*/, '');
+    return stripped.charAt(0).toUpperCase() + stripped.slice(1);
   }
 
   function appendValidityNote(wrap) {
@@ -633,6 +644,174 @@
     });
   }
 
+  function dashCard(label, valueText, subText, muted) {
+    var card = document.createElement('div');
+    card.className = 'fs-dash-card';
+    appendEl(card, 'div', 'fs-dash-card-label', label);
+    appendEl(card, 'div', 'fs-dash-card-value' + (muted ? ' fs-dash-card-value--muted' : ''), valueText);
+    if (subText) appendEl(card, 'div', 'fs-dash-card-sub', subText);
+    return card;
+  }
+
+  function buildDashboard(byId) {
+    var wrap = document.createElement('div');
+    var grid = document.createElement('div');
+    grid.className = 'fs-report-dash';
+
+    var stage = byId.stage;
+    if (stage.result && stage.result.status === 'ok') {
+      var sr = stage.result;
+      grid.appendChild(
+        dashCard(
+          'Organ-confined disease',
+          sr.organConfined.value + '%',
+          'Extraprostatic extension ' +
+            sr.extraprostaticExtension.value +
+            '% · Seminal vesicle invasion ' +
+            sr.seminalVesicleInvasion.value +
+            '% · Node involvement ' +
+            sr.lymphNodeInvolvement.value +
+            '%'
+        )
+      );
+    } else {
+      grid.appendChild(dashCard('Organ-confined disease', '—', stage.missing.length ? 'Not completed' : 'Not available for these details', true));
+    }
+
+    var lni = byId.lni;
+    if (lni.result && lni.result.status === 'ok') {
+      grid.appendChild(dashCard('Lymph node involvement risk', lni.result.probabilityPercent + '%', 'Briganti 2019 nomogram *'));
+    } else {
+      grid.appendChild(dashCard('Lymph node involvement risk', '—', lni.missing.length ? 'Not completed' : 'Not available', true));
+    }
+
+    var margin = byId.margin;
+    if (margin.result && margin.result.status === 'ok') {
+      grid.appendChild(dashCard('Positive surgical margin risk', margin.result.probabilityPercent + '%', 'Pre-operative model †'));
+    } else {
+      grid.appendChild(dashCard('Positive surgical margin risk', '—', margin.missing.length ? 'Not completed' : 'Not available', true));
+    }
+
+    var continence = byId.continence;
+    if (continence.result && continence.result.status === 'ok') {
+      var c = continence.result.cohortIncontinencePercent;
+      var tierLabel = { early: 'Early', intermediate: 'Intermediate', delayed: 'Delayed' }[continence.result.tier];
+      grid.appendChild(
+        dashCard(
+          'Expected continence recovery',
+          tierLabel,
+          'Cohort average continent: ' + (100 - c.sixMonth) + '% at 6mo · ' + (100 - c.twelveMonth) + '% at 12mo · ' + (100 - c.twentyFourMonth) + '% at 24mo'
+        )
+      );
+    } else {
+      grid.appendChild(dashCard('Expected continence recovery', '—', continence.missing.length ? 'Not completed' : 'Not available', true));
+    }
+
+    wrap.appendChild(grid);
+    appendEl(
+      wrap,
+      'p',
+      'fs-report-dash-notes',
+      '* No published decision threshold for offering extended pelvic lymph node dissection is stated in the source manual — the raw estimated probability is shown instead. ' +
+        '† No published numeric risk-tier cut-offs are stated in the source paper — the raw estimated probability is shown instead.'
+    );
+    return wrap;
+  }
+
+  // Continuous green-to-red gradient by estimated risk. Not a clinical
+  // threshold — just a visual cue, since none of the source papers state one.
+  function riskColor(pct) {
+    if (pct == null || isNaN(pct)) return '#a7b1c2';
+    var p = Math.max(0, Math.min(50, pct));
+    var hue = 128 - (p / 50) * 128;
+    return 'hsl(' + Math.round(hue) + ',60%,42%)';
+  }
+
+  function nerveStyle(spared) {
+    if (spared === true) return { stroke: '#2f8a5b', dash: 'none' };
+    if (spared === false) return { stroke: '#a7b1c2', dash: '5,4' };
+    return { stroke: '#c7cedb', dash: '2,4' };
+  }
+
+  function buildAnatomySvg(capsuleColor, svColor, lnColor, nerveLeftSpared, nerveRightSpared) {
+    var nl = nerveStyle(nerveLeftSpared);
+    var nr = nerveStyle(nerveRightSpared);
+    return (
+      '<svg class="fs-anatomy-svg" viewBox="0 0 220 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">' +
+      '<ellipse cx="110" cy="30" rx="46" ry="22" fill="#dbe6f5" stroke="#9db3cf" stroke-width="2"/>' +
+      '<ellipse cx="80" cy="58" rx="15" ry="9" fill="' + svColor + '" stroke="#5a6b85" stroke-width="1.5"/>' +
+      '<ellipse cx="140" cy="58" rx="15" ry="9" fill="' + svColor + '" stroke="#5a6b85" stroke-width="1.5"/>' +
+      '<circle cx="30" cy="95" r="5" fill="' + lnColor + '"/><circle cx="26" cy="112" r="5" fill="' + lnColor + '"/><circle cx="32" cy="129" r="5" fill="' + lnColor + '"/>' +
+      '<circle cx="190" cy="95" r="5" fill="' + lnColor + '"/><circle cx="194" cy="112" r="5" fill="' + lnColor + '"/><circle cx="188" cy="129" r="5" fill="' + lnColor + '"/>' +
+      '<line x1="64" y1="82" x2="58" y2="148" stroke="' + nl.stroke + '" stroke-width="5" stroke-linecap="round" stroke-dasharray="' + nl.dash + '"/>' +
+      '<line x1="156" y1="82" x2="162" y2="148" stroke="' + nr.stroke + '" stroke-width="5" stroke-linecap="round" stroke-dasharray="' + nr.dash + '"/>' +
+      '<circle cx="110" cy="112" r="44" fill="#ffffff" stroke="' + capsuleColor + '" stroke-width="5"/>' +
+      '<line x1="110" y1="96" x2="110" y2="188" stroke="#b7c2d6" stroke-width="3" stroke-dasharray="2,3"/>' +
+      '</svg>'
+    );
+  }
+
+  function buildAnatomy(byId) {
+    var stage = byId.stage.result && byId.stage.result.status === 'ok' ? byId.stage.result : null;
+    var lni = byId.lni.result && byId.lni.result.status === 'ok' ? byId.lni.result : null;
+
+    var capsulePct = stage ? stage.extraprostaticExtension.value : null;
+    var svPct = stage ? stage.seminalVesicleInvasion.value : null;
+    var lnPct = lni ? lni.probabilityPercent : stage ? stage.lymphNodeInvolvement.value : null;
+
+    var nerveRaw = state.values.nerveSparing;
+    var nerveLeft = null;
+    var nerveRight = null;
+    var nerveCaption = 'Not yet discussed with your surgeon.';
+    if (nerveRaw === 'bilateral') {
+      nerveLeft = true;
+      nerveRight = true;
+      nerveCaption = 'Bilateral nerve-sparing planned.';
+    } else if (nerveRaw === 'unilateral') {
+      nerveLeft = true;
+      nerveRight = false;
+      nerveCaption = 'Unilateral nerve-sparing planned (this form does not capture which side).';
+    } else if (nerveRaw === 'none') {
+      nerveLeft = false;
+      nerveRight = false;
+      nerveCaption = 'No nerve-sparing planned.';
+    } else if (nerveRaw === 'undecided') {
+      nerveCaption = 'Nerve-sparing plan not yet decided.';
+    }
+
+    var wrap = document.createElement('div');
+    wrap.className = 'fs-anatomy';
+    wrap.innerHTML = buildAnatomySvg(riskColor(capsulePct), riskColor(svPct), riskColor(lnPct), nerveLeft, nerveRight);
+
+    var legend = document.createElement('div');
+    legend.className = 'fs-anatomy-legend';
+
+    function row(color, label, valueText) {
+      var r = document.createElement('div');
+      r.className = 'fs-anatomy-legend-row';
+      var sw = document.createElement('span');
+      sw.className = 'fs-anatomy-swatch';
+      sw.style.background = color;
+      r.appendChild(sw);
+      appendEl(r, 'span', '', label + (valueText ? ' — ' + valueText : ''));
+      legend.appendChild(r);
+    }
+
+    row(riskColor(capsulePct), 'Prostate capsule (extraprostatic extension risk)', capsulePct != null ? capsulePct + '%' : 'complete the pathological stage tab');
+    row(riskColor(svPct), 'Seminal vesicles (invasion risk)', svPct != null ? svPct + '%' : 'complete the pathological stage tab');
+    row(
+      riskColor(lnPct),
+      'Pelvic lymph nodes (involvement risk)',
+      lnPct != null ? lnPct + '%' + (lni ? ' (Briganti 2019)' : stage ? ' (Partin Tables)' : '') : 'complete a lymph node tab'
+    );
+    row(nerveLeft === true || nerveRight === true ? '#2f8a5b' : '#a7b1c2', 'Neurovascular bundles', nerveCaption);
+
+    appendEl(legend, 'p', 'fs-anatomy-caption', 'Schematic only, not to scale. Colour shifts from green toward red as the corresponding estimated risk increases.');
+
+    wrap.appendChild(legend);
+    return wrap;
+  }
+
   function renderReportPanel() {
     var wrap = document.createElement('div');
     wrap.className = 'fs-report';
@@ -669,12 +848,21 @@
     header.appendChild(headerText);
     doc.appendChild(header);
 
+    var byId = {};
+    modelTabs().forEach(function (tab) {
+      var missing = missingFields(tab);
+      byId[tab.id] = { missing: missing, result: missing.length ? null : tab.run(state.values) };
+    });
+
+    doc.appendChild(buildDashboard(byId));
+    doc.appendChild(buildAnatomy(byId));
+
     modelTabs().forEach(function (tab) {
       var section = document.createElement('div');
       section.className = 'fs-report-section';
       appendEl(section, 'h3', 'fs-report-heading', tab.label);
 
-      var missing = missingFields(tab);
+      var missing = byId[tab.id].missing;
       if (missing.length) {
         appendEl(
           section,
@@ -692,7 +880,7 @@
         return;
       }
 
-      var result = tab.run(state.values);
+      var result = byId[tab.id].result;
       if (result.status === 'ok') {
         var list = document.createElement('div');
         list.className = 'fs-report-lines';
@@ -704,7 +892,7 @@
           list.appendChild(row);
         });
         section.appendChild(list);
-        if (result.note) appendEl(section, 'p', 'fs-report-note', result.note);
+        if (result.note) appendEl(section, 'p', 'fs-report-note', humanize(result.note));
         if (tab.reportNotes) {
           tab.reportNotes(result).forEach(function (text) {
             appendEl(section, 'p', 'fs-report-note', text);
