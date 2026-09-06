@@ -463,15 +463,24 @@
     return stat.ci ? stat.value + '% (95% CI ' + stat.ci[0] + '–' + stat.ci[1] + '%)' : stat.value + '%';
   }
 
+  var letterheadRootRef = null;
   var tabsRootRef = null;
   var resultsRootRef = null;
 
-  // Tabs render above the "Your details" form; panels render below it —
-  // both reflect the same state.activeTab, so a click or a field edit
-  // re-renders both together.
+  // Letterhead, tabs, and panels all reflect the same state.activeTab, so
+  // a click or a field edit re-renders all three together. Letterhead sits
+  // above the tabs, which sit above the "Your details" form.
   function render() {
+    renderLetterhead();
     renderTabs();
     renderPanels();
+  }
+
+  function renderLetterhead() {
+    var root = letterheadRootRef;
+    if (!root) return;
+    root.innerHTML = '';
+    root.appendChild(buildLetterhead());
   }
 
   function renderTabs() {
@@ -763,32 +772,45 @@
     return box;
   }
 
-  function buildPrintHeader() {
-    var ph = document.createElement('div');
-    ph.className = 'fs-print-header';
+  // Shared letterhead: logo + title stay visible on every tab; the
+  // clinician/patient-inputs metadata bar only shows on the Outcome
+  // Calculator tab, since it's meaningless on the static How/Help tabs.
+  // This single header serves both the on-screen page and the printed
+  // report (print CSS below just re-sizes it).
+  function buildLetterhead() {
+    var wrap = document.createElement('div');
+    wrap.className = 'fs-letterhead';
     var mark = document.createElement('img');
     mark.src = '../images/foresight-logo.png';
     mark.alt = 'Foresight by URObotics';
-    mark.className = 'fs-print-logo';
-    ph.appendChild(mark);
-    appendEl(ph, 'div', 'fs-print-title', 'Foresight Clarity Report');
-    appendEl(ph, 'div', 'fs-print-subtitle', 'Personalized Pre-Operative Risk Assessment & Surgical Trajectory');
-    var meta = document.createElement('div');
-    meta.className = 'fs-print-meta';
-    meta.innerHTML =
-      'Clinician: Dr. Nisanth Puliyath, Uro-Oncologist &amp; Robotic Surgeon &middot; Date generated: ' +
-      new Date().toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }) +
-      '<br>Age <b>' +
-      (state.values.age || '—') +
-      '</b> &middot; Pre-op PSA <b>' +
-      (state.values.psa ? state.values.psa + ' ng/mL' : '—') +
-      '</b> &middot; Clinical T-stage <b>' +
-      (state.values.clinicalStage || '—') +
-      '</b> &middot; Biopsy grade group <b>' +
-      (state.values.gradeGroup || '—') +
-      '</b>';
-    ph.appendChild(meta);
-    return ph;
+    mark.className = 'fs-letterhead-logo';
+    wrap.appendChild(mark);
+    appendEl(wrap, 'h2', 'fs-letterhead-title', 'Foresight Clarity Report');
+
+    if (state.activeTab === 'calculator') {
+      var meta = document.createElement('div');
+      meta.className = 'fs-letterhead-meta';
+      appendEl(
+        meta,
+        'div',
+        'fs-letterhead-clinician',
+        'Clinician: Dr. Nisanth Puliyath, Uro-Oncologist & Robotic Surgeon'
+      );
+      var badges = document.createElement('div');
+      badges.className = 'fs-letterhead-badges';
+      [
+        ['Age', state.values.age],
+        ['PSA', state.values.psa ? state.values.psa + ' ng/mL' : null],
+        ['Stage', state.values.clinicalStage],
+        ['Grade group', state.values.gradeGroup],
+      ].forEach(function (pair) {
+        appendEl(badges, 'span', 'fs-badge', pair[0] + ' ' + (pair[1] || '—'));
+      });
+      meta.appendChild(badges);
+      wrap.appendChild(meta);
+    }
+
+    return wrap;
   }
 
   function buildCalculatorPanel() {
@@ -807,45 +829,6 @@
 
     var doc = document.createElement('div');
     doc.className = 'fs-report-doc';
-
-    // Print gets its own centered letterhead (buildPrintHeader); the
-    // on-screen header below is hidden in @media print instead of shown
-    // twice.
-    doc.appendChild(buildPrintHeader());
-
-    var header = document.createElement('div');
-    header.className = 'fs-report-header';
-    var mark = document.createElement('img');
-    mark.src = '../images/foresight-logo.png';
-    mark.alt = 'Foresight by URObotics';
-    mark.className = 'fs-report-logo';
-    header.appendChild(mark);
-
-    var headerText = document.createElement('div');
-    appendEl(headerText, 'div', 'fs-report-title', 'Foresight Clarity Report');
-    appendEl(headerText, 'div', 'fs-report-subtitle', 'Personalized Pre-Operative Risk Assessment & Surgical Trajectory');
-    appendEl(
-      headerText,
-      'div',
-      'fs-report-meta',
-      'Clinician: Dr. Nisanth Puliyath, Uro-Oncologist & Robotic Surgeon · Date generated: ' +
-        new Date().toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })
-    );
-    var inputsLine = document.createElement('div');
-    inputsLine.className = 'fs-report-inputs';
-    inputsLine.innerHTML =
-      'Age <b>' +
-      (state.values.age || '—') +
-      '</b> · Pre-op PSA <b>' +
-      (state.values.psa ? state.values.psa + ' ng/mL' : '—') +
-      '</b> · Clinical T-stage <b>' +
-      (state.values.clinicalStage || '—') +
-      '</b> · Biopsy grade group <b>' +
-      (state.values.gradeGroup || '—') +
-      '</b>';
-    headerText.appendChild(inputsLine);
-    header.appendChild(headerText);
-    doc.appendChild(header);
 
     var byId = {};
     MODELS.forEach(function (model) {
@@ -1055,10 +1038,12 @@
   }
 
   function init() {
+    var letterheadRoot = document.getElementById('foresight-letterhead');
     var tabsRoot = document.getElementById('foresight-tabs');
     var formRoot = document.getElementById('foresight-form');
     var resultsRoot = document.getElementById('foresight-results');
-    if (!tabsRoot || !formRoot || !resultsRoot) return;
+    if (!letterheadRoot || !tabsRoot || !formRoot || !resultsRoot) return;
+    letterheadRootRef = letterheadRoot;
     tabsRootRef = tabsRoot;
     resultsRootRef = resultsRoot;
     renderForm(formRoot);

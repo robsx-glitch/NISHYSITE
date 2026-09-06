@@ -151,6 +151,26 @@ p:last-child{ margin-bottom:0; }
 .fs-field input[aria-invalid="true"],.fs-field select[aria-invalid="true"]{ border-color:#c0392b; }
 .fs-error{ min-height:16px; font-size:12.5px; color:#c0392b; margin:0; }
 
+/* letterhead — logo + title stay visible on every tab; the clinician /
+   patient-input badges only show while the Outcome Calculator tab is
+   active. Serves both the on-screen page and the printed report. */
+.fs-letterhead{ text-align:center; padding-top:4px; margin-bottom:26px; }
+.fs-letterhead-logo{ height:88px; width:auto; margin:0 auto 12px; display:block; }
+.fs-letterhead-title{
+  font-family:'Inter Tight',sans-serif; font-weight:800; font-size:1.6rem; letter-spacing:-.01em;
+  color:var(--fs-navy); text-transform:uppercase; margin:0 0 16px;
+}
+.fs-letterhead-meta{
+  display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:10px 18px;
+  border-bottom:2px solid var(--edge-soft); padding-bottom:16px; max-width:640px; margin:0 auto;
+}
+.fs-letterhead-clinician{ font-size:13.5px; color:var(--text); }
+.fs-letterhead-badges{ display:flex; flex-wrap:wrap; gap:8px; justify-content:center; }
+.fs-badge{
+  font-size:12.5px; font-weight:700; padding:5px 13px; border-radius:999px;
+  background:rgba(34,83,127,.08); color:var(--fs-navy); border:1px solid rgba(34,83,127,.16);
+}
+
 /* tabs — primary nav, sits above the form */
 .fs-tabs-wrap{ margin-bottom:24px; }
 .fs-tablist{ display:flex; flex-wrap:wrap; gap:12px; margin:0; }
@@ -180,13 +200,6 @@ p:last-child{ margin-bottom:0; }
 .fs-report{ display:flex; flex-direction:column; gap:22px; align-items:flex-start; }
 .fs-report-hint{ font-size:12.5px; color:var(--muted); margin-top:-14px; }
 .fs-report-doc{ width:100%; }
-.fs-report-header{ display:flex; align-items:center; gap:16px; padding-bottom:18px; border-bottom:2px solid var(--fs-teal); margin-bottom:18px; }
-.fs-report-logo{ width:52px; height:auto; flex:0 0 auto; }
-.fs-report-title{ font-family:'Inter Tight',sans-serif; font-weight:800; font-size:1.2rem; letter-spacing:.01em; color:var(--fs-navy); text-transform:uppercase; }
-.fs-report-subtitle{ font-size:13px; color:var(--fs-teal-ink); font-weight:600; margin-top:2px; }
-.fs-report-meta{ font-size:12.5px; color:var(--muted); margin-top:6px; line-height:1.55; }
-.fs-report-inputs{ font-size:12.5px; color:var(--text); margin-top:2px; }
-.fs-report-inputs b{ color:var(--fs-navy); }
 .fs-report-section{ margin-bottom:20px; }
 .fs-report-heading{ font-family:'Inter Tight',sans-serif; font-weight:700; font-size:1rem; color:var(--fs-navy); margin:0 0 8px; }
 .fs-report-lines{ display:flex; flex-direction:column; gap:6px; }
@@ -245,9 +258,6 @@ p:last-child{ margin-bottom:0; }
 .fs-anatomy-swatch{ width:12px; height:12px; border-radius:3px; flex:0 0 auto; margin-top:3px; }
 .fs-anatomy-caption{ font-size:11px; color:var(--muted); margin-top:2px; }
 
-/* print-only "Centered Hero" letterhead — hidden on screen, shown only in @media print below */
-.fs-print-header{ display:none; }
-
 @page{ size:A4 portrait; margin:12mm 15mm; }
 @media print{
   .nav, .menu, .fs-hero-band, .fs-form-wrap, .fs-tabs-wrap, .fs-note, .fs-cta-row, footer,
@@ -259,17 +269,13 @@ p:last-child{ margin-bottom:0; }
   .fs-panel[hidden]{ display:none !important; }
   .fs-report{ display:block; gap:0; }
 
-  /* Centered Hero letterhead replaces the on-screen left-aligned header */
-  .fs-report-header{ display:none !important; }
-  .fs-print-header{
-    display:flex; flex-direction:column; align-items:center; text-align:center;
-    border-bottom:2px solid #e2e8f0; padding-bottom:10px; margin-bottom:14px;
-  }
-  .fs-print-logo{ max-height:100px; width:auto; margin:0 auto 8px; }
-  .fs-print-title{ font-family:'Inter Tight',sans-serif; font-weight:800; font-size:20pt; letter-spacing:-.01em; color:var(--fs-navy); text-transform:uppercase; }
-  .fs-print-subtitle{ font-size:11pt; color:#64748b; margin-top:3px; }
-  .fs-print-meta{ font-size:9pt; color:#475569; margin-top:10px; line-height:1.6; }
-  .fs-print-meta b{ color:var(--fs-navy); }
+  /* Same shared letterhead as on screen, just re-sized to fit one page */
+  .fs-letterhead{ margin-bottom:14px; }
+  .fs-letterhead-logo{ height:100px; margin-bottom:8px; }
+  .fs-letterhead-title{ font-size:20pt; margin-bottom:10px; }
+  .fs-letterhead-meta{ padding-bottom:10px; gap:6px 14px; }
+  .fs-letterhead-clinician{ font-size:9pt; color:#475569; }
+  .fs-badge{ font-size:8pt; padding:3px 10px; }
 
   .fs-report-dash{ grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:10px; }
   .fs-dash-card{ border:1px solid #ccc; padding:7px 9px; break-inside:avoid; }
@@ -347,6 +353,8 @@ footer{ padding:34px 0 44px; border-top:1px solid var(--edge-soft); margin-top:2
 </div>
 
 <main class="wrap band">
+
+  <div id="foresight-letterhead"></div>
 
   <div id="foresight-tabs" class="fs-tabs-wrap"></div>
 
