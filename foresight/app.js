@@ -289,8 +289,8 @@
   ];
 
   var NAV_TABS = [
-    { id: 'calculator', label: 'Outcome Calculator' },
     { id: 'how', label: 'How Foresight Works' },
+    { id: 'calculator', label: 'Outcome Calculator' },
     { id: 'help', label: 'Need Help Filling This Out?' },
   ];
 
