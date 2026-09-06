@@ -164,7 +164,11 @@
     },
   ];
 
-  var TABS = [
+  // ---------------------------------------------------------------------
+  // Per-model definitions — feed the dashboard + detail sections on the
+  // "Outcome Calculator" tab. Not tabs themselves any more; see NAV_TABS.
+  // ---------------------------------------------------------------------
+  var MODELS = [
     {
       id: 'stage',
       label: 'Pathological stage',
@@ -175,12 +179,6 @@
           clinicalStage: v.clinicalStage,
           gradeGroup: Number(v.gradeGroup),
         });
-      },
-      renderOk: function (result, wrap) {
-        renderStatRow(wrap, 'Organ-confined disease', result.organConfined);
-        renderStatRow(wrap, 'Extraprostatic extension', result.extraprostaticExtension);
-        renderStatRow(wrap, 'Seminal vesicle invasion', result.seminalVesicleInvasion);
-        renderStatRow(wrap, 'Lymph node involvement', result.lymphNodeInvolvement);
       },
       reportDetail: function (result) {
         return [
@@ -195,16 +193,6 @@
       id: 'lni',
       label: 'Lymph node risk',
       requires: ['psa', 'gradeGroup', 'maxLesionDiameterMM', 'percentClinicallySignificantCores', 'mriEPE', 'mriSVI'],
-      renderOk: function (result, wrap) {
-        renderStatRow(wrap, 'Lymph node involvement', { value: result.probabilityPercent, ci: null });
-        appendEl(wrap, 'p', 'fs-interp', humanize(result.thresholdNote));
-      },
-      reportDetail: function (result) {
-        return [{ label: 'Lymph node involvement', value: result.probabilityPercent + '%' }];
-      },
-      reportNotes: function (result) {
-        return [humanize(result.thresholdNote)];
-      },
       run: function (v) {
         return models.predictLymphNodeInvasion({
           psa: Number(v.psa),
@@ -214,6 +202,12 @@
           mriEPE: v.mriEPE === 'yes',
           mriSVI: v.mriSVI === 'yes',
         });
+      },
+      reportDetail: function (result) {
+        return [{ label: 'Lymph node involvement', value: result.probabilityPercent + '%' }];
+      },
+      reportNotes: function (result) {
+        return [humanize(result.thresholdNote)];
       },
     },
     {
@@ -231,12 +225,6 @@
         'percentTumorAcrossCores',
         'tumorLocation',
       ],
-      renderOk: function (result, wrap) {
-        renderStatRow(wrap, 'Positive surgical margin', { value: result.probabilityPercent, ci: null });
-      },
-      reportDetail: function (result) {
-        return [{ label: 'Positive surgical margin', value: result.probabilityPercent + '%' }];
-      },
       run: function (v) {
         return models.predictPositiveSurgicalMargin({
           age: Number(v.age),
@@ -251,6 +239,9 @@
           tumorLocation: v.tumorLocation,
         });
       },
+      reportDetail: function (result) {
+        return [{ label: 'Positive surgical margin', value: result.probabilityPercent + '%' }];
+      },
     },
     {
       id: 'continence',
@@ -261,33 +252,6 @@
           age: Number(v.age),
           erectileFunctionFirm: v.erectileFunctionFirm === 'yes',
         });
-      },
-      renderOk: function (result, wrap) {
-        var tierLabel = { early: 'Early', intermediate: 'Intermediate', delayed: 'Delayed' }[result.tier];
-        var row = document.createElement('div');
-        row.className = 'fs-stat-row';
-        var l = document.createElement('span');
-        l.className = 'fs-stat-label';
-        l.textContent = 'Expected continence recovery';
-        var v2 = document.createElement('span');
-        v2.className = 'fs-stat-value';
-        v2.textContent = tierLabel;
-        row.appendChild(l);
-        row.appendChild(v2);
-        wrap.appendChild(row);
-
-        appendEl(
-          wrap,
-          'p',
-          'fs-interp',
-          'In the published study this is based on, about ' +
-            result.cohortIncontinencePercent.sixMonth +
-            '% of men overall were not yet continent at 6 months, ' +
-            result.cohortIncontinencePercent.twelveMonth +
-            '% at 12 months, and ' +
-            result.cohortIncontinencePercent.twentyFourMonth +
-            '% at 24 months — most men keep improving over the first two years.'
-        );
       },
       reportDetail: function (result) {
         var tierLabel = { early: 'Early', intermediate: 'Intermediate', delayed: 'Delayed' }[result.tier];
@@ -322,17 +286,18 @@
         });
       },
     },
-    {
-      id: 'report',
-      label: 'Generate report',
-      isReport: true,
-    },
+  ];
+
+  var NAV_TABS = [
+    { id: 'calculator', label: 'Outcome Calculator' },
+    { id: 'how', label: 'How Foresight Works' },
+    { id: 'help', label: 'Need Help Filling This Out?' },
   ];
 
   var state = {
     values: {},
     errors: {},
-    activeTab: TABS[0].id,
+    activeTab: NAV_TABS[0].id,
   };
 
   function fieldByName(name) {
@@ -359,16 +324,8 @@
     return null;
   }
 
-  function isTabReady(tab) {
-    return tab.requires.every(function (name) {
-      var f = fieldByName(name);
-      var v = state.values[name];
-      return v !== undefined && v !== '' && !validate(f, v);
-    });
-  }
-
-  function missingFields(tab) {
-    return tab.requires.filter(function (name) {
+  function missingFields(model) {
+    return model.requires.filter(function (name) {
       var f = fieldByName(name);
       var v = state.values[name];
       return v === undefined || v === '' || !!validate(f, v);
@@ -376,7 +333,7 @@
   }
 
   // ---------------------------------------------------------------------
-  // Rendering
+  // Form rendering
   // ---------------------------------------------------------------------
   function renderForm(root) {
     var form = document.createElement('div');
@@ -469,50 +426,6 @@
     root.appendChild(form);
   }
 
-  function formatPending(tab, result, missing) {
-    var wrap = document.createElement('div');
-    wrap.className = 'fs-result';
-
-    if (missing.length) {
-      var need = document.createElement('p');
-      need.className = 'fs-need';
-      need.textContent =
-        'Fill in: ' +
-        missing
-          .map(function (n) {
-            var f = fieldByName(n);
-            return f ? f.label : n;
-          })
-          .join(', ');
-      wrap.appendChild(need);
-      return wrap;
-    }
-
-    if (result.status === 'ok') {
-      appendEl(wrap, 'p', 'fs-status fs-status--ok', 'Estimate');
-      if (tab.renderOk) tab.renderOk(result, wrap);
-      if (result.note) appendEl(wrap, 'p', 'fs-interp', humanize(result.note));
-      appendEl(wrap, 'p', 'fs-model', 'Model: ' + result.model);
-      appendEl(wrap, 'p', 'fs-citation', result.citation);
-      appendValidityNote(wrap);
-      return wrap;
-    }
-
-    // status is 'unsupported' or 'pending'
-    var statusText = result.status === 'unsupported' ? 'Not available for this combination.' : 'Not yet available.';
-    appendEl(wrap, 'p', 'fs-status fs-status--pending', statusText);
-
-    var interpText =
-      result.status === 'unsupported'
-        ? "This exact combination of details isn't covered by the published data this tool uses."
-        : 'This estimate is not published in a form we can safely calculate yet, so it is left blank rather than guessed.';
-    appendEl(wrap, 'p', 'fs-interp', interpText);
-    appendEl(wrap, 'p', 'fs-model', 'Model: ' + result.model);
-    appendEl(wrap, 'p', 'fs-citation', result.citation);
-    appendValidityNote(wrap);
-    return wrap;
-  }
-
   function appendEl(parent, tag, className, text) {
     var el = document.createElement(tag);
     el.className = className;
@@ -529,16 +442,6 @@
     return stripped.charAt(0).toUpperCase() + stripped.slice(1);
   }
 
-  function appendValidityNote(wrap) {
-    appendEl(
-      wrap,
-      'p',
-      'fs-validity',
-      'External validity: models like this are derived largely in Western cohorts. Indian men often present ' +
-        'with higher PSA and grade group at diagnosis, on average, than the cohorts these models were built on.'
-    );
-  }
-
   function roundTo5(pct) {
     return Math.round(pct / 5) * 5;
   }
@@ -550,24 +453,10 @@
   }
 
   function plainOdds(pct) {
-    if (pct < 1) return 'uncommon in men with similar findings';
-    if (pct >= 95) return 'expected in almost all men with similar findings';
+    if (pct < 1) return 'Uncommon in men with similar findings';
+    if (pct >= 95) return 'Expected in almost all men with similar findings';
     var n = Math.max(2, Math.round(100 / pct));
-    return 'about 1 in ' + n + ' men with similar findings';
-  }
-
-  function renderStatRow(wrap, label, stat) {
-    var row = document.createElement('div');
-    row.className = 'fs-stat-row';
-    var l = document.createElement('span');
-    l.className = 'fs-stat-label';
-    l.textContent = label;
-    var v = document.createElement('span');
-    v.className = 'fs-stat-value';
-    v.textContent = patientLabel(stat.value) + ' — ' + plainOdds(stat.value);
-    row.appendChild(l);
-    row.appendChild(v);
-    wrap.appendChild(row);
+    return 'About 1 in ' + n + ' men with similar findings';
   }
 
   function preciseStat(stat) {
@@ -583,12 +472,12 @@
     var tablist = document.createElement('div');
     tablist.className = 'fs-tablist';
     tablist.setAttribute('role', 'tablist');
-    tablist.setAttribute('aria-label', 'Foresight results');
+    tablist.setAttribute('aria-label', 'Foresight');
 
     var panels = document.createElement('div');
     panels.className = 'fs-panels';
 
-    TABS.forEach(function (tab, i) {
+    NAV_TABS.forEach(function (tab) {
       var btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'fs-tab';
@@ -604,10 +493,10 @@
         document.getElementById('fs-tab-' + tab.id).focus();
       });
       btn.addEventListener('keydown', function (e) {
-        var idx = TABS.indexOf(tab);
+        var idx = NAV_TABS.indexOf(tab);
         var next = null;
-        if (e.key === 'ArrowRight') next = TABS[(idx + 1) % TABS.length];
-        if (e.key === 'ArrowLeft') next = TABS[(idx - 1 + TABS.length) % TABS.length];
+        if (e.key === 'ArrowRight') next = NAV_TABS[(idx + 1) % NAV_TABS.length];
+        if (e.key === 'ArrowLeft') next = NAV_TABS[(idx - 1 + NAV_TABS.length) % NAV_TABS.length];
         if (next) {
           e.preventDefault();
           state.activeTab = next.id;
@@ -624,13 +513,10 @@
       panel.setAttribute('aria-labelledby', 'fs-tab-' + tab.id);
       if (tab.id !== state.activeTab) panel.hidden = true;
 
-      if (tab.isReport) {
-        panel.appendChild(renderReportPanel());
-      } else {
-        var missing = missingFields(tab);
-        var result = missing.length ? null : tab.run(state.values);
-        panel.appendChild(formatPending(tab, result, missing));
-      }
+      if (tab.id === 'calculator') panel.appendChild(buildCalculatorPanel());
+      else if (tab.id === 'how') panel.appendChild(buildHowItWorksPanel());
+      else if (tab.id === 'help') panel.appendChild(buildHelpPanel());
+
       panels.appendChild(panel);
     });
 
@@ -638,19 +524,37 @@
     root.appendChild(panels);
   }
 
-  function modelTabs() {
-    return TABS.filter(function (t) {
-      return !t.isReport;
-    });
-  }
-
-  function dashCard(label, valueText, subText, muted) {
+  // ---------------------------------------------------------------------
+  // Outcome Calculator: dashboard cards + anatomy diagram + full detail
+  // ---------------------------------------------------------------------
+  function dashCard(label, valueNode, subText, muted) {
     var card = document.createElement('div');
     card.className = 'fs-dash-card';
     appendEl(card, 'div', 'fs-dash-card-label', label);
-    appendEl(card, 'div', 'fs-dash-card-value' + (muted ? ' fs-dash-card-value--muted' : ''), valueText);
+    var valueEl = document.createElement('div');
+    valueEl.className = 'fs-dash-card-value' + (muted ? ' fs-dash-card-value--muted' : '');
+    if (typeof valueNode === 'string') valueEl.textContent = valueNode;
+    else valueEl.appendChild(valueNode);
+    card.appendChild(valueEl);
     if (subText) appendEl(card, 'div', 'fs-dash-card-sub', subText);
     return card;
+  }
+
+  // Continuous green-to-red gradient by estimated risk. Not a clinical
+  // threshold — just a visual cue, since none of the source papers state one.
+  function riskColor(pct) {
+    if (pct == null || isNaN(pct)) return '#a7b1c2';
+    var p = Math.max(0, Math.min(50, pct));
+    var hue = 128 - (p / 50) * 128;
+    return 'hsl(' + Math.round(hue) + ',60%,42%)';
+  }
+
+  function riskChip(pct) {
+    var span = document.createElement('span');
+    span.className = 'fs-risk-chip';
+    span.style.background = riskColor(pct);
+    span.textContent = pct + '%';
+    return span;
   }
 
   function buildDashboard(byId) {
@@ -661,33 +565,37 @@
     var stage = byId.stage;
     if (stage.result && stage.result.status === 'ok') {
       var sr = stage.result;
-      grid.appendChild(
-        dashCard(
-          'Organ-confined disease',
-          sr.organConfined.value + '%',
-          'Extraprostatic extension ' +
-            sr.extraprostaticExtension.value +
-            '% · Seminal vesicle invasion ' +
-            sr.seminalVesicleInvasion.value +
-            '% · Node involvement ' +
-            sr.lymphNodeInvolvement.value +
-            '%'
-        )
+      var stageCard = dashCard(
+        'Organ-confined disease',
+        sr.organConfined.value + '%',
+        'Extraprostatic extension ' +
+          sr.extraprostaticExtension.value +
+          '% · Seminal vesicle invasion ' +
+          sr.seminalVesicleInvasion.value +
+          '% · Node involvement ' +
+          sr.lymphNodeInvolvement.value +
+          '%'
       );
+      appendEl(stageCard, 'div', 'fs-plain-odds', plainOdds(sr.organConfined.value) + ' will have organ-confined disease.');
+      grid.appendChild(stageCard);
     } else {
       grid.appendChild(dashCard('Organ-confined disease', '—', stage.missing.length ? 'Not completed' : 'Not available for these details', true));
     }
 
     var lni = byId.lni;
     if (lni.result && lni.result.status === 'ok') {
-      grid.appendChild(dashCard('Lymph node involvement risk', lni.result.probabilityPercent + '%', 'Briganti 2019 nomogram *'));
+      var lniCard = dashCard('Lymph node involvement risk', riskChip(lni.result.probabilityPercent), 'Briganti 2019 nomogram *');
+      appendEl(lniCard, 'div', 'fs-plain-odds', plainOdds(lni.result.probabilityPercent) + '.');
+      grid.appendChild(lniCard);
     } else {
       grid.appendChild(dashCard('Lymph node involvement risk', '—', lni.missing.length ? 'Not completed' : 'Not available', true));
     }
 
     var margin = byId.margin;
     if (margin.result && margin.result.status === 'ok') {
-      grid.appendChild(dashCard('Positive surgical margin risk', margin.result.probabilityPercent + '%', 'Pre-operative model †'));
+      var marginCard = dashCard('Positive surgical margin risk', riskChip(margin.result.probabilityPercent), 'Pre-operative model †');
+      appendEl(marginCard, 'div', 'fs-plain-odds', plainOdds(margin.result.probabilityPercent) + '.');
+      grid.appendChild(marginCard);
     } else {
       grid.appendChild(dashCard('Positive surgical margin risk', '—', margin.missing.length ? 'Not completed' : 'Not available', true));
     }
@@ -695,16 +603,18 @@
     var continence = byId.continence;
     if (continence.result && continence.result.status === 'ok') {
       var c = continence.result.cohortIncontinencePercent;
-      var tierLabel = { early: 'Early', intermediate: 'Intermediate', delayed: 'Delayed' }[continence.result.tier];
+      var statusLabel = { early: 'Early return predicted', intermediate: 'Intermediate recovery expected', delayed: 'Delayed recovery expected' }[
+        continence.result.tier
+      ];
       grid.appendChild(
         dashCard(
-          'Expected continence recovery',
-          tierLabel,
+          'Functional recovery trajectory',
+          statusLabel,
           'Cohort average continent: ' + (100 - c.sixMonth) + '% at 6mo · ' + (100 - c.twelveMonth) + '% at 12mo · ' + (100 - c.twentyFourMonth) + '% at 24mo'
         )
       );
     } else {
-      grid.appendChild(dashCard('Expected continence recovery', '—', continence.missing.length ? 'Not completed' : 'Not available', true));
+      grid.appendChild(dashCard('Functional recovery trajectory', '—', continence.missing.length ? 'Not completed' : 'Not available', true));
     }
 
     wrap.appendChild(grid);
@@ -716,15 +626,6 @@
         '† No published numeric risk-tier cut-offs are stated in the source paper — the raw estimated probability is shown instead.'
     );
     return wrap;
-  }
-
-  // Continuous green-to-red gradient by estimated risk. Not a clinical
-  // threshold — just a visual cue, since none of the source papers state one.
-  function riskColor(pct) {
-    if (pct == null || isNaN(pct)) return '#a7b1c2';
-    var p = Math.max(0, Math.min(50, pct));
-    var hue = 128 - (p / 50) * 128;
-    return 'hsl(' + Math.round(hue) + ',60%,42%)';
   }
 
   function nerveStyle(spared) {
@@ -797,12 +698,12 @@
       legend.appendChild(r);
     }
 
-    row(riskColor(capsulePct), 'Prostate capsule (extraprostatic extension risk)', capsulePct != null ? capsulePct + '%' : 'complete the pathological stage tab');
-    row(riskColor(svPct), 'Seminal vesicles (invasion risk)', svPct != null ? svPct + '%' : 'complete the pathological stage tab');
+    row(riskColor(capsulePct), 'Prostate capsule (extraprostatic extension risk)', capsulePct != null ? capsulePct + '%' : 'complete the required fields above');
+    row(riskColor(svPct), 'Seminal vesicles (invasion risk)', svPct != null ? svPct + '%' : 'complete the required fields above');
     row(
       riskColor(lnPct),
       'Pelvic lymph nodes (involvement risk)',
-      lnPct != null ? lnPct + '%' + (lni ? ' (Briganti 2019)' : stage ? ' (Partin Tables)' : '') : 'complete a lymph node tab'
+      lnPct != null ? lnPct + '%' + (lni ? ' (Briganti 2019)' : stage ? ' (Partin Tables)' : '') : 'complete the required fields above'
     );
     row(nerveLeft === true || nerveRight === true ? '#2f8a5b' : '#a7b1c2', 'Neurovascular bundles', nerveCaption);
 
@@ -812,7 +713,30 @@
     return wrap;
   }
 
-  function renderReportPanel() {
+  function buildDisclaimer() {
+    var box = document.createElement('div');
+    box.className = 'fs-disclaimer';
+    appendEl(box, 'p', 'fs-disclaimer-head', 'Disclaimer: use under qualified medical supervision only');
+    var body = document.createElement('div');
+    body.className = 'fs-disclaimer-body';
+    appendEl(
+      body,
+      'p',
+      '',
+      'This report is an educational, statistical risk-modelling tool intended solely for pre-operative planning and shared clinical discussion. It must be ' +
+        'interpreted strictly under the direct supervision of a qualified urologist, uro-oncologist, or licensed medical specialist. The developers, clinicians ' +
+        'and authors of Foresight and URObotics assume no legal liability or responsibility for clinical decisions, operative modifications, or patient ' +
+        'outcomes resulting from this tool. Calculated probabilities are statistical estimates derived from historical cohorts (Partin Tables, Briganti ' +
+        'nomogram, Hao model, Pinkhasov predictors) — derived largely in Western (or, for the surgical margin model, a single Chinese-centre) cohorts whose ' +
+        'demographics differ from an Indian patient population — and do not represent diagnostic certainty or guaranteed surgical outcomes. Final ' +
+        'intraoperative strategies remain entirely the responsibility of the attending surgeon.'
+    );
+    appendEl(body, 'p', '', 'Data privacy: all computations run client-side in your local browser session; no patient data is stored or transmitted.');
+    box.appendChild(body);
+    return box;
+  }
+
+  function buildCalculatorPanel() {
     var wrap = document.createElement('div');
     wrap.className = 'fs-report';
 
@@ -836,33 +760,48 @@
     mark.alt = 'Foresight by URObotics';
     mark.className = 'fs-report-logo';
     header.appendChild(mark);
+
     var headerText = document.createElement('div');
-    var docTitle = document.createElement('div');
-    docTitle.className = 'fs-report-title';
-    docTitle.textContent = 'Personalised outcome report';
-    var docMeta = document.createElement('div');
-    docMeta.className = 'fs-report-meta';
-    docMeta.textContent = 'Generated ' + new Date().toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }) + ' · Dr. Nisanth Puliyath, Uro-Oncologist & Robotic Surgeon';
-    headerText.appendChild(docTitle);
-    headerText.appendChild(docMeta);
+    appendEl(headerText, 'div', 'fs-report-title', 'Foresight Clarity Report');
+    appendEl(headerText, 'div', 'fs-report-subtitle', 'Personalized Pre-Operative Risk Assessment & Surgical Trajectory');
+    appendEl(
+      headerText,
+      'div',
+      'fs-report-meta',
+      'Clinician: Dr. Nisanth Puliyath, Uro-Oncologist & Robotic Surgeon · Date generated: ' +
+        new Date().toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })
+    );
+    var inputsLine = document.createElement('div');
+    inputsLine.className = 'fs-report-inputs';
+    inputsLine.innerHTML =
+      'Age <b>' +
+      (state.values.age || '—') +
+      '</b> · Pre-op PSA <b>' +
+      (state.values.psa ? state.values.psa + ' ng/mL' : '—') +
+      '</b> · Clinical T-stage <b>' +
+      (state.values.clinicalStage || '—') +
+      '</b> · Biopsy grade group <b>' +
+      (state.values.gradeGroup || '—') +
+      '</b>';
+    headerText.appendChild(inputsLine);
     header.appendChild(headerText);
     doc.appendChild(header);
 
     var byId = {};
-    modelTabs().forEach(function (tab) {
-      var missing = missingFields(tab);
-      byId[tab.id] = { missing: missing, result: missing.length ? null : tab.run(state.values) };
+    MODELS.forEach(function (model) {
+      var missing = missingFields(model);
+      byId[model.id] = { missing: missing, result: missing.length ? null : model.run(state.values) };
     });
 
     doc.appendChild(buildDashboard(byId));
     doc.appendChild(buildAnatomy(byId));
 
-    modelTabs().forEach(function (tab) {
+    MODELS.forEach(function (model) {
       var section = document.createElement('div');
       section.className = 'fs-report-section';
-      appendEl(section, 'h3', 'fs-report-heading', tab.label);
+      appendEl(section, 'h3', 'fs-report-heading', model.label);
 
-      var missing = byId[tab.id].missing;
+      var missing = byId[model.id].missing;
       if (missing.length) {
         appendEl(
           section,
@@ -880,11 +819,11 @@
         return;
       }
 
-      var result = byId[tab.id].result;
+      var result = byId[model.id].result;
       if (result.status === 'ok') {
         var list = document.createElement('div');
         list.className = 'fs-report-lines';
-        tab.reportDetail(result).forEach(function (line) {
+        model.reportDetail(result).forEach(function (line) {
           var row = document.createElement('div');
           row.className = 'fs-report-line';
           appendEl(row, 'span', 'fs-report-line-label', line.label);
@@ -893,8 +832,8 @@
         });
         section.appendChild(list);
         if (result.note) appendEl(section, 'p', 'fs-report-note', humanize(result.note));
-        if (tab.reportNotes) {
-          tab.reportNotes(result).forEach(function (text) {
+        if (model.reportNotes) {
+          model.reportNotes(result).forEach(function (text) {
             appendEl(section, 'p', 'fs-report-note', text);
           });
         }
@@ -905,28 +844,14 @@
           'p',
           'fs-report-empty',
           result.status === 'unsupported'
-            ? "Not available for this combination of details — not covered by the published data this tool uses."
+            ? 'Not available for this combination of details — not covered by the published data this tool uses.'
             : 'Not yet available.'
         );
       }
       doc.appendChild(section);
     });
 
-    var disclaimer = document.createElement('div');
-    disclaimer.className = 'fs-report-disclaimer';
-    appendEl(
-      disclaimer,
-      'p',
-      '',
-      'These estimates come from published, peer-reviewed prediction models and are for education only. They do not replace consultation with your urologist.'
-    );
-    appendEl(
-      disclaimer,
-      'p',
-      '',
-      'External validity: these models were derived largely in Western (or, for the surgical margin model, a single Chinese-centre) cohorts. Indian men often present with higher PSA and grade group at diagnosis, on average, than the cohorts these models were built on.'
-    );
-    doc.appendChild(disclaimer);
+    doc.appendChild(buildDisclaimer());
 
     var footer = document.createElement('div');
     footer.className = 'fs-report-footer';
@@ -936,6 +861,136 @@
     doc.appendChild(footer);
 
     wrap.appendChild(doc);
+    return wrap;
+  }
+
+  // ---------------------------------------------------------------------
+  // How Foresight Works — static, no patient data
+  // ---------------------------------------------------------------------
+  function buildHowItWorksPanel() {
+    var wrap = document.createElement('div');
+
+    var def = document.createElement('div');
+    def.className = 'fs-static-section';
+    appendEl(def, 'h3', 'fs-static-heading', 'What Foresight is');
+    appendEl(
+      def,
+      'p',
+      '',
+      'Foresight is a pre-operative statistical outcome-prediction engine. It applies published, peer-reviewed prediction models to the details in your ' +
+        'biopsy and MRI report to estimate post-operative risks. It is strictly a statistical calculator — not a 3D anatomical model or a surgical ' +
+        'simulation, and nothing it shows is a rendering of your own anatomy.'
+    );
+    wrap.appendChild(def);
+
+    var targets = document.createElement('div');
+    targets.className = 'fs-static-section';
+    appendEl(targets, 'h3', 'fs-static-heading', 'Four things it estimates');
+    var ol = document.createElement('ol');
+    ol.className = 'fs-static-list';
+    [
+      'Final pathological stage — organ-confined disease vs. extraprostatic extension (EPE) or seminal vesicle invasion (SVI)',
+      'Lymph node involvement (LNI) risk',
+      'Positive surgical margin (PSM) probability',
+      'Post-operative continence recovery trajectory',
+    ].forEach(function (t) {
+      appendEl(ol, 'li', '', t);
+    });
+    targets.appendChild(ol);
+    wrap.appendChild(targets);
+
+    var process = document.createElement('div');
+    process.className = 'fs-static-section';
+    appendEl(process, 'h3', 'fs-static-heading', 'How it works, in three steps');
+    var steps = document.createElement('div');
+    steps.className = 'fs-steps';
+    [
+      ['Patient-specific input', 'Your pre-op PSA, multiparametric MRI findings, and biopsy grade group.'],
+      [
+        'Multi-model synthesis',
+        'Simultaneous calculation using validated, published nomograms — the Partin Tables, the Briganti nomogram, the Hao positive-margin model, and ' +
+          'Pinkhasov’s continence-recovery predictors.',
+      ],
+      [
+        'Pre-op decision support',
+        'Objective data to help you and your surgical team discuss nerve-sparing margins, the case for lymphadenectomy, and realistic recovery expectations.',
+      ],
+    ].forEach(function (pair, i) {
+      var step = document.createElement('div');
+      step.className = 'fs-step';
+      var num = document.createElement('div');
+      num.className = 'fs-step-num';
+      num.textContent = String(i + 1);
+      step.appendChild(num);
+      var body = document.createElement('div');
+      body.className = 'fs-step-body';
+      var b = document.createElement('b');
+      b.textContent = pair[0];
+      body.appendChild(b);
+      var p = document.createElement('p');
+      p.style.margin = '0';
+      p.textContent = pair[1];
+      body.appendChild(p);
+      step.appendChild(body);
+      steps.appendChild(step);
+    });
+    process.appendChild(steps);
+    wrap.appendChild(process);
+
+    return wrap;
+  }
+
+  // ---------------------------------------------------------------------
+  // Need Help Filling This Out? — static, mailto action
+  // ---------------------------------------------------------------------
+  function buildHelpPanel() {
+    var wrap = document.createElement('div');
+
+    var intro = document.createElement('div');
+    intro.className = 'fs-static-section';
+    appendEl(intro, 'h3', 'fs-static-heading', 'Need help filling this out?');
+    appendEl(
+      intro,
+      'p',
+      'fs-help-position',
+      'Terms like Gleason score / grade group, PI-RADS, and TNM staging can be hard to make sense of from a printed pathology or radiology report — ' +
+        'especially while you and your family are still absorbing a new diagnosis.'
+    );
+    appendEl(
+      intro,
+      'p',
+      'fs-help-position',
+      'If you’d rather not work through it alone, send your reports directly to Dr. Nisanth Puliyath, and he will personally review them with you.'
+    );
+    wrap.appendChild(intro);
+
+    var checklist = document.createElement('div');
+    checklist.className = 'fs-static-section';
+    appendEl(checklist, 'h3', 'fs-static-heading', 'What to send');
+    var ul = document.createElement('ul');
+    ul.className = 'fs-help-checklist';
+    ['Multiparametric MRI (mpMRI) report', 'Prostate biopsy pathology report', 'Recent serum PSA laboratory results'].forEach(function (t) {
+      appendEl(ul, 'li', '', t);
+    });
+    checklist.appendChild(ul);
+    wrap.appendChild(checklist);
+
+    var action = document.createElement('div');
+    action.className = 'fs-static-section';
+    var mailBtn = document.createElement('a');
+    mailBtn.className = 'btn btn-primary';
+    var subject = 'Foresight Clinical Data Review - [Patient Name]';
+    mailBtn.href = 'mailto:drnishyurology@gmail.com?subject=' + encodeURIComponent(subject);
+    mailBtn.textContent = 'Email your reports to Dr Nisanth';
+    action.appendChild(mailBtn);
+    appendEl(
+      action,
+      'p',
+      'fs-help-confidential',
+      'Your records are reviewed directly by Dr. Nisanth Puliyath, under strict physician-patient medical confidentiality.'
+    );
+    wrap.appendChild(action);
+
     return wrap;
   }
 
