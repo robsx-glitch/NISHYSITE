@@ -466,13 +466,17 @@
   var letterheadRootRef = null;
   var tabsRootRef = null;
   var resultsRootRef = null;
+  var formWrapRef = null;
 
   // Letterhead, tabs, and panels all reflect the same state.activeTab, so
-  // a click or a field edit re-renders all three together. Letterhead sits
-  // above the tabs, which sit above the "Your details" form.
+  // a click or a field edit re-renders all three together. The "Your
+  // details" form is built once (renderForm, in init) and never rebuilt —
+  // rebuilding it on every render would drop focus mid-keystroke — so its
+  // visibility is toggled here instead of being torn down and recreated.
   function render() {
     renderLetterhead();
     renderTabs();
+    if (formWrapRef) formWrapRef.hidden = state.activeTab !== 'calculator';
     renderPanels();
   }
 
@@ -1040,11 +1044,13 @@
   function init() {
     var letterheadRoot = document.getElementById('foresight-letterhead');
     var tabsRoot = document.getElementById('foresight-tabs');
+    var formWrap = document.getElementById('foresight-form-wrap');
     var formRoot = document.getElementById('foresight-form');
     var resultsRoot = document.getElementById('foresight-results');
-    if (!letterheadRoot || !tabsRoot || !formRoot || !resultsRoot) return;
+    if (!letterheadRoot || !tabsRoot || !formWrap || !formRoot || !resultsRoot) return;
     letterheadRootRef = letterheadRoot;
     tabsRootRef = tabsRoot;
+    formWrapRef = formWrap;
     resultsRootRef = resultsRoot;
     renderForm(formRoot);
     render();
