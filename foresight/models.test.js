@@ -131,16 +131,31 @@ function assertPendingShape(result, name) {
   assertPendingShape(result, 'predictPositiveSurgicalMargin');
 }
 
-// --- Continence recovery tiers ---------------------------------------------
+// --- Continence recovery tiers -----------------------------------------
+// Built from the multivariate ORs in Pinkhasov et al. 2022 (Cancers
+// 14(7):1644), supplementary Tables S4-S6. Not a worked example from the
+// paper's own nomogram (see the comment in models.js for why), but the
+// ORs embedded in the result are transcribed verbatim from those tables.
 {
-  const result = estimateContinenceTier({
-    age: 62,
-    membranousUrethralLengthMM: 16,
-    prostateVolumeML: 40,
-    nerveSparing: 'bilateral',
-  });
-  assertPendingShape(result, 'estimateContinenceTier');
-  assert.ok(/CHECK-MUL/.test(result.citation), 'citation should reference the CHECK-MUL study');
+  const result = estimateContinenceTier({ age: 55, erectileFunctionFirm: true });
+  assert.strictEqual(result.status, 'ok');
+  assert.ok(/Pinkhasov/.test(result.citation), 'citation should reference Pinkhasov et al.');
+  assert.ok(/10\.3390\/cancers14071644/.test(result.citation), 'citation should include the DOI');
+  assert.strictEqual(result.tier, 'early');
+  assert.strictEqual(result.adverseFactors, 0);
+  assert.deepStrictEqual(result.ors.sixMonth.ageOver60, { or: 0.66, ci: [0.44, 0.99], p: '0.04' });
+  assert.deepStrictEqual(result.ors.sixMonth.erectileFirm, { or: 2.02, ci: [1.34, 3.04], p: '<.001' });
+  assert.deepStrictEqual(result.ors.twentyFourMonth.erectileFirm, { or: 5.71, ci: [1.22, 26.81], p: '0.03' });
+}
+{
+  const result = estimateContinenceTier({ age: 65, erectileFunctionFirm: false });
+  assert.strictEqual(result.tier, 'delayed');
+  assert.strictEqual(result.adverseFactors, 2);
+}
+{
+  const result = estimateContinenceTier({ age: 65, erectileFunctionFirm: true });
+  assert.strictEqual(result.tier, 'intermediate');
+  assert.strictEqual(result.adverseFactors, 1);
 }
 
 console.log('All foresight/models.js tests passed.');

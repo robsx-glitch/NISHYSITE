@@ -137,6 +137,12 @@
       options: ['bilateral', 'unilateral', 'none', 'undecided'],
       help: 'Discussed with your surgeon: how much nerve tissue next to the prostate is planned to be preserved.',
     },
+    {
+      name: 'erectileFunctionFirm',
+      label: 'Pre-op erectile function firm enough for penetration',
+      type: 'yesno',
+      help: 'Before any treatment: were erections firm enough for penetration, with or without the help of medication.',
+    },
   ];
 
   var TABS = [
@@ -193,17 +199,72 @@
     {
       id: 'continence',
       label: 'Continence recovery',
-      requires: ['age', 'prostateVolume', 'nerveSparing'],
+      requires: ['age', 'erectileFunctionFirm'],
       run: function (v) {
         return models.estimateContinenceTier({
           age: Number(v.age),
-          membranousUrethralLengthMM:
-            v.membranousUrethralLength === '' || v.membranousUrethralLength == null
-              ? null
-              : Number(v.membranousUrethralLength),
-          prostateVolumeML: Number(v.prostateVolume),
-          nerveSparing: v.nerveSparing,
+          erectileFunctionFirm: v.erectileFunctionFirm === 'yes',
         });
+      },
+      renderOk: function (result, wrap) {
+        var tierLabel = { early: 'Early', intermediate: 'Intermediate', delayed: 'Delayed' }[result.tier];
+        var row = document.createElement('div');
+        row.className = 'fs-stat-row';
+        var l = document.createElement('span');
+        l.className = 'fs-stat-label';
+        l.textContent = 'Expected continence recovery';
+        var v2 = document.createElement('span');
+        v2.className = 'fs-stat-value';
+        v2.textContent = tierLabel;
+        row.appendChild(l);
+        row.appendChild(v2);
+        wrap.appendChild(row);
+
+        if (state.audience === 'patient') {
+          appendEl(
+            wrap,
+            'p',
+            'fs-interp',
+            'In the published study this is based on, about ' +
+              result.cohortIncontinencePercent.sixMonth +
+              '% of men overall were not yet continent at 6 months, ' +
+              result.cohortIncontinencePercent.twelveMonth +
+              '% at 12 months, and ' +
+              result.cohortIncontinencePercent.twentyFourMonth +
+              '% at 24 months — most men keep improving over the first two years.'
+          );
+        } else {
+          var ul = document.createElement('ul');
+          ul.className = 'fs-needed-list';
+          ['sixMonth', 'twelveMonth', 'twentyFourMonth'].forEach(function (key) {
+            var label = { sixMonth: '6-month', twelveMonth: '12-month', twentyFourMonth: '24-month' }[key];
+            var or = result.ors[key];
+            var li = document.createElement('li');
+            li.textContent =
+              label +
+              ': age ≥60 OR(continence) ' +
+              or.ageOver60.or +
+              ' (95% CI ' +
+              or.ageOver60.ci[0] +
+              '–' +
+              or.ageOver60.ci[1] +
+              ', p=' +
+              or.ageOver60.p +
+              '); erectile function firm-enough OR(continence) ' +
+              or.erectileFirm.or +
+              ' (95% CI ' +
+              or.erectileFirm.ci[0] +
+              '–' +
+              or.erectileFirm.ci[1] +
+              ', p=' +
+              or.erectileFirm.p +
+              '); cohort incontinence rate ' +
+              result.cohortIncontinencePercent[key] +
+              '%.';
+            ul.appendChild(li);
+          });
+          wrap.appendChild(ul);
+        }
       },
     },
   ];

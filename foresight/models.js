@@ -345,47 +345,85 @@ function predictPositiveSurgicalMargin(input) {
 /**
  * Continence recovery — risk tiers (not a validated nomogram).
  *
- * Candidate predictors and the studies that reported them (none of these
- * were independently re-verified against primary text in this session —
- * see README for the exact secondary-source confirmation each one has):
- *  - Membranous urethral length (MUL): preoperative MUL > 15 mm associated
- *    with early continence recovery at 3 months. Reported in the CHECK-MUL
- *    study: "Predictors of Early Continence Recovery Following Radical
- *    Prostatectomy, Including Transperineal Ultrasound to Evaluate the
- *    Membranous Urethra Length (CHECK-MUL Study)." Diagnostics (Basel).
- *    2024;14(8):853. DOI: 10.3390/diagnostics14080853.
- *  - Age, BMI and bilateral nerve sparing: reported as independent
- *    predictors of continence in the same CHECK-MUL study and in a
- *    Retzius-sparing RARP cohort (PMC11136784), but no specific numeric
- *    age/BMI cut-off was available to this session — only the qualitative
- *    direction of the association.
- *  - Prostate volume: reported to raise incontinence risk as it increases,
- *    again without a specific published cut-off available here.
+ * Pinkhasov RM, Lee T, Huang R, et al. "Prediction of Incontinence after
+ * Robot-Assisted Radical Prostatectomy: Development and Validation of a
+ * 24-Month Incontinence Nomogram." Cancers. 2022;14(7):1644. DOI:
+ * 10.3390/cancers14071644. (Supplementary PDF supplied by Dr Puliyath,
+ * 06/09/2026: Tables S1-S3 give univariate incontinence-vs-continence
+ * rates at 6/12/24 months for 680 men after RARP; Tables S4-S6 give
+ * multivariate logistic-regression odds ratios — for social CONTINENCE,
+ * not incontinence, confirmed by cross-checking directionality against
+ * the raw group sizes in S1-S3 — for age, race, BMI and pre-op erectile
+ * function at each timepoint; Figures S1-S2 are the paper's own 6- and
+ * 12-month point-based nomograms.)
  *
- * Because a defensible 3-tier system needs more than one verified
- * boundary per variable, and only the MUL > 15 mm cut-off could be traced
- * to a source, this function stays pending rather than inventing the
- * remaining boundaries. TODO_VERIFY: confirm the MUL cut-off against the
- * primary CHECK-MUL text, and source published cut-offs (not just
- * direction) for age, BMI/prostate volume, and nerve-sparing status before
- * enabling tiering.
+ * This function is NOT the paper's own nomogram (Figures S1/S2): reading
+ * a graphical points-based nomogram's exact per-category point widths
+ * and its points-to-risk curve off a rendered PDF figure, without a
+ * stated intercept or point-scaling formula in text, is exactly the kind
+ * of reading-off-a-picture the "never approximate" rule rules out. What
+ * IS exact, published text in the supplementary tables are the
+ * multivariate odds ratios below, transcribed directly:
  *
- * @param {{age:number, membranousUrethralLengthMM:number, prostateVolumeML:number, nerveSparing:string}} input
- * @returns {{status:'pending', model:string, needed:string[]}}
+ *              Age >=60 vs <60 (OR for continence)   Pre-op erectile function firm-enough vs not (OR for continence)
+ *   6-month:   0.66 (95% CI 0.44-0.99), p=0.04        2.02 (95% CI 1.34-3.04), p<.001
+ *   12-month:  0.64 (95% CI 0.32-1.31), p=0.22        1.90 (95% CI 0.92-3.91), p=0.08
+ *   24-month:  0.93 (95% CI 0.28-3.05), p=0.90        5.71 (95% CI 1.22-26.81), p=0.03
+ *
+ * Race (Black vs White, Other vs White) and BMI (>=30 vs <30) were also
+ * modelled but did not reach statistical significance at any timepoint in
+ * the multivariate analysis (all p>=0.20 for race; p=0.61/0.37/0.05 for
+ * BMI) — deliberately excluded from the tiering below, along with race
+ * for the additional reason that this tool serves an Indian patient
+ * population very different from the study's cohort, where the study's
+ * race categories don't transfer and a small, wide-CI subgroup effect
+ * from a US cohort is not something to act on here.
+ *
+ * Because the paper does not publish an intercept, this function cannot
+ * compute an exact probability. Instead it counts how many of the two
+ * statistically-meaningful adverse factors (age >=60; erectile function
+ * not firm enough for penetration) apply, and maps that count to a tier
+ * (0 -> early, 1 -> intermediate, 2 -> delayed). That 0/1/2 -> tier
+ * mapping is this tool's own simple heuristic, not the paper's — which
+ * is exactly why the spec asked this tab be labelled "risk tiers from
+ * published predictors, not a validated nomogram."
+ *
+ * @param {{age:number, erectileFunctionFirm:boolean}} input
+ * @returns object with status 'ok'.
  */
+var CONTINENCE_CITATION =
+  'Pinkhasov RM, Lee T, Huang R, et al. Cancers. 2022;14(7):1644. DOI: 10.3390/cancers14071644 ' +
+  '(multivariate odds ratios per the paper\'s supplementary Tables S4-S6).';
+
+var CONTINENCE_ORS = {
+  sixMonth: { ageOver60: { or: 0.66, ci: [0.44, 0.99], p: '0.04' }, erectileFirm: { or: 2.02, ci: [1.34, 3.04], p: '<.001' } },
+  twelveMonth: { ageOver60: { or: 0.64, ci: [0.32, 1.31], p: '0.22' }, erectileFirm: { or: 1.9, ci: [0.92, 3.91], p: '0.08' } },
+  twentyFourMonth: { ageOver60: { or: 0.93, ci: [0.28, 3.05], p: '0.90' }, erectileFirm: { or: 5.71, ci: [1.22, 26.81], p: '0.03' } },
+};
+
+// Overall cohort incontinence rate at each timepoint (Tables S1-S3, "Number of patients" row).
+var CONTINENCE_COHORT_INCONTINENCE_PERCENT = { sixMonth: 26, twelveMonth: 7, twentyFourMonth: 2 };
+
 function estimateContinenceTier(input) {
+  var adverse = 0;
+  if (input.age >= 60) adverse += 1;
+  if (!input.erectileFunctionFirm) adverse += 1;
+  var tier = adverse === 0 ? 'early' : adverse === 1 ? 'intermediate' : 'delayed';
+
   return {
-    status: 'pending',
-    model: 'Continence recovery risk tiers (published predictors, not a validated nomogram)',
-    citation:
-      'CHECK-MUL Study, Diagnostics (Basel). 2024;14(8):853. DOI: 10.3390/diagnostics14080853; ' +
-      'Retzius-sparing RARP continence cohort, PMC11136784.',
-    needed: [
-      'TODO_VERIFY: confirm MUL > 15 mm early-continence cut-off against the primary CHECK-MUL text.',
-      'TODO_VERIFY: published numeric cut-offs (not just direction of association) for age, ' +
-        'BMI/prostate volume, and nerve-sparing status.',
-    ],
-    input,
+    status: 'ok',
+    model: 'Continence recovery risk tiers (built from Pinkhasov et al. 2022 predictors — not the paper\'s own nomogram)',
+    citation: CONTINENCE_CITATION,
+    tier: tier,
+    adverseFactors: adverse,
+    ors: CONTINENCE_ORS,
+    cohortIncontinencePercent: CONTINENCE_COHORT_INCONTINENCE_PERCENT,
+    note:
+      "Tier boundaries (0/1/2 adverse factors -> early/intermediate/delayed) are this tool's own heuristic " +
+      'built from the two statistically significant multivariate predictors in the cited paper (age, ' +
+      "pre-op erectile function) — not the paper's own point-based nomogram, whose exact intercept and " +
+      'point-scaling could not be read reliably from the published figure.',
+    input: input,
   };
 }
 

@@ -4,12 +4,12 @@ A pre-operative outcome calculator for men considering robotic radical
 prostatectomy (RARP), published at `/foresight/`. Plain JS, no build step,
 no framework, no network calls — everything runs in the visitor's browser.
 
-## Status: 2 of 4 models implemented from primary sources
+## Status: 3 of 4 models implemented from primary sources
 
 This page was originally built in a sandboxed session whose network
 egress policy blocked every source that could confirm exact coefficients
 (paywalled journals, NCBI/PMC, Hopkins, Evidencio, ResearchGate). Dr
-Puliyath then supplied two primary-source PDFs directly, which are now
+Puliyath then supplied three primary-source PDFs directly, which are now
 implemented:
 
 - The Johns Hopkins Brady Urological Institute's own **Partin Tables**
@@ -18,17 +18,21 @@ implemented:
   which reproduces the exact logistic-regression coefficient table for
   the **Briganti 2019** model — the manufacturer's own reference
   implementation of the published model.
+- The supplementary tables from Pinkhasov et al. 2022 (*Cancers*
+  14(7):1644), with the exact multivariate odds ratios behind that
+  paper's **continence** nomogram.
 
-The other two models still have no primary source supplied, so per the
-build's hard rule — *never invent, guess, or approximate a coefficient,
-table cell, or cut-off* — they remain `{ status: 'pending', ... }`.
+Only the surgical margin model still has no primary source supplied, so
+per the build's hard rule — *never invent, guess, or approximate a
+coefficient, table cell, or cut-off* — it remains
+`{ status: 'pending', ... }`.
 
 | Model | Tab | Source | Status |
 |---|---|---|---|
 | Partin Tables (2016 update) | Pathological stage | Tosoian JJ, Chappidi M, Feng Z, et al. *BJU Int.* 2017;119(5):676-683. DOI: [10.1111/bju.13573](https://doi.org/10.1111/bju.13573) | **Implemented** for clinical stage T1c/T2a/T2b/T2c and grade groups 1–4. `unsupported` for T3a/T3b and grade group 5 — not in the supplied source table (its grade-5 column was cut off the PDF page). |
 | Briganti 2019 nomogram | Lymph node risk | Gandaglia G, Ploussard G, Valerio M, et al. *Eur Urol.* 2019;75(3):506-514. DOI: [10.1016/j.eururo.2018.10.012](https://doi.org/10.1016/j.eururo.2018.10.012) | **Implemented** — full logistic regression. `TODO_VERIFY`: the source manual doesn't state a recommended probability threshold for offering extended pelvic lymph node dissection, so the UI reports the raw probability only. |
 | Pre-operative PSM model | Surgical margin | No complete, independently verified coefficient set identified | `TODO_VERIFY` — candidate source not confirmed complete (see below) |
-| Continence recovery tiers | Continence recovery | CHECK-MUL Study, *Diagnostics (Basel).* 2024;14(8):853. DOI: [10.3390/diagnostics14080853](https://doi.org/10.3390/diagnostics14080853); Retzius-sparing RARP cohort (PMC11136784) | `TODO_VERIFY` — only one boundary (MUL > 15mm) has a reported number; the rest is direction-only |
+| Continence recovery tiers | Continence recovery | Pinkhasov RM, Lee T, Huang R, et al. *Cancers.* 2022;14(7):1644. DOI: [10.3390/cancers14071644](https://doi.org/10.3390/cancers14071644) | **Implemented as tiers** — real multivariate ORs, but *not* the paper's own point-based nomogram (see below for why). |
 
 ## How the implemented models work
 
@@ -77,6 +81,39 @@ the threshold is still `TODO_VERIFY`.
 Both models' worked examples in `models.test.js` are transcribed straight
 from the source documents (Partin) or hand-computed from the transcribed
 coefficients (Briganti) — see the comments there.
+
+### Continence recovery tiers (`estimateContinenceTier`)
+
+Built from the supplementary tables of Pinkhasov et al. 2022, which
+report multivariate logistic-regression odds ratios (for *social
+continence*, confirmed by cross-checking directionality against the
+raw group sizes in the paper's univariate tables) for age, race, BMI,
+and pre-op erectile function at 6, 12, and 24 months:
+
+| Timepoint | Age ≥60 vs <60 (OR for continence) | Erectile function firm-enough vs not (OR for continence) |
+|---|---|---|
+| 6-month | 0.66 (95% CI 0.44–0.99), p=0.04 | 2.02 (95% CI 1.34–3.04), p<.001 |
+| 12-month | 0.64 (95% CI 0.32–1.31), p=0.22 | 1.90 (95% CI 0.92–3.91), p=0.08 |
+| 24-month | 0.93 (95% CI 0.28–3.05), p=0.90 | 5.71 (95% CI 1.22–26.81), p=0.03 |
+
+Race and BMI were also modelled in the paper but weren't statistically
+significant at any timepoint, and race is additionally excluded here
+because this tool serves an Indian patient population the study's race
+categories don't map onto.
+
+**This is deliberately not the paper's own point-based nomogram**
+(Figures S1/S2 in the supplement). Reading a graphical nomogram's exact
+per-category point widths and its points-to-risk curve off a rendered
+PDF figure — without a stated intercept or point-scaling formula in
+text — is exactly the kind of reading-off-a-picture the "never
+approximate" rule rules out. Instead, `estimateContinenceTier` counts
+how many of the two statistically meaningful adverse factors apply
+(age ≥60; erectile function not firm enough) and maps that count to a
+tier: 0 → early, 1 → intermediate, 2 → delayed. That mapping is this
+tool's own heuristic, not the paper's — which is exactly why the build
+spec asked this tab be labelled "risk tiers from published predictors,
+not a validated nomogram." The full OR table above ships with every
+result so a clinician can see the real numbers behind the tier.
 
 ## How to fill in a remaining gap
 
@@ -129,13 +166,14 @@ only information available before surgery):
 | MRI maximum lesion diameter | mm | MRI report — Briganti 2019 input |
 | Cores with clinically significant cancer | %, 0–100 | Biopsy report — percentage of cores with grade group ≥2 (not just any-positive), a Briganti 2019 input |
 | Prostate volume | mL | MRI or ultrasound report |
-| Membranous urethral length | mm, optional | MRI report, if measured |
-| Planned nerve sparing | bilateral / unilateral / none / undecided | Discussed with surgeon |
+| Membranous urethral length | mm, optional | MRI report, if measured (collected per the original spec; not consumed by the implemented continence tiering — the source paper's own significant predictors are age and erectile function instead) |
+| Planned nerve sparing | bilateral / unilateral / none / undecided | Discussed with surgeon (collected per the original spec; not consumed by the implemented continence tiering) |
+| Pre-op erectile function | Firm enough for penetration: yes/no | Discussed with surgeon — a continence-tiering input |
 
 ## Known limitations
 
-- Two of four models (surgical margin, continence) are still pending real
-  coefficients — see the status table above.
+- One of four models (surgical margin) is still pending a primary source
+  — see the status table above.
 - Every model here was developed largely in Western cohorts. Indian men
   often present with higher PSA and grade group at diagnosis on average,
   so calibration in an Indian population has not been separately
