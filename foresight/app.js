@@ -32,7 +32,9 @@
       min: 0.1,
       max: 100,
       step: 0.1,
-      help: 'From your most recent PSA blood test report.',
+      help:
+        'From your most recent PSA blood test report. If you are taking hormone therapy or Dutasteride, this lowers PSA and can skew these estimates — ' +
+        'contact your urologist before relying on them.',
     },
     {
       name: 'clinicalStage',
