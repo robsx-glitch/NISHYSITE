@@ -148,23 +148,28 @@ p:last-child{ margin-bottom:0; }
 .fs-form{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:18px; }
 .fs-field{ display:flex; flex-direction:column; gap:6px; position:relative; }
 .fs-label-row{ display:flex; align-items:center; gap:6px; }
-.fs-field label{ font-size:13.5px; font-weight:600; color:var(--text); }
+.fs-field label{ font-size:14.5px; font-weight:600; color:var(--text); }
 .fs-tip{
-  width:20px; height:20px; border-radius:50%; border:1px solid var(--edge); background:#fff;
-  font-size:11px; font-weight:700; color:var(--fs-teal-ink); line-height:1; flex:0 0 auto;
+  position:relative; overflow:hidden;
+  width:23px; height:23px; border-radius:50%; border:1px solid var(--edge); background:#fff;
+  font-size:12px; font-weight:700; color:var(--fs-teal-ink); line-height:1; flex:0 0 auto;
+  transition:background .2s ease, border-color .2s ease, transform .15s ease;
 }
+.fs-tip:hover{ background:rgba(79,152,115,.12); border-color:var(--fs-teal); }
+.fs-tip:active{ transform:scale(.9); }
 .fs-tip-text{
-  display:none; font-size:12.5px; color:var(--muted); background:rgba(235,242,252,.9);
-  border:1px solid var(--edge-soft); border-radius:var(--r-sm); padding:8px 10px; margin:-2px 0 2px;
+  display:none; font-size:13.5px; line-height:1.5; color:var(--muted); background:rgba(235,242,252,.9);
+  border:1px solid var(--edge-soft); border-radius:var(--r-sm); padding:9px 11px; margin:-2px 0 2px;
 }
 .fs-tip-text--open{ display:block; }
 .fs-field input,.fs-field select{
-  font:inherit; font-size:15px; padding:12px 14px; border-radius:var(--r-sm);
+  font:inherit; font-size:16px; padding:12px 14px; border-radius:var(--r-sm);
   border:1px solid var(--edge); background:#fff; color:var(--text); min-height:48px;
+  transition:border-color .2s ease;
 }
 .fs-field input:focus,.fs-field select:focus{ border-color:var(--fs-teal); }
 .fs-field input[aria-invalid="true"],.fs-field select[aria-invalid="true"]{ border-color:#c0392b; }
-.fs-error{ min-height:16px; font-size:12.5px; color:#c0392b; margin:0; }
+.fs-error{ min-height:16px; font-size:13px; color:#c0392b; margin:0; }
 
 /* letterhead — logo + title stay visible on every tab; the clinician /
    patient-input badges only show while the Outcome Calculator tab is
@@ -179,10 +184,10 @@ p:last-child{ margin-bottom:0; }
   display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:10px 18px;
   border-bottom:2px solid var(--edge-soft); padding-bottom:16px; max-width:640px; margin:0 auto;
 }
-.fs-letterhead-clinician{ font-size:13.5px; color:var(--text); }
+.fs-letterhead-clinician{ font-size:14px; color:var(--text); }
 .fs-letterhead-badges{ display:flex; flex-wrap:wrap; gap:8px; justify-content:center; }
 .fs-badge{
-  font-size:12.5px; font-weight:700; padding:5px 13px; border-radius:999px;
+  font-size:13px; font-weight:700; padding:5px 13px; border-radius:999px;
   background:rgba(34,83,127,.08); color:var(--fs-navy); border:1px solid rgba(34,83,127,.16);
 }
 
@@ -190,26 +195,60 @@ p:last-child{ margin-bottom:0; }
 .fs-tabs-wrap{ margin-bottom:24px; }
 .fs-tablist{ display:flex; flex-wrap:wrap; gap:12px; margin:0; }
 .fs-tab{
+  position:relative; overflow:hidden;
   padding:17px 28px; border-radius:999px; font-size:16px; font-weight:700;
   border:1px solid var(--edge); background:rgba(255,255,255,.8); color:var(--muted); min-height:56px;
   box-shadow:0 12px 28px -18px rgba(17,38,80,.35);
+  transition:background .25s ease, color .25s ease, border-color .25s ease, transform .2s cubic-bezier(.2,.7,.2,1), box-shadow .25s ease;
 }
+.fs-tab:hover{ transform:translateY(-2px); border-color:var(--fs-teal); }
 .fs-tab[aria-selected="true"]{ background:var(--fs-gradient); color:#fff; border-color:transparent; }
+.fs-tab[aria-selected="true"]:hover{ filter:brightness(1.07); }
 .fs-panels{ margin-top:18px; }
 .fs-panel{ padding:22px 24px; border-radius:var(--r-md); background:rgba(255,255,255,.75); border:1px solid var(--edge-soft); }
 
 /* CTAs + note */
 .fs-note{
   margin-top:34px; padding:22px 24px; border-radius:var(--r-md);
-  background:rgba(255,255,255,.72); border:1px solid var(--edge); font-size:13.5px; color:var(--muted); line-height:1.6;
+  background:rgba(255,255,255,.72); border:1px solid var(--edge); font-size:14px; color:var(--muted); line-height:1.6;
 }
 .fs-cta-row{ display:flex; flex-wrap:wrap; gap:12px; margin-top:18px; }
 .btn{
+  position:relative; overflow:hidden;
   display:inline-flex; align-items:center; gap:8px; font-family:'Inter Tight',sans-serif;
   font-size:14.5px; font-weight:600; padding:14px 24px; border-radius:999px;
+  transition:transform .28s cubic-bezier(.2,.7,.2,1), filter .28s ease, background .25s ease, box-shadow .28s ease;
 }
+.btn:hover{ transform:translateY(-2px); }
 .btn-primary{ background:var(--fs-gradient); color:#fff; box-shadow:0 18px 38px -16px rgba(22,54,92,.55); }
+.btn-primary:hover{ filter:brightness(1.09); }
 .btn-ghost{ background:rgba(255,255,255,.8); border:1px solid var(--edge); color:var(--text); }
+.btn-ghost:hover{ background:#fff; }
+
+/* click ripple + scroll reveal, matching the main site's motion language */
+.fs-ripple{
+  position:absolute; border-radius:50%; pointer-events:none;
+  transform:translate(-50%,-50%) scale(0); opacity:.5;
+  background:radial-gradient(circle, rgba(79,152,115,.55), rgba(79,152,115,0) 70%);
+  animation:fs-ripple .6s cubic-bezier(.2,.7,.2,1) forwards;
+}
+.btn-primary .fs-ripple, .fs-tab[aria-selected="true"] .fs-ripple{
+  background:radial-gradient(circle, rgba(255,255,255,.6), rgba(255,255,255,0) 70%);
+}
+@keyframes fs-ripple{ to{ transform:translate(-50%,-50%) scale(1); opacity:0; } }
+.fs-reveal{ opacity:0; transform:translateY(22px); transition:opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1); }
+.fs-reveal.fs-in{ opacity:1; transform:none; }
+@media (prefers-reduced-motion:reduce){
+  .btn, .fs-tab, .fs-tip, .fs-field input, .fs-field select{ transition:none !important; }
+  .btn:hover, .fs-tab:hover{ transform:none !important; }
+  .fs-reveal{ opacity:1; transform:none; transition:none; }
+}
+
+/* mobile: compact the tab bar so it doesn't eat the screen */
+@media (max-width:600px){
+  .fs-tab{ padding:13px 20px; font-size:14.5px; min-height:48px; }
+  .fs-tablist{ gap:8px; }
+}
 
 /* report tab */
 .fs-report{ display:flex; flex-direction:column; gap:22px; align-items:flex-start; }
@@ -221,7 +260,7 @@ p:last-child{ margin-bottom:0; }
 .fs-report-line{ display:flex; flex-wrap:wrap; justify-content:space-between; gap:6px 16px; font-size:13.5px; }
 .fs-report-line-label{ color:var(--text); }
 .fs-report-line-value{ color:var(--fs-teal-ink); font-weight:600; text-align:right; }
-.fs-report-note,.fs-report-source{ font-size:12px; color:var(--muted); margin-top:6px; }
+.fs-report-note,.fs-report-source{ font-size:13px; color:var(--muted); margin-top:6px; }
 .fs-report-empty{ font-size:13.5px; color:var(--muted); font-style:italic; }
 .fs-report-footer{ font-size:11.5px; color:var(--muted); margin-top:14px; line-height:1.6; }
 
@@ -235,7 +274,7 @@ p:last-child{ margin-bottom:0; }
 
 /* risk chips */
 .fs-risk-chip{ display:inline-block; padding:2px 11px; border-radius:999px; color:#fff; font-weight:700; }
-.fs-plain-odds{ font-size:11px; color:var(--muted); font-style:italic; margin-top:4px; }
+.fs-plain-odds{ font-size:12.5px; color:var(--muted); font-style:italic; margin-top:4px; }
 
 /* static informational panels (How it works / Need help) */
 .fs-static-heading{ font-family:'Inter Tight',sans-serif; font-weight:700; font-size:1.05rem; color:var(--fs-navy); margin:0 0 10px; }
@@ -254,7 +293,7 @@ p:last-child{ margin-bottom:0; }
 .fs-help-checklist{ margin:10px 0 0; padding-left:20px; font-size:14.5px; color:var(--text); line-height:1.6; }
 .fs-help-checklist li{ margin-bottom:6px; }
 .fs-help-position{ font-size:14.5px; color:var(--text); }
-.fs-help-confidential{ font-size:12.5px; color:var(--muted); margin-top:18px; padding-top:16px; border-top:1px solid var(--edge-soft); }
+.fs-help-confidential{ font-size:13px; color:var(--muted); margin-top:18px; padding-top:16px; border-top:1px solid var(--edge-soft); }
 
 /* report dashboard */
 .fs-report-dash{ display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:14px; margin-bottom:10px; }
@@ -262,16 +301,16 @@ p:last-child{ margin-bottom:0; }
 .fs-dash-card-label{ font-size:11px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
 .fs-dash-card-value{ font-family:'Inter Tight',sans-serif; font-weight:700; font-size:1.5rem; color:var(--fs-navy); line-height:1.1; }
 .fs-dash-card-value--muted{ color:var(--muted); font-size:1rem; font-weight:600; }
-.fs-dash-card-sub{ font-size:11.5px; color:var(--muted); margin-top:5px; line-height:1.45; }
-.fs-report-dash-notes{ font-size:11px; color:var(--muted); margin:8px 0 24px; line-height:1.6; }
+.fs-dash-card-sub{ font-size:12.5px; color:var(--muted); margin-top:5px; line-height:1.45; }
+.fs-report-dash-notes{ font-size:12px; color:var(--muted); margin:8px 0 24px; line-height:1.6; }
 
 /* anatomical diagram */
 .fs-anatomy{ display:flex; flex-wrap:wrap; gap:22px; align-items:center; margin-bottom:26px; padding:18px 20px; border-radius:var(--r-md); background:rgba(235,242,252,.55); border:1px solid var(--edge-soft); }
 .fs-anatomy-svg{ width:180px; height:auto; flex:0 0 auto; }
-.fs-anatomy-legend{ flex:1 1 220px; display:flex; flex-direction:column; gap:7px; font-size:12.5px; color:var(--text); }
+.fs-anatomy-legend{ flex:1 1 220px; display:flex; flex-direction:column; gap:7px; font-size:13.5px; color:var(--text); }
 .fs-anatomy-legend-row{ display:flex; align-items:flex-start; gap:8px; }
 .fs-anatomy-swatch{ width:12px; height:12px; border-radius:3px; flex:0 0 auto; margin-top:3px; }
-.fs-anatomy-caption{ font-size:11px; color:var(--muted); margin-top:2px; }
+.fs-anatomy-caption{ font-size:12px; color:var(--muted); margin-top:2px; }
 
 @page{ size:A4 portrait; margin:12mm 15mm; }
 @media print{
@@ -381,10 +420,10 @@ footer{ padding:34px 0 44px; border-top:1px solid var(--edge-soft); margin-top:2
 
   <div id="foresight-results"></div>
 
-  <div class="fs-note">
+  <div class="fs-note fs-reveal">
     These estimates come from published, peer-reviewed prediction models and are for education only. They do not replace consultation with your urologist.
   </div>
-  <div class="fs-cta-row">
+  <div class="fs-cta-row fs-reveal">
     <a class="btn btn-primary" href="https://cloudurologist.setmore.com?utm_source=in-app&amp;utm_medium=iosapp&amp;utm_campaign=settsharebp" target="_blank" rel="noopener">Book Your Consultation</a>
     <a class="btn btn-ghost" href="mailto:drnishyurology@gmail.com?subject=Discussing%20my%20Foresight%20results">Discuss these results with Dr Nisanth</a>
   </div>

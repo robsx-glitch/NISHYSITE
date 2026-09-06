@@ -1079,6 +1079,59 @@
     return wrap;
   }
 
+  // Click ripple (delegated, so it works on the tabs/dashboard even though
+  // their DOM gets rebuilt on every render) + scroll-reveal on the page's
+  // static chrome — matching the main site's motion language. Skips the
+  // live calculator panels: those rebuild on every keystroke, and a
+  // fade-in class there would replay on every character typed instead of
+  // once per visit.
+  function initMotion() {
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) return;
+
+    document.addEventListener(
+      'pointerdown',
+      function (e) {
+        var host = e.target.closest('.btn, .fs-tab, .fs-tip');
+        if (!host) return;
+        var r = host.getBoundingClientRect();
+        var size = Math.max(r.width, r.height) * 2.2;
+        var dot = document.createElement('span');
+        dot.className = 'fs-ripple';
+        dot.style.width = dot.style.height = size + 'px';
+        dot.style.left = e.clientX - r.left + 'px';
+        dot.style.top = e.clientY - r.top + 'px';
+        host.appendChild(dot);
+        setTimeout(function () {
+          dot.remove();
+        }, 650);
+      },
+      true
+    );
+
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (en, i) {
+            if (en.isIntersecting) {
+              setTimeout(
+                function () {
+                  en.target.classList.add('fs-in');
+                },
+                Math.min(i * 70, 280)
+              );
+              io.unobserve(en.target);
+            }
+          });
+        },
+        { rootMargin: '0px 0px -8% 0px' }
+      );
+      document.querySelectorAll('.fs-reveal').forEach(function (el) {
+        io.observe(el);
+      });
+    }
+  }
+
   function init() {
     var letterheadRoot = document.getElementById('foresight-letterhead');
     var tabsRoot = document.getElementById('foresight-tabs');
@@ -1092,6 +1145,7 @@
     resultsRootRef = resultsRoot;
     renderForm(formRoot);
     render();
+    initMotion();
   }
 
   if (document.readyState === 'loading') {
