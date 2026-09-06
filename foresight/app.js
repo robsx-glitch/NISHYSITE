@@ -416,7 +416,7 @@
         state.errors[field.name] = err;
         errorEl.textContent = err || '';
         input.setAttribute('aria-invalid', err ? 'true' : 'false');
-        renderResults(resultsRootRef);
+        render();
       });
 
       group.appendChild(input);
@@ -463,9 +463,19 @@
     return stat.ci ? stat.value + '% (95% CI ' + stat.ci[0] + '–' + stat.ci[1] + '%)' : stat.value + '%';
   }
 
+  var tabsRootRef = null;
   var resultsRootRef = null;
 
-  function renderResults(root) {
+  // Tabs render above the "Your details" form; panels render below it —
+  // both reflect the same state.activeTab, so a click or a field edit
+  // re-renders both together.
+  function render() {
+    renderTabs();
+    renderPanels();
+  }
+
+  function renderTabs() {
+    var root = tabsRootRef;
     if (!root) return;
     root.innerHTML = '';
 
@@ -473,9 +483,6 @@
     tablist.className = 'fs-tablist';
     tablist.setAttribute('role', 'tablist');
     tablist.setAttribute('aria-label', 'Foresight');
-
-    var panels = document.createElement('div');
-    panels.className = 'fs-panels';
 
     NAV_TABS.forEach(function (tab) {
       var btn = document.createElement('button');
@@ -489,7 +496,7 @@
       btn.textContent = tab.label;
       btn.addEventListener('click', function () {
         state.activeTab = tab.id;
-        renderResults(root);
+        render();
         document.getElementById('fs-tab-' + tab.id).focus();
       });
       btn.addEventListener('keydown', function (e) {
@@ -500,12 +507,25 @@
         if (next) {
           e.preventDefault();
           state.activeTab = next.id;
-          renderResults(root);
+          render();
           document.getElementById('fs-tab-' + next.id).focus();
         }
       });
       tablist.appendChild(btn);
+    });
 
+    root.appendChild(tablist);
+  }
+
+  function renderPanels() {
+    var root = resultsRootRef;
+    if (!root) return;
+    root.innerHTML = '';
+
+    var panels = document.createElement('div');
+    panels.className = 'fs-panels';
+
+    NAV_TABS.forEach(function (tab) {
       var panel = document.createElement('div');
       panel.className = 'fs-panel';
       panel.id = 'fs-panel-' + tab.id;
@@ -520,7 +540,6 @@
       panels.appendChild(panel);
     });
 
-    root.appendChild(tablist);
     root.appendChild(panels);
   }
 
@@ -731,9 +750,45 @@
         'demographics differ from an Indian patient population — and do not represent diagnostic certainty or guaranteed surgical outcomes. Final ' +
         'intraoperative strategies remain entirely the responsibility of the attending surgeon.'
     );
+    appendEl(
+      body,
+      'p',
+      '',
+      'The lymph-node and surgical-margin figures above are raw estimated probabilities: neither source publishes a decision threshold for extended ' +
+        'lymph node dissection nor numeric cut-offs for its risk groups, so none is imposed here.'
+    );
     appendEl(body, 'p', '', 'Data privacy: all computations run client-side in your local browser session; no patient data is stored or transmitted.');
+    appendEl(body, 'p', 'fs-disclaimer-citations', 'Tosoian et al. 2017; Gandaglia et al. 2019; Hao et al. 2022; Pinkhasov et al. 2022.');
     box.appendChild(body);
     return box;
+  }
+
+  function buildPrintHeader() {
+    var ph = document.createElement('div');
+    ph.className = 'fs-print-header';
+    var mark = document.createElement('img');
+    mark.src = '../images/foresight-logo.png';
+    mark.alt = 'Foresight by URObotics';
+    mark.className = 'fs-print-logo';
+    ph.appendChild(mark);
+    appendEl(ph, 'div', 'fs-print-title', 'Foresight Clarity Report');
+    appendEl(ph, 'div', 'fs-print-subtitle', 'Personalized Pre-Operative Risk Assessment & Surgical Trajectory');
+    var meta = document.createElement('div');
+    meta.className = 'fs-print-meta';
+    meta.innerHTML =
+      'Clinician: Dr. Nisanth Puliyath, Uro-Oncologist &amp; Robotic Surgeon &middot; Date generated: ' +
+      new Date().toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }) +
+      '<br>Age <b>' +
+      (state.values.age || '—') +
+      '</b> &middot; Pre-op PSA <b>' +
+      (state.values.psa ? state.values.psa + ' ng/mL' : '—') +
+      '</b> &middot; Clinical T-stage <b>' +
+      (state.values.clinicalStage || '—') +
+      '</b> &middot; Biopsy grade group <b>' +
+      (state.values.gradeGroup || '—') +
+      '</b>';
+    ph.appendChild(meta);
+    return ph;
   }
 
   function buildCalculatorPanel() {
@@ -752,6 +807,11 @@
 
     var doc = document.createElement('div');
     doc.className = 'fs-report-doc';
+
+    // Print gets its own centered letterhead (buildPrintHeader); the
+    // on-screen header below is hidden in @media print instead of shown
+    // twice.
+    doc.appendChild(buildPrintHeader());
 
     var header = document.createElement('div');
     header.className = 'fs-report-header';
@@ -995,12 +1055,14 @@
   }
 
   function init() {
+    var tabsRoot = document.getElementById('foresight-tabs');
     var formRoot = document.getElementById('foresight-form');
     var resultsRoot = document.getElementById('foresight-results');
-    if (!formRoot || !resultsRoot) return;
+    if (!tabsRoot || !formRoot || !resultsRoot) return;
+    tabsRootRef = tabsRoot;
     resultsRootRef = resultsRoot;
     renderForm(formRoot);
-    renderResults(resultsRoot);
+    render();
   }
 
   if (document.readyState === 'loading') {
