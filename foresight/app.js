@@ -90,6 +90,26 @@
       help: "From your MRI report: 'seminal vesicle invasion' suspected, yes/no.",
     },
     {
+      name: 'maxLesionDiameterMM',
+      label: 'MRI: maximum lesion diameter',
+      unit: 'mm',
+      type: 'number',
+      min: 0,
+      max: 100,
+      step: 1,
+      help: "From your MRI report: the size of the largest suspicious area (the one with the highest PI-RADS score, or the largest if more than one shares it).",
+    },
+    {
+      name: 'percentClinicallySignificantCores',
+      label: 'Cores with clinically significant cancer',
+      unit: '%',
+      type: 'number',
+      min: 0,
+      max: 100,
+      step: 0.1,
+      help: "From your biopsy report: the percentage of cores containing grade group 2 or higher disease (not just any cancer).",
+    },
+    {
       name: 'prostateVolume',
       label: 'Prostate volume',
       unit: 'mL',
@@ -126,22 +146,32 @@
       requires: ['psa', 'clinicalStage', 'gradeGroup'],
       run: function (v) {
         return models.predictPathologicalStage({
-          psa: v.psa,
+          psa: Number(v.psa),
           clinicalStage: v.clinicalStage,
           gradeGroup: Number(v.gradeGroup),
         });
+      },
+      renderOk: function (result, wrap) {
+        renderStatRow(wrap, 'Organ-confined disease', result.organConfined);
+        renderStatRow(wrap, 'Extraprostatic extension', result.extraprostaticExtension);
+        renderStatRow(wrap, 'Seminal vesicle invasion', result.seminalVesicleInvasion);
+        renderStatRow(wrap, 'Lymph node involvement', result.lymphNodeInvolvement);
       },
     },
     {
       id: 'lni',
       label: 'Lymph node risk',
-      requires: ['psa', 'clinicalStage', 'gradeGroup', 'coresTaken', 'coresPositive', 'mriEPE', 'mriSVI'],
+      requires: ['psa', 'gradeGroup', 'maxLesionDiameterMM', 'percentClinicallySignificantCores', 'mriEPE', 'mriSVI'],
+      renderOk: function (result, wrap) {
+        renderStatRow(wrap, 'Lymph node involvement', { value: result.probabilityPercent, ci: null });
+        appendEl(wrap, 'p', 'fs-interp', result.thresholdNote);
+      },
       run: function (v) {
         return models.predictLymphNodeInvasion({
-          psa: v.psa,
-          clinicalStage: v.clinicalStage,
+          psa: Number(v.psa),
           gradeGroup: Number(v.gradeGroup),
-          percentPositiveCores: (Number(v.coresPositive) / Number(v.coresTaken)) * 100,
+          maxLesionDiameterMM: Number(v.maxLesionDiameterMM),
+          percentClinicallySignificantCores: Number(v.percentClinicallySignificantCores),
           mriEPE: v.mriEPE === 'yes',
           mriSVI: v.mriSVI === 'yes',
         });
@@ -338,23 +368,34 @@
       return wrap;
     }
 
-    var status = document.createElement('p');
-    status.className = 'fs-status fs-status--pending';
-    status.textContent = 'Not yet available.';
-    wrap.appendChild(status);
+    if (result.status === 'ok') {
+      appendEl(wrap, 'p', 'fs-status fs-status--ok', 'Estimate');
+      if (tab.renderOk) tab.renderOk(result, wrap);
+      if (result.note) appendEl(wrap, 'p', 'fs-interp', result.note);
+      appendEl(wrap, 'p', 'fs-model', 'Model: ' + result.model);
+      appendEl(wrap, 'p', 'fs-citation', result.citation);
+      appendValidityNote(wrap);
+      return wrap;
+    }
 
-    var interp = document.createElement('p');
-    interp.className = 'fs-interp';
-    interp.textContent =
-      state.audience === 'patient'
-        ? 'This estimate is not published in a form we can safely calculate yet, so it is left blank rather than guessed.'
-        : 'Pending: model coefficients/table values could not be verified against the primary source in this build and are not implemented.';
-    wrap.appendChild(interp);
+    // status is 'unsupported' or 'pending'
+    var statusText = result.status === 'unsupported' ? 'Not available for this combination.' : 'Not yet available.';
+    appendEl(wrap, 'p', 'fs-status fs-status--pending', statusText);
 
-    var modelLine = document.createElement('p');
-    modelLine.className = 'fs-model';
-    modelLine.textContent = 'Model: ' + result.model;
-    wrap.appendChild(modelLine);
+    var interpText;
+    if (result.status === 'unsupported') {
+      interpText =
+        state.audience === 'patient'
+          ? "This exact combination of details isn't covered by the published data this tool uses."
+          : result.reason;
+    } else {
+      interpText =
+        state.audience === 'patient'
+          ? 'This estimate is not published in a form we can safely calculate yet, so it is left blank rather than guessed.'
+          : 'Pending: model coefficients/table values could not be verified against the primary source in this build and are not implemented.';
+    }
+    appendEl(wrap, 'p', 'fs-interp', interpText);
+    appendEl(wrap, 'p', 'fs-model', 'Model: ' + result.model);
 
     if (state.audience === 'clinician' && result.needed) {
       var ul = document.createElement('ul');
@@ -367,19 +408,64 @@
       wrap.appendChild(ul);
     }
 
-    var citation = document.createElement('p');
-    citation.className = 'fs-citation';
-    citation.textContent = result.citation;
-    wrap.appendChild(citation);
-
-    var validity = document.createElement('p');
-    validity.className = 'fs-validity';
-    validity.textContent =
-      'External validity: models like this are derived largely in Western cohorts. Indian men often present ' +
-      'with higher PSA and grade group at diagnosis, on average, than the cohorts these models were built on.';
-    wrap.appendChild(validity);
-
+    appendEl(wrap, 'p', 'fs-citation', result.citation);
+    appendValidityNote(wrap);
     return wrap;
+  }
+
+  function appendEl(parent, tag, className, text) {
+    var el = document.createElement(tag);
+    el.className = className;
+    el.textContent = text;
+    parent.appendChild(el);
+    return el;
+  }
+
+  function appendValidityNote(wrap) {
+    appendEl(
+      wrap,
+      'p',
+      'fs-validity',
+      'External validity: models like this are derived largely in Western cohorts. Indian men often present ' +
+        'with higher PSA and grade group at diagnosis, on average, than the cohorts these models were built on.'
+    );
+  }
+
+  function roundTo5(pct) {
+    return Math.round(pct / 5) * 5;
+  }
+
+  function patientLabel(pct) {
+    if (pct < 1) return 'Less than 1%';
+    if (pct < 5) return 'Less than 5%';
+    return roundTo5(pct) + '%';
+  }
+
+  function plainOdds(pct) {
+    if (pct < 1) return 'uncommon in men with similar findings';
+    if (pct >= 95) return 'expected in almost all men with similar findings';
+    var n = Math.max(2, Math.round(100 / pct));
+    return 'about 1 in ' + n + ' men with similar findings';
+  }
+
+  function renderStatRow(wrap, label, stat) {
+    var row = document.createElement('div');
+    row.className = 'fs-stat-row';
+    var l = document.createElement('span');
+    l.className = 'fs-stat-label';
+    l.textContent = label;
+    var v = document.createElement('span');
+    v.className = 'fs-stat-value';
+    if (state.audience === 'patient') {
+      v.textContent = patientLabel(stat.value) + ' — ' + plainOdds(stat.value);
+    } else if (stat.ci) {
+      v.textContent = stat.value + '% (95% CI ' + stat.ci[0] + '–' + stat.ci[1] + '%)';
+    } else {
+      v.textContent = stat.value + '%';
+    }
+    row.appendChild(l);
+    row.appendChild(v);
+    wrap.appendChild(row);
   }
 
   var resultsRootRef = null;

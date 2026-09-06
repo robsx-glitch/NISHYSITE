@@ -150,6 +150,14 @@ p:last-child{ margin-bottom:0; }
 .fs-need{ font-size:14.5px; color:var(--muted); }
 .fs-status{ font-family:'Inter Tight',sans-serif; font-weight:700; font-size:1.05rem; margin-bottom:6px; }
 .fs-status--pending{ color:#a8681b; }
+.fs-status--ok{ color:#0a55c7; }
+.fs-stat-row{
+  display:flex; flex-wrap:wrap; justify-content:space-between; gap:8px 16px;
+  padding:10px 0; border-bottom:1px solid var(--edge-soft); font-size:14.5px;
+}
+.fs-stat-row:last-of-type{ border-bottom:none; }
+.fs-stat-label{ color:var(--text); font-weight:600; }
+.fs-stat-value{ color:var(--blue-ink); font-weight:600; text-align:right; }
 .fs-interp{ font-size:14.5px; color:var(--text); }
 .fs-model{ font-size:13px; color:var(--muted); font-style:italic; }
 .fs-citation{ font-size:12.5px; color:var(--muted); margin-top:10px; }
