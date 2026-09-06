@@ -312,33 +312,111 @@ function predictLymphNodeInvasion(input) {
 /**
  * Positive surgical margin — pre-operative model.
  *
- * No pre-operative positive-surgical-margin model with fully published,
- * independently verifiable coefficients could be confirmed in this
- * session (candidate papers found by search, e.g. a 2024 preoperative
- * MRI-based nomogram in Cancer Imaging, report AUCs and some individual
- * odds ratios but not a complete, ready-to-implement coefficient set that
- * could be verified here). Per the build spec: do not approximate — this
- * stays pending until a complete, cited coefficient set is supplied.
+ * Hao Y, Zhang Q, Hang J, Xu L, Zhang S, Guo H. "Development of a
+ * Prediction Model for Positive Surgical Margin in Robot-Assisted
+ * Laparoscopic Radical Prostatectomy." Curr Oncol. 2022 Dec
+ * 6;29(12):9560-9571. DOI: 10.3390/curroncol29120751. PMCID: PMC9776736.
  *
- * TODO_VERIFY: source a peer-reviewed pre-operative PSM model with fully
- * published coefficients (candidates to check first: MSKCC pre-treatment
- * nomogram extensions that report a PSM endpoint; Ohori et al.; the 2024
- * Cancer Imaging preoperative PSM nomogram — Cancer Imaging. 2024;24:99.
- * DOI: 10.1186/s40644-024-00749-w — confirm whether its published
- * supplementary material includes a full coefficient table).
+ * All 18 coefficients (17 predictor terms + intercept) below are
+ * transcribed from the paper's Table 3, cross-checked two ways: (1) every
+ * row's published OR equals exp(published Estimate) to 3 decimals, and
+ * (2) the paper's own worked example ("a patient was 70 years old, the
+ * ratio of positive needles was 0.5, the histological grade was 3, and
+ * the total tumor ratio was 30. The longest diameter of the suspicious
+ * nodule was 1.53, the suspicious nodule score was 4, the PSA was 7.55,
+ * the location of the suspicious nodule was a transitional zone, and the
+ * clinical stages were 2c and above ... a PSM probability of 0.276")
+ * reproduces to 0.271 using the formula below — the ~0.005 gap is
+ * consistent with the paper's coefficients being published rounded to 3
+ * decimals, not a structural mismatch (see models.test.js).
  *
- * @param {object} input
- * @returns {{status:'pending', model:string, needed:string[]}}
+ * Xβ = intercept
+ *    + 0.020 * age (years)
+ *    + 0.696 * PPN (fraction of biopsy cores positive, 0-1)
+ *    + ISUP: 1 = 0 (reference), 2 = 0.260, 3 = 0.630, 4 = 0.846, 5 = 1.243
+ *    + 0.017 * PT (percent of biopsy tumor involvement, 0-100 — the sum
+ *        of each core's %-tumor, per the paper's definition; distinct
+ *        from PPN)
+ *    + 0.076 * D (maximal MRI lesion diameter, cm)
+ *    + PI-RADS: 1-3 = 0 (reference), 4 = 0.349, 5 = 0.699, negative (no
+ *        lesion seen) = -1.358
+ *    + 0.026 * PSA (ng/mL)
+ *    + T-MRI stage group: <=T2a = 0 (reference), T2b = 0.070,
+ *        >=T2c (includes T3a/T3b) = 0.235
+ *    + tumor location: mixed = 0 (reference), peripheral = -0.360,
+ *        transitional = 0.430, negative (no lesion seen) = 1.357
+ *   intercept = -5.203
+ *   P = e^(Xβ) / (1 + e^(Xβ))
+ *
+ * TODO_VERIFY: the paper's calibration discussion mentions "low-risk",
+ * "medium-risk" and "high-risk" groups but does not state the numeric
+ * probability cut-offs between them anywhere in the text — the UI
+ * surfaces the raw probability only, no risk-tier threshold.
+ *
+ * @param {{age:number, psa:number, gradeGroup:number, clinicalStage:string, maxLesionDiameterMM:number, pirads:string, coresTaken:number, coresPositive:number, percentTumorAcrossCores:number, tumorLocation:string}} input
+ * @returns object with status 'ok'.
  */
+var PSM_CITATION =
+  'Hao Y, Zhang Q, Hang J, Xu L, Zhang S, Guo H. Curr Oncol. 2022;29(12):9560-9571. ' +
+  'DOI: 10.3390/curroncol29120751 (Table 3 coefficients).';
+
+var PSM_MODEL = {
+  intercept: -5.203,
+  age: 0.02,
+  ppn: 0.696,
+  isup: { 1: 0, 2: 0.26, 3: 0.63, 4: 0.846, 5: 1.243 },
+  pt: 0.017,
+  diameterCm: 0.076,
+  pirads: { low: 0, 4: 0.349, 5: 0.699, negative: -1.358 },
+  psa: 0.026,
+  tMriGroup: { 1: 0, 2: 0.07, 3: 0.235 },
+  tumorLocation: { mixed: 0, peripheral: -0.36, transitional: 0.43, negative: 1.357 },
+};
+
+function tMriGroupFromClinicalStage(clinicalStage) {
+  if (clinicalStage === 'T1c' || clinicalStage === 'T2a') return 1;
+  if (clinicalStage === 'T2b') return 2;
+  return 3; // T2c, T3a, T3b: paper defines group 3 as ">= T2c"
+}
+
 function predictPositiveSurgicalMargin(input) {
+  var model = 'Pre-operative positive surgical margin model (Hao et al. 2022)';
+  var gg = input.gradeGroup;
+  if (!(gg >= 1 && gg <= 5)) {
+    return { status: 'unsupported', model: model, citation: PSM_CITATION, reason: 'Grade group must be 1-5.', input: input };
+  }
+  var piradsKey = input.pirads === 'negative' ? 'negative' : Number(input.pirads) >= 4 ? String(input.pirads) : 'low';
+  var tlKey = PSM_MODEL.tumorLocation.hasOwnProperty(input.tumorLocation) ? input.tumorLocation : null;
+  if (!tlKey) {
+    return { status: 'unsupported', model: model, citation: PSM_CITATION, reason: 'Unrecognized tumor location.', input: input };
+  }
+
+  var ppn = input.coresTaken > 0 ? input.coresPositive / input.coresTaken : 0;
+  var diameterCm = input.maxLesionDiameterMM / 10;
+  var tMriGroup = tMriGroupFromClinicalStage(input.clinicalStage);
+
+  var xBeta =
+    PSM_MODEL.intercept +
+    PSM_MODEL.age * input.age +
+    PSM_MODEL.ppn * ppn +
+    PSM_MODEL.isup[gg] +
+    PSM_MODEL.pt * input.percentTumorAcrossCores +
+    PSM_MODEL.diameterCm * diameterCm +
+    PSM_MODEL.pirads[piradsKey] +
+    PSM_MODEL.psa * input.psa +
+    PSM_MODEL.tMriGroup[tMriGroup] +
+    PSM_MODEL.tumorLocation[tlKey];
+
+  var odds = Math.exp(xBeta);
+  var probability = odds / (1 + odds);
+
   return {
-    status: 'pending',
-    model: 'Pre-operative positive surgical margin model',
-    citation: 'No fully published, verified coefficient set identified yet — see README.',
-    needed: [
-      'TODO_VERIFY: a peer-reviewed pre-operative PSM model with complete published coefficients.',
-    ],
-    input,
+    status: 'ok',
+    model: model,
+    citation: PSM_CITATION,
+    probabilityPercent: Math.round(probability * 1000) / 10,
+    note: 'TODO_VERIFY: the source paper does not state numeric cut-offs for its "low/medium/high-risk" groups.',
+    input: input,
   };
 }
 

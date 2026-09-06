@@ -121,14 +121,66 @@ function assertPendingShape(result, name) {
   assert.strictEqual(result.probabilityPercent, withSviOnly.probabilityPercent);
 }
 
-// --- Positive surgical margin ---------------------------------------------
+// --- Positive surgical margin (Hao et al. 2022) ---------------------------
+// Worked example quoted verbatim from the paper's discussion: "a patient
+// was 70 years old, the ratio of positive needles was 0.5, the
+// histological grade was 3, and the total tumor ratio was 30. The longest
+// diameter of the suspicious nodule was 1.53 [cm], the suspicious nodule
+// score was 4, the PSA was 7.55, the location of the suspicious nodule
+// was a transitional zone, and the clinical stages were 2c and above ...
+// a PSM probability of 0.276."
 {
   const result = predictPositiveSurgicalMargin({
-    psa: 7.1,
-    clinicalStage: 'T2a',
-    gradeGroup: 2,
+    age: 70,
+    psa: 7.55,
+    gradeGroup: 3,
+    clinicalStage: 'T2c',
+    maxLesionDiameterMM: 15.3, // 1.53 cm
+    pirads: '4',
+    coresTaken: 2,
+    coresPositive: 1, // PPN 0.5
+    percentTumorAcrossCores: 30,
+    tumorLocation: 'transitional',
   });
-  assertPendingShape(result, 'predictPositiveSurgicalMargin');
+  assert.strictEqual(result.status, 'ok');
+  assert.ok(/Hao Y/.test(result.citation), 'citation should reference Hao et al.');
+  assert.ok(/10\.3390\/curroncol29120751/.test(result.citation), 'citation should include the DOI');
+  const xBeta = -5.203 + 0.02 * 70 + 0.696 * 0.5 + 0.63 + 0.017 * 30 + 0.076 * 1.53 + 0.349 + 0.026 * 7.55 + 0.235 + 0.43;
+  const expected = Math.round((Math.exp(xBeta) / (1 + Math.exp(xBeta))) * 1000) / 10;
+  assert.strictEqual(result.probabilityPercent, expected);
+  // Paper's own stated result is 27.6%; published coefficients are rounded
+  // to 3 decimals, so an exact match isn't expected — within 1 point is.
+  assert.ok(Math.abs(result.probabilityPercent - 27.6) < 1, `expected close to 27.6, got ${result.probabilityPercent}`);
+}
+
+// PI-RADS negative and T1c/T2a should map to the reference categories
+// (no term added for PI-RADS or T-MRI group).
+{
+  const reference = predictPositiveSurgicalMargin({
+    age: 60,
+    psa: 5,
+    gradeGroup: 1,
+    clinicalStage: 'T1c',
+    maxLesionDiameterMM: 10,
+    pirads: '2',
+    coresTaken: 12,
+    coresPositive: 1,
+    percentTumorAcrossCores: 10,
+    tumorLocation: 'mixed',
+  });
+  const sameAsT2a = predictPositiveSurgicalMargin({
+    age: 60,
+    psa: 5,
+    gradeGroup: 1,
+    clinicalStage: 'T2a',
+    maxLesionDiameterMM: 10,
+    pirads: '3',
+    coresTaken: 12,
+    coresPositive: 1,
+    percentTumorAcrossCores: 10,
+    tumorLocation: 'mixed',
+  });
+  assert.strictEqual(reference.probabilityPercent, sameAsT2a.probabilityPercent);
 }
 
 // --- Continence recovery tiers -----------------------------------------

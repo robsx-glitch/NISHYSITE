@@ -4,12 +4,12 @@ A pre-operative outcome calculator for men considering robotic radical
 prostatectomy (RARP), published at `/foresight/`. Plain JS, no build step,
 no framework, no network calls — everything runs in the visitor's browser.
 
-## Status: 3 of 4 models implemented from primary sources
+## Status: all 4 models implemented from primary sources
 
 This page was originally built in a sandboxed session whose network
 egress policy blocked every source that could confirm exact coefficients
 (paywalled journals, NCBI/PMC, Hopkins, Evidencio, ResearchGate). Dr
-Puliyath then supplied three primary-source PDFs directly, which are now
+Puliyath then supplied four primary-source PDFs directly, all now
 implemented:
 
 - The Johns Hopkins Brady Urological Institute's own **Partin Tables**
@@ -18,20 +18,19 @@ implemented:
   which reproduces the exact logistic-regression coefficient table for
   the **Briganti 2019** model — the manufacturer's own reference
   implementation of the published model.
+- Hao et al. 2022 (*Curr Oncol* 29(12):9560-9571), with the full
+  multivariate logistic regression behind that paper's **surgical
+  margin** nomogram, including a worked example quoted in the paper's
+  own text that the implementation reproduces.
 - The supplementary tables from Pinkhasov et al. 2022 (*Cancers*
   14(7):1644), with the exact multivariate odds ratios behind that
   paper's **continence** nomogram.
-
-Only the surgical margin model still has no primary source supplied, so
-per the build's hard rule — *never invent, guess, or approximate a
-coefficient, table cell, or cut-off* — it remains
-`{ status: 'pending', ... }`.
 
 | Model | Tab | Source | Status |
 |---|---|---|---|
 | Partin Tables (2016 update) | Pathological stage | Tosoian JJ, Chappidi M, Feng Z, et al. *BJU Int.* 2017;119(5):676-683. DOI: [10.1111/bju.13573](https://doi.org/10.1111/bju.13573) | **Implemented** for clinical stage T1c/T2a/T2b/T2c and grade groups 1–4. `unsupported` for T3a/T3b and grade group 5 — not in the supplied source table (its grade-5 column was cut off the PDF page). |
 | Briganti 2019 nomogram | Lymph node risk | Gandaglia G, Ploussard G, Valerio M, et al. *Eur Urol.* 2019;75(3):506-514. DOI: [10.1016/j.eururo.2018.10.012](https://doi.org/10.1016/j.eururo.2018.10.012) | **Implemented** — full logistic regression. `TODO_VERIFY`: the source manual doesn't state a recommended probability threshold for offering extended pelvic lymph node dissection, so the UI reports the raw probability only. |
-| Pre-operative PSM model | Surgical margin | No complete, independently verified coefficient set identified | `TODO_VERIFY` — candidate source not confirmed complete (see below) |
+| Pre-operative PSM model | Surgical margin | Hao Y, Zhang Q, Hang J, et al. *Curr Oncol.* 2022;29(12):9560-9571. DOI: [10.3390/curroncol29120751](https://doi.org/10.3390/curroncol29120751) | **Implemented** — full logistic regression, verified against the paper's own worked example. `TODO_VERIFY`: the paper mentions "low/medium/high-risk" groups but never states the numeric cut-offs between them, so the UI reports the raw probability only. |
 | Continence recovery tiers | Continence recovery | Pinkhasov RM, Lee T, Huang R, et al. *Cancers.* 2022;14(7):1644. DOI: [10.3390/cancers14071644](https://doi.org/10.3390/cancers14071644) | **Implemented as tiers** — real multivariate ORs, but *not* the paper's own point-based nomogram (see below for why). |
 
 ## How the implemented models work
@@ -115,42 +114,34 @@ spec asked this tab be labelled "risk tiers from published predictors,
 not a validated nomogram." The full OR table above ships with every
 result so a clinician can see the real numbers behind the tier.
 
-## How to fill in a remaining gap
+### Positive surgical margin (`predictPositiveSurgicalMargin`)
 
-Each function in `models.js` has a doc comment stating exactly what is
-missing. To complete one:
+Built from Hao et al. 2022 (Curr Oncol 29(12):9560-9571), a pre-operative
+logistic regression developed by Lasso variable selection then fit on 903
+RALP patients (151 PSMs). All 18 coefficients (17 predictor terms +
+intercept) are transcribed from the paper's Table 3, verified two ways:
+every row's published OR equals `exp(published Estimate)` to 3 decimals,
+and the implementation reproduces the paper's own worked example (quoted
+in its discussion section) to within 0.5 percentage points — the small
+gap is fully explained by the paper publishing its coefficients rounded
+to 3 decimals, not a structural error (see the comment in `models.js` and
+the test in `models.test.js` for the exact numbers).
 
-1. Get the primary paper (Dr. Puliyath has journal access this session
-   did not, or can supply the PDF directly as was done for Partin/Briganti
-   above).
-2. Replace the function body with the real calculation. Keep the same
-   input shape (documented in the JSDoc above each function) so `app.js`
-   doesn't need to change.
-3. Return `{ status: 'ok', ... }` instead of `{status:'pending', ...}` —
-   see `predictPathologicalStage`/`predictLymphNodeInvasion` for the
-   pattern, and add a matching `renderOk` to that model's tab definition
-   in `app.js`.
-4. Move the worked example from the paper into `models.test.js`, replacing
-   the current contract-only test for that model.
-5. Update the status table above and remove the `TODO_VERIFY` line for
-   that model.
+Inputs map onto the paper's variables as: age, PSA, biopsy ISUP grade
+group (dummy-coded vs. grade group 1), percentage of positive cores
+("PPN", derived from cores taken/positive), percentage of tumour across
+all cores ("PT" — a distinct metric from percent-positive-cores, a new
+field this model needed), maximum MRI lesion diameter (converted mm→cm
+to match the paper's units), PI-RADS score (dummy-coded vs. PI-RADS 1-3,
+with a "negative" option for no lesion seen — another new field), the
+same MRI-stage grouping Briganti 2019 uses (≤T2a / T2b / ≥T2c, derived
+from clinical T stage), and MRI lesion location (peripheral / transitional
+/ mixed / negative, dummy-coded vs. mixed — a third new field).
 
-### Positive surgical margin: what's missing specifically
-
-Search surfaced several candidate papers but none with a coefficient set
-this session could confirm as both *complete* and *pre-operative* (using
-only information available before surgery):
-
-- Cancer Imaging. 2024;24:99. DOI: 10.1186/s40644-024-00749-w — a 2024
-  pre-operative clinicopathological + MRI nomogram; worth checking first
-  since it's specifically pre-operative, but its supplementary coefficient
-  table was not reachable here.
-- An MRI-based grading system (PMC10593712) reports individual β
-  coefficients (e.g. 1.311 for capsule contact length ≥20mm) but appears to
-  be a component score rather than a complete probability model — confirm
-  before using.
-- Classic options to check: Ohori et al., or an MSKCC pre-treatment
-  nomogram extension with a PSM endpoint.
+`TODO_VERIFY`: the paper's calibration discussion refers to "low-risk",
+"medium-risk" and "high-risk" groups but never states the numeric
+probability boundaries between them anywhere in the text, so the UI
+reports the raw probability only, with no risk-tier label.
 
 ## Variable definitions
 
@@ -159,31 +150,35 @@ only information available before surgery):
 | Age | Age in years | — |
 | PSA | Prostate-specific antigen, ng/mL | Blood test report |
 | Clinical T stage | T1c–T3b | Urologist's exam + MRI report |
-| Biopsy ISUP grade group | 1–5 | Biopsy pathology report ("Grade Group") |
-| Cores taken / positive | Counts | Biopsy report (collected per the original spec; not yet consumed by any implemented model — Briganti 2019 needs the clinically-significant-cores percentage below instead) |
-| PI-RADS | 1–5 | MRI report |
-| MRI EPE / SVI | Yes/no | MRI report ("extracapsular extension" / "seminal vesicle invasion") — also used to derive Briganti 2019's "clinical stage at mpMRI" |
-| MRI maximum lesion diameter | mm | MRI report — Briganti 2019 input |
-| Cores with clinically significant cancer | %, 0–100 | Biopsy report — percentage of cores with grade group ≥2 (not just any-positive), a Briganti 2019 input |
-| Prostate volume | mL | MRI or ultrasound report |
+| Biopsy ISUP grade group | 1–5 | Biopsy pathology report ("Grade Group") — Partin, Briganti and PSM input |
+| Cores taken / positive | Counts | Biopsy report — used to derive percent-positive-cores ("PPN") for the PSM model |
+| PI-RADS | 1–5, or negative (no lesion seen) | MRI report — PSM model input |
+| MRI EPE / SVI | Yes/no | MRI report ("extracapsular extension" / "seminal vesicle invasion") — derives Briganti 2019's "clinical stage at mpMRI" |
+| MRI maximum lesion diameter | mm | MRI report — Briganti 2019 and PSM inputs (converted mm→cm for PSM, to match that paper's units) |
+| Cores with clinically significant cancer | %, 0–100 | Biopsy report — percentage of cores with grade group ≥2 (not just any-positive); a Briganti 2019 input |
+| Total tumour involvement across cores | %, 0–100 | Biopsy report — each core's %-involved by cancer, summed ("PT" in the PSM paper; distinct from percent-positive-cores) |
+| MRI lesion location | Peripheral / transitional / mixed / negative | MRI report — PSM model input |
+| Prostate volume | mL | MRI or ultrasound report (collected per the original spec; not consumed by any implemented model) |
 | Membranous urethral length | mm, optional | MRI report, if measured (collected per the original spec; not consumed by the implemented continence tiering — the source paper's own significant predictors are age and erectile function instead) |
 | Planned nerve sparing | bilateral / unilateral / none / undecided | Discussed with surgeon (collected per the original spec; not consumed by the implemented continence tiering) |
 | Pre-op erectile function | Firm enough for penetration: yes/no | Discussed with surgeon — a continence-tiering input |
 
 ## Known limitations
 
-- One of four models (surgical margin) is still pending a primary source
-  — see the status table above.
-- Every model here was developed largely in Western cohorts. Indian men
-  often present with higher PSA and grade group at diagnosis on average,
-  so calibration in an Indian population has not been separately
-  established even for the implemented models.
+- Every model here was developed largely in Western (or, for the PSM
+  model, a single Chinese-centre) cohort. Indian men often present with
+  higher PSA and grade group at diagnosis on average, so calibration in
+  an Indian population has not been separately established for any of
+  them.
 - The Partin Tables implementation covers only the clinical stages and
   grade groups present in the supplied source PDF (see above) — it will
   say "not available for this combination" rather than guess outside that
   range.
-- The Briganti 2019 probability is reported without a decision threshold
-  (see above) — it's a raw risk estimate, not a recommendation.
+- The Briganti 2019 and PSM probabilities are reported without a decision
+  threshold (see above for each) — they're raw risk estimates, not
+  recommendations.
+- The continence tab reports tiers built from two of the source paper's
+  predictors, not the paper's own nomogram (see above for why).
 - This is an educational aid, not a diagnostic or treatment-planning tool,
   and does not replace consultation with a urologist.
 

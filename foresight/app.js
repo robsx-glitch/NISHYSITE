@@ -74,8 +74,9 @@
       name: 'pirads',
       label: 'MRI PI-RADS score',
       type: 'select',
-      options: ['1', '2', '3', '4', '5'],
-      help: 'From your MRI report, the PI-RADS score (1–5) for the most suspicious area.',
+      options: ['1', '2', '3', '4', '5', 'negative'],
+      optionLabels: { negative: 'Negative (no lesion seen)' },
+      help: "From your MRI report, the PI-RADS score (1–5) for the most suspicious area, or 'negative' if no suspicious area was seen.",
     },
     {
       name: 'mriEPE',
@@ -108,6 +109,24 @@
       max: 100,
       step: 0.1,
       help: "From your biopsy report: the percentage of cores containing grade group 2 or higher disease (not just any cancer).",
+    },
+    {
+      name: 'percentTumorAcrossCores',
+      label: 'Total tumour involvement across cores',
+      unit: '%',
+      type: 'number',
+      min: 0,
+      max: 100,
+      step: 0.1,
+      help: "From your biopsy report: each core's percentage involved by cancer, summed (sometimes shown as 'total tumour extent' or '% core involvement'). Distinct from the count of positive cores above.",
+    },
+    {
+      name: 'tumorLocation',
+      label: 'MRI: location of the suspicious area',
+      type: 'select',
+      options: ['peripheral', 'transitional', 'mixed', 'negative'],
+      optionLabels: { peripheral: 'Peripheral zone', transitional: 'Transitional zone', mixed: 'Mixed', negative: 'Negative (no lesion seen)' },
+      help: 'From your MRI report: which part of the prostate the suspicious area was in.',
     },
     {
       name: 'prostateVolume',
@@ -186,13 +205,33 @@
     {
       id: 'margin',
       label: 'Surgical margin',
-      requires: ['psa', 'clinicalStage', 'gradeGroup', 'pirads'],
+      requires: [
+        'age',
+        'psa',
+        'clinicalStage',
+        'gradeGroup',
+        'pirads',
+        'maxLesionDiameterMM',
+        'coresTaken',
+        'coresPositive',
+        'percentTumorAcrossCores',
+        'tumorLocation',
+      ],
+      renderOk: function (result, wrap) {
+        renderStatRow(wrap, 'Positive surgical margin', { value: result.probabilityPercent, ci: null });
+      },
       run: function (v) {
         return models.predictPositiveSurgicalMargin({
-          psa: v.psa,
+          age: Number(v.age),
+          psa: Number(v.psa),
           clinicalStage: v.clinicalStage,
           gradeGroup: Number(v.gradeGroup),
-          pirads: Number(v.pirads),
+          pirads: v.pirads,
+          maxLesionDiameterMM: Number(v.maxLesionDiameterMM),
+          coresTaken: Number(v.coresTaken),
+          coresPositive: Number(v.coresPositive),
+          percentTumorAcrossCores: Number(v.percentTumorAcrossCores),
+          tumorLocation: v.tumorLocation,
         });
       },
     },
@@ -361,7 +400,7 @@
         field.options.forEach(function (opt) {
           var o = document.createElement('option');
           o.value = opt;
-          o.textContent = opt;
+          o.textContent = (field.optionLabels && field.optionLabels[opt]) || opt;
           input.appendChild(o);
         });
       } else if (field.type === 'yesno') {
