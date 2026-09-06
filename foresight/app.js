@@ -32,7 +32,9 @@
       min: 0.1,
       max: 100,
       step: 0.1,
-      help: 'From your most recent PSA blood test report.',
+      help:
+        'From your most recent PSA blood test report. If you are taking hormone therapy or Dutasteride, this lowers PSA and can skew these estimates — ' +
+        'contact your urologist before relying on them.',
     },
     {
       name: 'clinicalStage',
@@ -108,7 +110,8 @@
       min: 0,
       max: 100,
       step: 0.1,
-      help: "From your biopsy report: the percentage of cores containing grade group 2 or higher disease (not just any cancer).",
+      optional: true,
+      help: "From your biopsy report: the percentage of cores containing grade group 2 or higher disease (not just any cancer). Leave blank if not reported — needed for the lymph node risk estimate.",
     },
     {
       name: 'percentTumorAcrossCores',
@@ -160,7 +163,8 @@
       name: 'erectileFunctionFirm',
       label: 'Pre-op erectile function firm enough for penetration',
       type: 'yesno',
-      help: 'Before any treatment: were erections firm enough for penetration, with or without the help of medication.',
+      optional: true,
+      help: 'Before any treatment: were erections firm enough for penetration, with or without the help of medication. Leave blank if unsure — needed for the continence recovery estimate.',
     },
   ];
 
@@ -289,8 +293,8 @@
   ];
 
   var NAV_TABS = [
-    { id: 'calculator', label: 'Outcome Calculator' },
     { id: 'how', label: 'How Foresight Works' },
+    { id: 'calculator', label: 'Outcome Calculator' },
     { id: 'help', label: 'Need Help Filling This Out?' },
   ];
 
