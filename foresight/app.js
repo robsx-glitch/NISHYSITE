@@ -914,55 +914,12 @@
   // ---------------------------------------------------------------------
   // How Foresight Works — static, no patient data
   // ---------------------------------------------------------------------
-  function buildHowItWorksPanel() {
-    var wrap = document.createElement('div');
-
-    var def = document.createElement('div');
-    def.className = 'fs-static-section';
-    appendEl(def, 'h3', 'fs-static-heading', 'What Foresight is');
-    appendEl(
-      def,
-      'p',
-      '',
-      'Foresight is a pre-operative statistical outcome-prediction engine. It applies published, peer-reviewed prediction models to the details in your ' +
-        'biopsy and MRI report to estimate post-operative risks. It is strictly a statistical calculator — not a 3D anatomical model or a surgical ' +
-        'simulation, and nothing it shows is a rendering of your own anatomy.'
-    );
-    wrap.appendChild(def);
-
-    var targets = document.createElement('div');
-    targets.className = 'fs-static-section';
-    appendEl(targets, 'h3', 'fs-static-heading', 'Four things it estimates');
-    var ol = document.createElement('ol');
-    ol.className = 'fs-static-list';
-    [
-      'Final pathological stage — organ-confined disease vs. extraprostatic extension (EPE) or seminal vesicle invasion (SVI)',
-      'Lymph node involvement (LNI) risk',
-      'Positive surgical margin (PSM) probability',
-      'Post-operative continence recovery trajectory',
-    ].forEach(function (t) {
-      appendEl(ol, 'li', '', t);
-    });
-    targets.appendChild(ol);
-    wrap.appendChild(targets);
-
-    var process = document.createElement('div');
-    process.className = 'fs-static-section';
-    appendEl(process, 'h3', 'fs-static-heading', 'How it works, in three steps');
+  // Numbered-circle cards, reused for both "what it estimates" and "how
+  // it works" — each pair is [short title, one plain-language sentence].
+  function buildStepCards(pairs) {
     var steps = document.createElement('div');
     steps.className = 'fs-steps';
-    [
-      ['Patient-specific input', 'Your pre-op PSA, multiparametric MRI findings, and biopsy grade group.'],
-      [
-        'Multi-model synthesis',
-        'Simultaneous calculation using validated, published nomograms — the Partin Tables, the Briganti nomogram, the Hao positive-margin model, and ' +
-          'Pinkhasov’s continence-recovery predictors.',
-      ],
-      [
-        'Pre-op decision support',
-        'Objective data to help you and your surgical team discuss nerve-sparing margins, the case for lymphadenectomy, and realistic recovery expectations.',
-      ],
-    ].forEach(function (pair, i) {
+    pairs.forEach(function (pair, i) {
       var step = document.createElement('div');
       step.className = 'fs-step';
       var num = document.createElement('div');
@@ -981,7 +938,84 @@
       step.appendChild(body);
       steps.appendChild(step);
     });
-    process.appendChild(steps);
+    return steps;
+  }
+
+  function buildHowItWorksPanel() {
+    var wrap = document.createElement('div');
+
+    var def = document.createElement('div');
+    def.className = 'fs-static-section';
+    appendEl(def, 'h3', 'fs-static-heading', 'What Foresight is');
+    appendEl(
+      def,
+      'p',
+      '',
+      'When you’re handed a biopsy report and an MRI report full of technical terms, the question that actually matters is: what does this mean ' +
+        'for me? Foresight takes the numbers already in your reports and runs them through the same published statistical formulas that doctors and ' +
+        'researchers use worldwide — built from the real outcomes of thousands of men who had this surgery before you — and turns them into plain-language ' +
+        'estimates of what tends to happen next for someone with findings like yours.'
+    );
+    appendEl(
+      def,
+      'p',
+      '',
+      'It is not a scan, a 3D model, or a simulation of your own prostate — it has no picture of your anatomy, only the numbers you type in. Think of it ' +
+        'as a calculator built on published research: a head start for the conversation with your surgeon, not a replacement for it.'
+    );
+    wrap.appendChild(def);
+
+    var targets = document.createElement('div');
+    targets.className = 'fs-static-section';
+    appendEl(targets, 'h3', 'fs-static-heading', 'The four questions it answers');
+    targets.appendChild(
+      buildStepCards([
+        [
+          'Is the cancer still contained inside the prostate?',
+          'Whether the disease looks confined to the gland itself, or has likely already grown just through its outer capsule or into the seminal ' +
+            'vesicles beside it. This shapes how much tissue needs to come out, and what to expect from the operation.',
+        ],
+        [
+          'Could nearby lymph nodes be involved?',
+          'How likely it is that cancer cells have reached the lymph nodes near the prostate. This helps your surgeon decide whether it’s worth ' +
+            'removing and checking some of those nodes during the same operation.',
+        ],
+        [
+          'What are the odds of cancer at the cut edge?',
+          'Even after the prostate is removed, there’s a chance a few cancer cells are left right at the edge of the removed tissue — called a ' +
+            '"positive margin." It doesn’t always mean the cancer will come back, but it’s something your surgeon may watch closely or treat further.',
+        ],
+        [
+          'How soon might bladder control come back?',
+          'Almost all men regain bladder control after surgery, but it can take anywhere from a few weeks to closer to two years. This compares your ' +
+            'own age and pre-op function against men with similar starting points, to give a realistic timeline instead of a generic one.',
+        ],
+      ])
+    );
+    wrap.appendChild(targets);
+
+    var process = document.createElement('div');
+    process.className = 'fs-static-section';
+    appendEl(process, 'h3', 'fs-static-heading', 'How it works, in three steps');
+    process.appendChild(
+      buildStepCards([
+        [
+          'You enter what’s already in your reports',
+          'Your PSA blood test result, what your MRI found, and your biopsy grade group — details your urologist already has on file, typed into the ' +
+            'form on the Outcome Calculator tab.',
+        ],
+        [
+          'Foresight runs the numbers',
+          'It applies the exact statistical formulas from the original published studies — the Partin Tables, the Briganti nomogram, the Hao margin ' +
+            'model, and Pinkhasov’s continence-recovery research — to your specific figures, the same way those studies’ own authors would.',
+        ],
+        [
+          'You get a starting point, not a verdict',
+          'The estimates exist to prepare you for the conversation with your surgeon — about nerve-sparing, whether lymph nodes should be checked, and ' +
+            'what recovery might realistically look like — not to replace that conversation.',
+        ],
+      ])
+    );
     wrap.appendChild(process);
 
     return wrap;
