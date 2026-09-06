@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Foresight by URObotics | Prostate cancer surgery outcome calculator</title>
+<meta name="description" content="An educational pre-operative outcome calculator for men considering robotic radical prostatectomy, built on published prediction models. Not a substitute for consultation.">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#eaf0f9">
+<link rel="canonical" href="https://drnisanthpuliyathurologist.org/foresight/">
+<link rel="icon" type="image/png" href="../images/favicon.png">
+<link rel="apple-touch-icon" href="../images/favicon.png">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_IN">
+<meta property="og:site_name" content="Dr. Nisanth Puliyath">
+<meta property="og:title" content="Foresight by URObotics">
+<meta property="og:description" content="An educational pre-operative outcome calculator for men considering robotic radical prostatectomy, built on published prediction models.">
+<meta property="og:url" content="https://drnisanthpuliyathurologist.org/foresight/">
+<meta property="og:image" content="https://drnisanthpuliyathurologist.org/images/foresight-logo.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Foresight by URObotics">
+<meta name="twitter:description" content="An educational pre-operative outcome calculator for men considering robotic radical prostatectomy.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0b1018; --paper:#eaf0f9; --paper-2:#ffffff;
+  --blue:#0a6ed1; --blue-ink:#04539f; --blue-bright:#2a90ff;
+  --text:#0b1018; --muted:rgba(11,16,24,.64);
+  --edge:rgba(11,16,24,.12); --edge-soft:rgba(11,16,24,.09);
+  --r-sm:14px; --r-md:22px; --r-lg:32px; --r-xl:44px;
+  --maxw:1180px; --pad:clamp(20px,5vw,64px);
+  /* Foresight's own accent palette, sampled directly from the Foresight
+     by URObotics logo (images/foresight-logo.png). --fs-teal-ink is a
+     darkened variant of the sampled teal for text use, since the logo's
+     own teal (#4f9873) only contrasts 3.46:1 on white (fails WCAG AA for
+     body text); darkened to #376a50 for 6.29:1. */
+  --fs-navy:#22537f; --fs-teal:#4f9873; --fs-teal-ink:#376a50;
+  --fs-gradient:linear-gradient(135deg,var(--fs-navy),var(--fs-teal));
+}
+*,*::before,*::after{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+body{
+  margin:0; background:linear-gradient(180deg,#ffffff 0%,var(--paper) 38%,#d9e4f3 100%);
+  background-attachment:fixed; color:var(--text);
+  font-family:'Inter',-apple-system,system-ui,sans-serif; font-size:17px; line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+img{ max-width:100%; display:block; }
+a{ color:inherit; text-decoration:none; }
+button{ font:inherit; color:inherit; background:none; border:none; cursor:pointer; }
+:focus-visible{ outline:2px solid var(--blue); outline-offset:3px; border-radius:6px; }
+h1,h2,h3{ font-family:'Inter Tight',sans-serif; font-weight:600; letter-spacing:-.03em; line-height:1.1; margin:0; }
+p{ margin:0 0 1em; }
+p:last-child{ margin-bottom:0; }
+.wrap{ max-width:var(--maxw); margin:0 auto; padding-inline:var(--pad); }
+.band{ padding-block:clamp(48px,7vw,88px); }
+
+/* nav (matches index.html) */
+.nav{
+  position:sticky; top:14px; z-index:80; margin:14px auto 0; width:min(calc(100% - 28px),var(--maxw));
+  display:flex; align-items:center; justify-content:space-between; gap:20px;
+  padding:11px 12px 11px 22px; border-radius:999px;
+  background:rgba(255,255,255,.82); backdrop-filter:blur(26px) saturate(180%);
+  -webkit-backdrop-filter:blur(26px) saturate(180%);
+  border:1px solid rgba(255,255,255,.9);
+  box-shadow:inset 0 1px 0 #fff, 0 16px 40px -26px rgba(11,16,24,.45);
+}
+.brand{ display:flex; align-items:center; gap:10px; }
+.brand-mark{ width:34px; height:34px; border-radius:9px; object-fit:cover; flex:0 0 auto; }
+.brand-copy{ display:flex; flex-direction:column; line-height:1.15; }
+.brand-copy b{
+  font-family:'Inter Tight',sans-serif; font-size:15.5px; font-weight:600; letter-spacing:-.02em;
+  background:linear-gradient(135deg,#2a90ff,#0a55c7); -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.brand-copy span{ font-family:'Inter Tight',sans-serif; font-size:11.5px; font-weight:500; letter-spacing:.02em; color:var(--blue-ink); }
+.nav-links{ display:flex; align-items:center; gap:4px; }
+.nav-links a{ font-size:13.5px; font-weight:500; color:var(--muted); padding:11px 14px; border-radius:999px; transition:color .2s,background .25s; }
+.nav-links a:hover,.nav-links a[aria-current]{ color:var(--text); background:rgba(11,16,24,.06); }
+.nav-links a[aria-current]{ color:var(--blue-ink); font-weight:700; }
+.nav-cta{
+  font-size:13.5px; font-weight:600; padding:11px 18px; border-radius:999px; white-space:nowrap;
+  background:linear-gradient(135deg,#2a90ff,#0a55c7); color:#fff; box-shadow:0 10px 22px -9px rgba(10,85,199,.7);
+}
+.burger{ display:none; width:46px; height:46px; border-radius:999px; border:1px solid var(--edge); background:rgba(11,16,24,.04); }
+.burger i{ display:block; width:16px; height:1.5px; background:var(--text); margin:3.5px auto; transition:transform .3s,opacity .2s; }
+.menu{
+  position:fixed; inset:78px 14px auto 14px; z-index:79; padding:14px; border-radius:var(--r-lg);
+  background:rgba(255,255,255,.96); backdrop-filter:blur(30px) saturate(180%); -webkit-backdrop-filter:blur(30px) saturate(180%);
+  border:1px solid rgba(255,255,255,.9); box-shadow:0 30px 70px -30px rgba(11,16,24,.5);
+  display:none; flex-direction:column;
+}
+.menu.open{ display:flex; }
+.menu a{ padding:15px 16px; min-height:48px; display:flex; align-items:center; border-radius:var(--r-sm); font-size:16px; font-weight:500; }
+.menu a:hover{ background:rgba(11,16,24,.05); }
+@media (max-width:860px){ .nav-links,.nav-cta{ display:none; } .burger{ display:block; } }
+
+/* hero band — the site's deep-blue "premium surface", matching the main
+   page's header. The logo PNG bakes in its own opaque white background, so
+   it sits on a white card rather than directly on the blue. */
+.fs-hero-band{
+  position:relative; overflow:hidden; isolation:isolate;
+  background:
+    radial-gradient(980px 620px at 8% 14%, rgba(56,132,255,.30), transparent 62%),
+    radial-gradient(820px 620px at 78% 34%, rgba(130,195,255,.26), transparent 60%),
+    linear-gradient(168deg,#061936 0%,#0a2953 48%,#0e3a76 100%);
+  border-radius:0 0 var(--r-xl) var(--r-xl);
+  padding-block:clamp(96px,14vw,140px) clamp(56px,8vw,84px);
+}
+.fs-hero{ text-align:center; }
+.fs-logo-card{
+  display:inline-block; background:#fff; border-radius:var(--r-lg);
+  padding:18px 26px; box-shadow:0 30px 60px -28px rgba(3,10,26,.6);
+}
+.fs-lockup-img{ max-width:min(440px,80vw); margin:0; }
+.fs-intro{ max-width:64ch; margin:24px auto 0; text-align:center; color:rgba(245,245,247,.78); font-size:1.05rem; }
+.fs-intro p{ margin-bottom:.5em; }
+.fs-intro strong{ color:#fff; }
+
+/* glass card */
+.glass{
+  background:linear-gradient(150deg,rgba(255,255,255,.94),rgba(235,242,252,.8) 60%,rgba(255,255,255,.88));
+  backdrop-filter:blur(24px) saturate(170%); -webkit-backdrop-filter:blur(24px) saturate(170%);
+  border:1px solid rgba(255,255,255,.9); border-radius:var(--r-lg);
+  box-shadow:0 28px 64px -34px rgba(17,38,80,.4); padding:clamp(20px,3.4vw,36px);
+}
+
+/* form */
+.fs-form-wrap{ margin-top:22px; }
+.fs-form{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:18px; }
+.fs-field{ display:flex; flex-direction:column; gap:6px; position:relative; }
+.fs-label-row{ display:flex; align-items:center; gap:6px; }
+.fs-field label{ font-size:13.5px; font-weight:600; color:var(--text); }
+.fs-tip{
+  width:20px; height:20px; border-radius:50%; border:1px solid var(--edge); background:#fff;
+  font-size:11px; font-weight:700; color:var(--fs-teal-ink); line-height:1; flex:0 0 auto;
+}
+.fs-tip-text{
+  display:none; font-size:12.5px; color:var(--muted); background:rgba(235,242,252,.9);
+  border:1px solid var(--edge-soft); border-radius:var(--r-sm); padding:8px 10px; margin:-2px 0 2px;
+}
+.fs-tip-text--open{ display:block; }
+.fs-field input,.fs-field select{
+  font:inherit; font-size:15px; padding:12px 14px; border-radius:var(--r-sm);
+  border:1px solid var(--edge); background:#fff; color:var(--text); min-height:48px;
+}
+.fs-field input:focus,.fs-field select:focus{ border-color:var(--fs-teal); }
+.fs-field input[aria-invalid="true"],.fs-field select[aria-invalid="true"]{ border-color:#c0392b; }
+.fs-error{ min-height:16px; font-size:12.5px; color:#c0392b; margin:0; }
+
+/* letterhead — logo + title stay visible on every tab; the clinician /
+   patient-input badges only show while the Outcome Calculator tab is
+   active. Serves both the on-screen page and the printed report. */
+.fs-letterhead{ text-align:center; padding-top:4px; margin-bottom:26px; }
+.fs-letterhead-logo{ height:88px; width:auto; margin:0 auto 12px; display:block; }
+.fs-letterhead-title{
+  font-family:'Inter Tight',sans-serif; font-weight:800; font-size:1.6rem; letter-spacing:-.01em;
+  color:var(--fs-navy); text-transform:uppercase; margin:0 0 16px;
+}
+.fs-letterhead-meta{
+  display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:10px 18px;
+  border-bottom:2px solid var(--edge-soft); padding-bottom:16px; max-width:640px; margin:0 auto;
+}
+.fs-letterhead-clinician{ font-size:13.5px; color:var(--text); }
+.fs-letterhead-badges{ display:flex; flex-wrap:wrap; gap:8px; justify-content:center; }
+.fs-badge{
+  font-size:12.5px; font-weight:700; padding:5px 13px; border-radius:999px;
+  background:rgba(34,83,127,.08); color:var(--fs-navy); border:1px solid rgba(34,83,127,.16);
+}
+
+/* tabs — primary nav, sits above the form */
+.fs-tabs-wrap{ margin-bottom:24px; }
+.fs-tablist{ display:flex; flex-wrap:wrap; gap:12px; margin:0; }
+.fs-tab{
+  padding:17px 28px; border-radius:999px; font-size:16px; font-weight:700;
+  border:1px solid var(--edge); background:rgba(255,255,255,.8); color:var(--muted); min-height:56px;
+  box-shadow:0 12px 28px -18px rgba(17,38,80,.35);
+}
+.fs-tab[aria-selected="true"]{ background:var(--fs-gradient); color:#fff; border-color:transparent; }
+.fs-panels{ margin-top:18px; }
+.fs-panel{ padding:22px 24px; border-radius:var(--r-md); background:rgba(255,255,255,.75); border:1px solid var(--edge-soft); }
+
+/* CTAs + note */
+.fs-note{
+  margin-top:34px; padding:22px 24px; border-radius:var(--r-md);
+  background:rgba(255,255,255,.72); border:1px solid var(--edge); font-size:13.5px; color:var(--muted); line-height:1.6;
+}
+.fs-cta-row{ display:flex; flex-wrap:wrap; gap:12px; margin-top:18px; }
+.btn{
+  display:inline-flex; align-items:center; gap:8px; font-family:'Inter Tight',sans-serif;
+  font-size:14.5px; font-weight:600; padding:14px 24px; border-radius:999px;
+}
+.btn-primary{ background:var(--fs-gradient); color:#fff; box-shadow:0 18px 38px -16px rgba(22,54,92,.55); }
+.btn-ghost{ background:rgba(255,255,255,.8); border:1px solid var(--edge); color:var(--text); }
+
+/* report tab */
+.fs-report{ display:flex; flex-direction:column; gap:22px; align-items:flex-start; }
+.fs-report-hint{ font-size:12.5px; color:var(--muted); margin-top:-14px; }
+.fs-report-doc{ width:100%; }
+.fs-report-section{ margin-bottom:20px; }
+.fs-report-heading{ font-family:'Inter Tight',sans-serif; font-weight:700; font-size:1rem; color:var(--fs-navy); margin:0 0 8px; }
+.fs-report-lines{ display:flex; flex-direction:column; gap:6px; }
+.fs-report-line{ display:flex; flex-wrap:wrap; justify-content:space-between; gap:6px 16px; font-size:13.5px; }
+.fs-report-line-label{ color:var(--text); }
+.fs-report-line-value{ color:var(--fs-teal-ink); font-weight:600; text-align:right; }
+.fs-report-note,.fs-report-source{ font-size:12px; color:var(--muted); margin-top:6px; }
+.fs-report-empty{ font-size:13.5px; color:var(--muted); font-style:italic; }
+.fs-report-footer{ font-size:11.5px; color:var(--muted); margin-top:14px; line-height:1.6; }
+
+/* compact fine-print disclaimer */
+.fs-disclaimer{ margin-top:8px; padding:10px 13px; border-radius:var(--r-sm); border:1px solid var(--edge-soft); background:rgba(100,116,139,.07); }
+.fs-disclaimer-head{ font-size:8px; font-weight:800; text-transform:uppercase; letter-spacing:.09em; color:#64748b; margin:0 0 4px; }
+.fs-disclaimer-body{ font-size:10.5px; line-height:1.35; color:#64748b; }
+.fs-disclaimer-body p{ margin:0 0 5px; }
+.fs-disclaimer-body p:last-child{ margin-bottom:0; }
+.fs-disclaimer-citations{ font-size:9.5px; color:#94a3b8; }
+
+/* risk chips */
+.fs-risk-chip{ display:inline-block; padding:2px 11px; border-radius:999px; color:#fff; font-weight:700; }
+.fs-plain-odds{ font-size:11px; color:var(--muted); font-style:italic; margin-top:4px; }
+
+/* static informational panels (How it works / Need help) */
+.fs-static-heading{ font-family:'Inter Tight',sans-serif; font-weight:700; font-size:1.05rem; color:var(--fs-navy); margin:0 0 10px; }
+.fs-static-section{ margin-bottom:24px; }
+.fs-static-section:last-child{ margin-bottom:0; }
+.fs-static-list{ margin:0; padding-left:20px; font-size:14.5px; color:var(--text); line-height:1.6; }
+.fs-static-list li{ margin-bottom:6px; }
+.fs-steps{ display:flex; flex-direction:column; gap:12px; }
+.fs-step{ display:flex; gap:14px; align-items:flex-start; padding:15px 17px; border-radius:var(--r-md); background:rgba(255,255,255,.75); border:1px solid var(--edge-soft); }
+.fs-step-num{
+  flex:0 0 auto; width:28px; height:28px; border-radius:50%; background:var(--fs-gradient); color:#fff;
+  display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px;
+}
+.fs-step-body b{ display:block; margin-bottom:3px; color:var(--fs-navy); font-family:'Inter Tight',sans-serif; }
+.fs-step-body{ font-size:14px; color:var(--text); }
+.fs-help-checklist{ margin:10px 0 0; padding-left:20px; font-size:14.5px; color:var(--text); line-height:1.6; }
+.fs-help-checklist li{ margin-bottom:6px; }
+.fs-help-position{ font-size:14.5px; color:var(--text); }
+.fs-help-confidential{ font-size:12.5px; color:var(--muted); margin-top:18px; padding-top:16px; border-top:1px solid var(--edge-soft); }
+
+/* report dashboard */
+.fs-report-dash{ display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:14px; margin-bottom:10px; }
+.fs-dash-card{ background:#fff; border:1px solid var(--edge-soft); border-radius:var(--r-md); padding:15px 17px; }
+.fs-dash-card-label{ font-size:11px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
+.fs-dash-card-value{ font-family:'Inter Tight',sans-serif; font-weight:700; font-size:1.5rem; color:var(--fs-navy); line-height:1.1; }
+.fs-dash-card-value--muted{ color:var(--muted); font-size:1rem; font-weight:600; }
+.fs-dash-card-sub{ font-size:11.5px; color:var(--muted); margin-top:5px; line-height:1.45; }
+.fs-report-dash-notes{ font-size:11px; color:var(--muted); margin:8px 0 24px; line-height:1.6; }
+
+/* anatomical diagram */
+.fs-anatomy{ display:flex; flex-wrap:wrap; gap:22px; align-items:center; margin-bottom:26px; padding:18px 20px; border-radius:var(--r-md); background:rgba(235,242,252,.55); border:1px solid var(--edge-soft); }
+.fs-anatomy-svg{ width:180px; height:auto; flex:0 0 auto; }
+.fs-anatomy-legend{ flex:1 1 220px; display:flex; flex-direction:column; gap:7px; font-size:12.5px; color:var(--text); }
+.fs-anatomy-legend-row{ display:flex; align-items:flex-start; gap:8px; }
+.fs-anatomy-swatch{ width:12px; height:12px; border-radius:3px; flex:0 0 auto; margin-top:3px; }
+.fs-anatomy-caption{ font-size:11px; color:var(--muted); margin-top:2px; }
+
+@page{ size:A4 portrait; margin:12mm 15mm; }
+@media print{
+  .nav, .menu, .fs-hero-band, .fs-form-wrap, .fs-tabs-wrap, .fs-note, .fs-cta-row, footer,
+  #netlify-identity-widget, [id*="netlify-toolbar" i], [class*="netlify-toolbar" i], [id*="netlify-badge" i], [class*="netlify-badge" i],
+  .no-print{ display:none !important; }
+  body{ background:#fff !important; }
+  main.wrap.band{ padding:0 !important; max-width:100% !important; }
+  .fs-panels, .fs-panel{ padding:0 !important; margin:0 !important; border:none !important; box-shadow:none !important; background:#fff !important; border-radius:0 !important; }
+  .fs-panel[hidden]{ display:none !important; }
+  .fs-report{ display:block; gap:0; }
+
+  /* Same shared letterhead as on screen, just re-sized to fit one page */
+  .fs-letterhead{ margin-bottom:14px; }
+  .fs-letterhead-logo{ height:100px; margin-bottom:8px; }
+  .fs-letterhead-title{ font-size:20pt; margin-bottom:10px; }
+  .fs-letterhead-meta{ padding-bottom:10px; gap:6px 14px; }
+  .fs-letterhead-clinician{ font-size:9pt; color:#475569; }
+  .fs-badge{ font-size:8pt; padding:3px 10px; }
+
+  .fs-report-dash{ grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:10px; }
+  .fs-dash-card{ border:1px solid #ccc; padding:7px 9px; break-inside:avoid; }
+  .fs-dash-card-value{ font-size:1.2rem; }
+  .fs-report-dash-notes{ display:none !important; }
+  .fs-anatomy{ background:#fff !important; border:1px solid #ccc; break-inside:avoid; padding:12px 16px; margin:0 auto 14px; gap:16px; justify-content:center; max-width:520px; }
+  .fs-anatomy-svg{ width:130px; }
+
+  /* Aggressive pruning: the per-model detail write-ups (raw CI breakdowns,
+     odds ratios, "no published threshold" caveats) are dropped from print
+     entirely — the dashboard + disclaimer already carry what a printed
+     page needs; the full detail stays in the on-screen calculator. */
+  .fs-report-section{ display:none !important; }
+
+  .fs-disclaimer{ break-inside:avoid; margin-top:8px; padding:8px 11px; }
+  .fs-disclaimer-head{ font-size:8pt !important; }
+  .fs-disclaimer-body{ font-size:7.5pt !important; line-height:1.3 !important; }
+  .fs-disclaimer-citations{ font-size:7pt !important; }
+  .fs-report-footer{ font-size:6.5pt; margin-top:8px; }
+}
+
+/* footer */
+footer{ padding:34px 0 44px; border-top:1px solid var(--edge-soft); margin-top:20px; }
+.foot{
+  display:flex; flex-wrap:wrap; gap:16px; justify-content:space-between; align-items:center;
+  padding:20px clamp(20px,3vw,30px); border-radius:var(--r-lg);
+  background:linear-gradient(150deg,#12315c,#0d244a); border:1px solid rgba(255,255,255,.14);
+  color:rgba(255,255,255,.72); font-size:13px;
+}
+.foot a{ color:#bfe4ff; }
+.foot a:hover{ color:#fff; }
+.fs-privacy{ margin-top:14px; font-size:12.5px; color:var(--muted); text-align:center; }
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <a href="../index.html" class="brand">
+    <img src="../images/favicon.png" alt="" class="brand-mark" width="34" height="34">
+    <span class="brand-copy">
+      <b>Dr. Nisanth Puliyath</b>
+      <span>Urology &middot; Robotic Uro-Oncology</span>
+    </span>
+  </a>
+  <div class="nav-links">
+    <a href="../index.html#about">About</a>
+    <a href="../index.html#treatments">Treatments</a>
+    <a href="../index.html#robotic">Robotic surgery</a>
+    <a href="../blog.html">Blogs</a>
+    <a href="./" aria-current="page">Foresight</a>
+  </div>
+  <a href="https://cloudurologist.setmore.com?utm_source=in-app&amp;utm_medium=iosapp&amp;utm_campaign=settsharebp" class="nav-cta" target="_blank" rel="noopener">Book Your Consultation</a>
+  <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="menu">
+    <i></i><i></i><i></i>
+  </button>
+</nav>
+<div class="menu" id="menu">
+  <a href="../index.html#about">About</a>
+  <a href="../index.html#treatments">Treatments</a>
+  <a href="../index.html#robotic">Robotic surgery</a>
+  <a href="../blog.html">Blogs</a>
+  <a href="./" aria-current="page">Foresight</a>
+  <a href="https://cloudurologist.setmore.com?utm_source=in-app&amp;utm_medium=iosapp&amp;utm_campaign=settsharebp" target="_blank" rel="noopener">Book Your Consultation</a>
+</div>
+
+<div class="fs-hero-band">
+  <div class="wrap fs-hero">
+    <h1><span class="fs-logo-card"><img class="fs-lockup-img" src="../images/foresight-logo.png" alt="Foresight by URObotics — clarity before the cut"></span></h1>
+    <div class="fs-intro">
+      <p>Foresight estimates likely outcomes of robotic radical prostatectomy from the details in your biopsy and MRI report.</p>
+      <p>It is built for men weighing surgery and the clinicians discussing it with them.</p>
+      <p><strong>It is educational only, and does not replace a consultation with your urologist.</strong></p>
+    </div>
+  </div>
+</div>
+
+<main class="wrap band">
+
+  <div id="foresight-letterhead"></div>
+
+  <div id="foresight-tabs" class="fs-tabs-wrap"></div>
+
+  <div id="foresight-form-wrap" class="glass fs-form-wrap">
+    <h2 style="font-size:1.3rem;margin-bottom:4px">Your details</h2>
+    <p style="font-size:13.5px;color:var(--muted);margin-bottom:0">Used to calculate the estimates below. Nothing here is saved or sent anywhere.</p>
+    <div id="foresight-form" style="margin-top:18px"></div>
+  </div>
+
+  <div id="foresight-results"></div>
+
+  <div class="fs-note">
+    These estimates come from published, peer-reviewed prediction models and are for education only. They do not replace consultation with your urologist.
+  </div>
+  <div class="fs-cta-row">
+    <a class="btn btn-primary" href="https://cloudurologist.setmore.com?utm_source=in-app&amp;utm_medium=iosapp&amp;utm_campaign=settsharebp" target="_blank" rel="noopener">Book Your Consultation</a>
+    <a class="btn btn-ghost" href="mailto:drnishyurology@gmail.com?subject=Discussing%20my%20Foresight%20results">Discuss these results with Dr Nisanth</a>
+  </div>
+
+</main>
+
+<footer class="wrap">
+  <div class="foot">
+    <span>&copy; 2026 Dr. Nisanth Puliyath</span>
+    <span>Educational content only</span>
+    <a href="mailto:drnishyurology@gmail.com">drnishyurology@gmail.com</a>
+  </div>
+  <p class="fs-privacy">Foresight is a tool by URObotics. No data entered on this page is stored or transmitted; all calculations run in your browser.</p>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+  var burger = document.getElementById('burger');
+  var menu = document.getElementById('menu');
+  if (burger && menu){
+    burger.addEventListener('click', function(){
+      var open = menu.classList.toggle('open');
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  }
+})();
+</script>
+<script src="models.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
