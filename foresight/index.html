@@ -98,11 +98,27 @@ p:last-child{ margin-bottom:0; }
 .menu a:hover{ background:rgba(11,16,24,.05); }
 @media (max-width:860px){ .nav-links,.nav-cta{ display:none; } .burger{ display:block; } }
 
-/* lockup */
-.fs-hero{ text-align:center; padding-top:clamp(28px,5vw,48px); }
-.fs-lockup-img{ max-width:min(480px,90%); margin:0 auto 8px; }
-.fs-intro{ max-width:64ch; margin:22px auto 0; text-align:center; color:var(--muted); font-size:1.05rem; }
+/* hero band — the site's deep-blue "premium surface", matching the main
+   page's header. The logo PNG bakes in its own opaque white background, so
+   it sits on a white card rather than directly on the blue. */
+.fs-hero-band{
+  position:relative; overflow:hidden; isolation:isolate;
+  background:
+    radial-gradient(980px 620px at 8% 14%, rgba(56,132,255,.30), transparent 62%),
+    radial-gradient(820px 620px at 78% 34%, rgba(130,195,255,.26), transparent 60%),
+    linear-gradient(168deg,#061936 0%,#0a2953 48%,#0e3a76 100%);
+  border-radius:0 0 var(--r-xl) var(--r-xl);
+  padding-block:clamp(96px,14vw,140px) clamp(56px,8vw,84px);
+}
+.fs-hero{ text-align:center; }
+.fs-logo-card{
+  display:inline-block; background:#fff; border-radius:var(--r-lg);
+  padding:18px 26px; box-shadow:0 30px 60px -28px rgba(3,10,26,.6);
+}
+.fs-lockup-img{ max-width:min(440px,80vw); margin:0; }
+.fs-intro{ max-width:64ch; margin:24px auto 0; text-align:center; color:rgba(245,245,247,.78); font-size:1.05rem; }
 .fs-intro p{ margin-bottom:.5em; }
+.fs-intro strong{ color:#fff; }
 
 /* glass card */
 .glass{
@@ -212,7 +228,7 @@ p:last-child{ margin-bottom:0; }
 .fs-anatomy-caption{ font-size:11px; color:var(--muted); margin-top:2px; }
 
 @media print{
-  .nav, .menu, .fs-hero, .fs-form-wrap, .fs-tablist, .fs-note, .fs-cta-row, footer, .no-print{ display:none !important; }
+  .nav, .menu, .fs-hero-band, .fs-form-wrap, .fs-tablist, .fs-note, .fs-cta-row, footer, .no-print{ display:none !important; }
   body{ background:#fff !important; }
   main.wrap.band{ padding:0 !important; max-width:100% !important; }
   .fs-panels, .fs-panel{ padding:0 !important; margin:0 !important; border:none !important; box-shadow:none !important; background:#fff !important; border-radius:0 !important; }
@@ -268,16 +284,18 @@ footer{ padding:34px 0 44px; border-top:1px solid var(--edge-soft); margin-top:2
   <a href="https://cloudurologist.setmore.com?utm_source=in-app&amp;utm_medium=iosapp&amp;utm_campaign=settsharebp" target="_blank" rel="noopener">Book Your Consultation</a>
 </div>
 
-<main class="wrap band">
-
-  <div class="fs-hero">
-    <h1><img class="fs-lockup-img" src="../images/foresight-logo.png" alt="Foresight by URObotics — clarity before the cut"></h1>
+<div class="fs-hero-band">
+  <div class="wrap fs-hero">
+    <h1><span class="fs-logo-card"><img class="fs-lockup-img" src="../images/foresight-logo.png" alt="Foresight by URObotics — clarity before the cut"></span></h1>
     <div class="fs-intro">
       <p>Foresight estimates likely outcomes of robotic radical prostatectomy from the details in your biopsy and MRI report.</p>
       <p>It is built for men weighing surgery and the clinicians discussing it with them.</p>
       <p><strong>It is educational only, and does not replace a consultation with your urologist.</strong></p>
     </div>
   </div>
+</div>
+
+<main class="wrap band">
 
   <div class="glass fs-form-wrap">
     <h2 style="font-size:1.3rem;margin-bottom:4px">Your details</h2>
