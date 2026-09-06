@@ -33,8 +33,12 @@
   --edge:rgba(11,16,24,.12); --edge-soft:rgba(11,16,24,.09);
   --r-sm:14px; --r-md:22px; --r-lg:32px; --r-xl:44px;
   --maxw:1180px; --pad:clamp(20px,5vw,64px);
-  /* Foresight's own accent palette, from the Foresight by URObotics logo */
-  --fs-navy:#16365c; --fs-teal:#2f9e78; --fs-teal-ink:#1f6b52;
+  /* Foresight's own accent palette, sampled directly from the Foresight
+     by URObotics logo (images/foresight-logo.png). --fs-teal-ink is a
+     darkened variant of the sampled teal for text use, since the logo's
+     own teal (#4f9873) only contrasts 3.46:1 on white (fails WCAG AA for
+     body text); darkened to #376a50 for 6.29:1. */
+  --fs-navy:#22537f; --fs-teal:#4f9873; --fs-teal-ink:#376a50;
   --fs-gradient:linear-gradient(135deg,var(--fs-navy),var(--fs-teal));
 }
 *,*::before,*::after{ box-sizing:border-box; }
