@@ -80,6 +80,13 @@
   }
   .byline b{ font-family:'Inter Tight',sans-serif; font-size:14px; font-weight:600; letter-spacing:-.01em; text-transform:none; color:var(--text); }
 
+  .reviewed{
+    display:flex; align-items:center; gap:9px; margin:14px 0 0;
+    font-family:'Inter Tight',sans-serif; font-size:13.5px; font-weight:500; color:var(--blue-ink);
+  }
+  .reviewed svg{ width:19px; height:19px; flex:0 0 auto; color:var(--blue); }
+  .reviewed b{ font-weight:600; color:var(--text); }
+
   /* article */
   article{ padding-bottom:clamp(48px,7vw,88px); }
   article p{ margin:0 0 1.15em; color:rgba(11,16,24,.78); text-align:justify; hyphens:auto; -webkit-hyphens:auto; }
@@ -102,7 +109,7 @@
   }
   figure{ margin:34px 0; }
   figure img{
-    width:100%; border-radius:var(--r-lg);
+    width:100%; height:auto; border-radius:var(--r-lg);
     border:1px solid rgba(255,255,255,.9);
     box-shadow:0 30px 64px -34px rgba(17,38,80,.5);
   }
@@ -118,6 +125,24 @@
     font-size:15.5px; line-height:1.55; color:rgba(11,16,24,.78);
   }
   .benefits b{ display:block; font-family:'Inter Tight',sans-serif; font-size:16px; font-weight:600; letter-spacing:-.02em; color:var(--text); margin-bottom:3px; }
+
+  /* author box */
+  .author-box{
+    margin:44px 0 0; padding:clamp(22px,3vw,32px); border-radius:var(--r-lg);
+    background:linear-gradient(150deg,#ffffff,rgba(235,242,252,.9));
+    border:1px solid var(--edge); box-shadow:0 14px 30px -26px rgba(17,38,80,.6);
+  }
+  .author-box p{ text-align:left; font-size:15px; line-height:1.6; margin:0 0 .8em; }
+  .author-box p:last-child{ margin-bottom:0; }
+  .author-box .author-kicker{
+    font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--blue-ink); margin-bottom:6px;
+  }
+  .author-box .author-name{
+    font-family:'Inter Tight',sans-serif; font-size:1.2rem; font-weight:600;
+    letter-spacing:-.02em; color:var(--text); margin-bottom:10px;
+  }
+  .author-box a{ color:var(--blue-ink); font-weight:600; }
 
   /* closing card */
   .closing{

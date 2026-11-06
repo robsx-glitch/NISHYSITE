@@ -3,28 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Robotic Urologist in Kerala, India | Dr. Nisanth Puliyath</title>
-<meta name="description" content="Dr. Nisanth Puliyath is a robotic uro-oncologist in Kerala, India, treating prostate, kidney and bladder cancer with robotic surgery and focal therapy including HIFU, cryotherapy and NanoKnife (IRE).">
+<title>Dr. Nisanth Puliyath | Robotic Urologist in Kochi, Keralam</title>
+<meta name="description" content="Dr. Nisanth Puliyath is a robotic uro-oncologist and surgeon at Aster Medcity, Kochi, Keralam, treating prostate, kidney and bladder cancer with robotic surgery and focal therapy including HIFU, cryotherapy and NanoKnife (IRE).">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <meta name="theme-color" content="#f4f7fb">
 <link rel="icon" type="image/png" href="images/favicon.png">
 <link rel="apple-touch-icon" href="images/favicon.png">
 <link rel="canonical" href="https://drnisanthpuliyathurologist.org/">
+<meta name="author" content="Dr. Nisanth Puliyath, MBBS, MS, MCh (Urology)">
 
 <meta name="geo.region" content="IN-KL">
-<meta name="geo.placename" content="Kerala, India">
-<meta name="keywords" content="urologist in Kerala, robotic urologist India, robotic surgery Kerala, prostate cancer treatment Kerala, HIFU India, focal therapy prostate India, NanoKnife IRE prostate India, kidney cancer surgery Kerala, bladder cancer Kerala, uro-oncologist Kerala">
+<meta name="geo.placename" content="Kochi, Keralam, India">
+<meta name="keywords" content="urologist in Kerala, robotic urologist India, robotic surgery Kerala, prostate cancer treatment Kerala, HIFU India, focal therapy prostate India, NanoKnife IRE prostate India, kidney cancer surgery Kerala, bladder cancer Kerala, uro-oncologist Kerala, urologist in Kochi, uro-oncologist Kochi, fusion biopsy in Kochi, Dr Nisanth Puliyath, Nisanth Puliyath urologist, Dr Nisanth P">
 
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_IN">
 <meta property="og:site_name" content="Dr. Nisanth Puliyath">
-<meta property="og:title" content="Robotic Urologist in Kerala, India | Dr. Nisanth Puliyath">
-<meta property="og:description" content="Robotic surgery and focal therapy for prostate, kidney and bladder cancer, in Kerala, India.">
+<meta property="og:title" content="Dr. Nisanth Puliyath | Robotic Urologist in Kochi, Keralam">
+<meta property="og:description" content="Robotic surgery and focal therapy for prostate, kidney and bladder cancer, in Kochi, Keralam.">
 <meta property="og:url" content="https://drnisanthpuliyathurologist.org/">
 <meta property="og:image" content="https://drnisanthpuliyathurologist.org/images/nishsitemain.PNG">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Robotic Urologist in Kerala, India | Dr. Nisanth Puliyath">
-<meta name="twitter:description" content="Robotic surgery and focal therapy for prostate, kidney and bladder cancer, in Kerala, India.">
+<meta name="twitter:title" content="Dr. Nisanth Puliyath | Robotic Urologist in Kochi, Keralam">
+<meta name="twitter:description" content="Robotic surgery and focal therapy for prostate, kidney and bladder cancer, in Kochi, Keralam.">
 <meta name="twitter:image" content="https://drnisanthpuliyathurologist.org/images/nishsitemain.PNG">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -775,6 +776,19 @@ a.org:hover{ transform:translateY(-3px); border-color:rgba(140,205,255,.55); bac
 .info-row span{ font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:6px; }
 .info-row a,.info-row p{ font-size:16px; font-weight:500; }
 .info-row a:hover{ color:var(--blue); }
+.opd-grid{ display:grid; grid-template-columns:1fr; gap:clamp(20px,3vw,32px); }
+.map-frame{ border-radius:var(--r-lg); overflow:hidden; height:clamp(200px,26vw,280px); border:1px solid var(--edge-soft); box-shadow:0 30px 64px -34px rgba(17,38,80,.5); }
+.map-frame iframe{ display:block; width:100%; height:100%; border:0; }
+.opd-grid .info{ display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); column-gap:36px; padding-block:clamp(10px,1.6vw,18px); }
+.opd-grid .info .info-row:last-child{ border-bottom:1px solid var(--edge-soft); }
+
+/* reels: horizontal scroll */
+.reel-label{ margin:46px 0 0; }
+.reel-rail{ display:flex; gap:20px; overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; padding:18px 4px 20px; margin-inline:-4px; }
+.reel{ flex:0 0 min(340px,82vw); scroll-snap-align:start; display:flex; flex-direction:column; gap:12px; }
+.reel iframe{ width:100%; height:620px; border:1px solid var(--edge-soft); border-radius:var(--r-md); background:#fff; box-shadow:0 24px 52px -34px rgba(17,38,80,.45); }
+.reel a{ font-size:13.5px; font-weight:600; color:var(--blue-ink); }
+.reel a:hover{ color:var(--blue); }
 .notice{
   padding:22px 24px; border-radius:var(--r-md); margin-top:18px;
   background:rgba(255,255,255,.72); border:1px solid var(--edge);
@@ -987,7 +1001,7 @@ html{ scrollbar-width:thin; scrollbar-color:#0c2f63 rgba(11,16,24,.06); }
 @media (max-width:1000px){
   .nav-links,.nav-cta{ display:none; }
   .burger{ display:block; }
-  .hero-grid,.about-grid,.contact-grid{ grid-template-columns:1fr; }
+  .hero-grid,.about-grid,.contact-grid,.opd-grid{ grid-template-columns:1fr; }
   .hero-grid .portrait{ order:-1; max-width:340px; height:auto; }
   .hero .portrait img{ aspect-ratio:4/5; flex:0 0 auto; object-fit:contain; }
   .about-figure{ max-width:520px; }
@@ -1043,20 +1057,58 @@ html{ scrollbar-width:thin; scrollbar-color:#0c2f63 rgba(11,16,24,.06); }
   "@context": "https://schema.org",
   "@type": "Physician",
   "name": "Dr. Nisanth Puliyath",
-  "alternateName": "Dr. Nisanth P",
+  "alternateName": [
+    "Dr. Nisanth P",
+    "Dr. Nisanth Puliyath",
+    "Nisanth Puliyath"
+  ],
   "medicalSpecialty": "Urologic",
-  "description": "Urologist specialising in robotic uro-oncology and focal therapy for prostate, kidney and bladder cancer, practising in Kerala, India.",
+  "description": "Urologist specialising in robotic uro-oncology and focal therapy for prostate, kidney and bladder cancer, currently working at Aster Medcity, Kochi, Keralam, India.",
   "url": "https://drnisanthpuliyathurologist.org/",
   "image": "https://drnisanthpuliyathurologist.org/images/nishsitemain.PNG",
   "email": "drnishyurology@gmail.com",
   "address": {
     "@type": "PostalAddress",
-    "addressRegion": "Kerala",
+    "streetAddress": "Aster Medcity, Kuttisahib Road, Cheranalloor",
+    "addressLocality": "Kochi",
+    "addressRegion": "Keralam",
+    "postalCode": "682027",
     "addressCountry": "IN"
   },
+  "hospitalAffiliation": {
+    "@type": "Hospital",
+    "name": "Aster Medcity, Kochi",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Kuttisahib Road, Cheranalloor",
+      "addressLocality": "Kochi",
+      "addressRegion": "Keralam",
+      "postalCode": "682027",
+      "addressCountry": "IN"
+    }
+  },
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday"
+    ],
+    "opens": "11:00",
+    "closes": "17:00"
+  },
   "areaServed": [
-    { "@type": "State", "name": "Kerala" },
-    { "@type": "Country", "name": "India" }
+    {
+      "@type": "State",
+      "name": "Keralam"
+    },
+    {
+      "@type": "Country",
+      "name": "India"
+    }
   ],
   "knowsAbout": [
     "Robotic radical prostatectomy",
@@ -1072,41 +1124,177 @@ html{ scrollbar-width:thin; scrollbar-color:#0c2f63 rgba(11,16,24,.06); }
     "Adrenal surgery"
   ],
   "availableService": [
-    { "@type": "MedicalProcedure", "name": "Robotic radical prostatectomy" },
-    { "@type": "MedicalProcedure", "name": "Focal therapy (HIFU, cryotherapy and NanoKnife IRE)" },
-    { "@type": "MedicalProcedure", "name": "MRI-fusion and transperineal prostate biopsy" },
-    { "@type": "MedicalProcedure", "name": "Robotic partial and radical nephrectomy" },
-    { "@type": "MedicalProcedure", "name": "Robotic radical cystectomy" },
-    { "@type": "MedicalProcedure", "name": "Kidney transplant surgery" },
-    { "@type": "MedicalProcedure", "name": "Adrenal surgery (laparoscopic and robotic)" }
+    {
+      "@type": "MedicalProcedure",
+      "name": "Robotic radical prostatectomy"
+    },
+    {
+      "@type": "MedicalProcedure",
+      "name": "Focal therapy (HIFU, cryotherapy and NanoKnife IRE)"
+    },
+    {
+      "@type": "MedicalProcedure",
+      "name": "MRI-fusion and transperineal prostate biopsy"
+    },
+    {
+      "@type": "MedicalProcedure",
+      "name": "Robotic partial and radical nephrectomy"
+    },
+    {
+      "@type": "MedicalProcedure",
+      "name": "Robotic radical cystectomy"
+    },
+    {
+      "@type": "MedicalProcedure",
+      "name": "Kidney transplant surgery"
+    },
+    {
+      "@type": "MedicalProcedure",
+      "name": "Adrenal surgery (laparoscopic and robotic)"
+    }
   ],
   "alumniOf": [
-    { "@type": "CollegeOrUniversity", "name": "Government Medical College, Kozhikode" },
-    { "@type": "CollegeOrUniversity", "name": "All India Institute of Medical Sciences, Rishikesh" },
-    { "@type": "MedicalOrganization", "name": "Medanta, The Medicity" },
-    { "@type": "MedicalOrganization", "name": "Johns Hopkins Hospital" },
-    { "@type": "MedicalOrganization", "name": "University of California San Diego" },
-    { "@type": "MedicalOrganization", "name": "AdventHealth Orlando" }
+    {
+      "@type": "CollegeOrUniversity",
+      "name": "Government Medical College, Kozhikode"
+    },
+    {
+      "@type": "CollegeOrUniversity",
+      "name": "All India Institute of Medical Sciences, Rishikesh"
+    },
+    {
+      "@type": "MedicalOrganization",
+      "name": "Medanta, The Medicity"
+    },
+    {
+      "@type": "MedicalOrganization",
+      "name": "Johns Hopkins Hospital"
+    },
+    {
+      "@type": "MedicalOrganization",
+      "name": "University of California San Diego"
+    },
+    {
+      "@type": "MedicalOrganization",
+      "name": "AdventHealth Orlando"
+    }
   ],
   "potentialAction": {
     "@type": "ReserveAction",
     "name": "Book consultation",
     "target": {
       "@type": "EntryPoint",
-      "urlTemplate": "https://cloudurologist.setmore.com",
+      "urlTemplate": "https://drtop.in/dr/NisanthPuliyath",
       "actionPlatform": [
         "http://schema.org/DesktopWebPlatform",
         "http://schema.org/MobileWebPlatform"
       ]
     },
-    "result": { "@type": "Reservation", "name": "Urology consultation" }
+    "result": {
+      "@type": "Reservation",
+      "name": "Urology consultation"
+    }
   },
   "sameAs": [
-    "https://www.linkedin.com/in/dr-nisanth-puliyath-497b65133",
     "https://www.instagram.com/dr.nisanth.urologist",
-    "https://youtube.com/@drnisanthpuliyath",
-    "https://www.facebook.com/share/1D41VoBPns/",
-    "https://cloudurologist.setmore.com"
+    "https://www.youtube.com/@drnisanthpuliyath",
+    "https://www.linkedin.com/in/dr-nisanth-puliyath-497b65133/"
+  ],
+  "@id": "https://drnisanthpuliyathurologist.org/#physician",
+  "isAcceptingNewPatients": true,
+  "hasMap": "https://www.google.com/maps/search/?api=1&query=Aster+Medcity+Kochi",
+  "employee": {
+    "@id": "https://drnisanthpuliyathurologist.org/#person"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://drnisanthpuliyathurologist.org/#person",
+      "name": "Dr. Nisanth Puliyath",
+      "alternateName": [
+        "Dr. Nisanth P",
+        "Nisanth Puliyath"
+      ],
+      "honorificPrefix": "Dr.",
+      "honorificSuffix": "MBBS, MS, MCh (Urology)",
+      "url": "https://drnisanthpuliyathurologist.org/",
+      "image": "https://drnisanthpuliyathurologist.org/images/nishsitemain.PNG",
+      "jobTitle": "Uro-Oncologist and Robotic Surgeon",
+      "worksFor": {
+        "@type": "Hospital",
+        "name": "Aster Medcity, Kochi"
+      },
+      "alumniOf": [
+        {
+          "@type": "CollegeOrUniversity",
+          "name": "Government Medical College, Kozhikode"
+        },
+        {
+          "@type": "CollegeOrUniversity",
+          "name": "All India Institute of Medical Sciences, Rishikesh"
+        }
+      ],
+      "hasCredential": [
+        {
+          "@type": "EducationalOccupationalCredential",
+          "credentialCategory": "degree",
+          "name": "MBBS"
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "credentialCategory": "degree",
+          "name": "MS General Surgery"
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "credentialCategory": "degree",
+          "name": "MCh Urology"
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "credentialCategory": "license",
+          "name": "Medical registration, Kerala State Medical Council (KSMC)",
+          "identifier": "60389",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "Kerala State Medical Council"
+          }
+        }
+      ],
+      "knowsAbout": [
+        "Urology",
+        "Uro-oncology",
+        "Robotic prostatectomy",
+        "MRI fusion prostate biopsy",
+        "Transperineal prostate biopsy",
+        "Focal therapy for prostate cancer",
+        "Kidney cancer",
+        "Bladder cancer"
+      ],
+      "sameAs": [
+        "https://www.instagram.com/dr.nisanth.urologist",
+        "https://www.youtube.com/@drnisanthpuliyath",
+        "https://www.linkedin.com/in/dr-nisanth-puliyath-497b65133/"
+      ],
+      "description": "Uro-oncologist and robotic surgeon at Aster Medcity, Kochi, Keralam, treating prostate, kidney and bladder cancer with robotic surgery and focal therapy.",
+      "mainEntityOfPage": "https://drnisanthpuliyathurologist.org/"
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://drnisanthpuliyathurologist.org/#website",
+      "url": "https://drnisanthpuliyathurologist.org/",
+      "name": "Dr. Nisanth Puliyath",
+      "alternateName": "Dr. Nisanth Puliyath, Robotic Urologist in Kochi",
+      "inLanguage": "en-IN",
+      "publisher": {
+        "@id": "https://drnisanthpuliyathurologist.org/#person"
+      }
+    }
   ]
 }
 </script>
@@ -1250,7 +1438,7 @@ html{ scrollbar-width:thin; scrollbar-color:#0c2f63 rgba(11,16,24,.06); }
     <a href="blog.html">Blogs</a>
     <a href="foresight/">Foresight</a>
   </div>
-  <a href="https://cloudurologist.setmore.com?utm_source=in-app&amp;utm_medium=iosapp&amp;utm_campaign=settsharebp" class="nav-cta" target="_blank" rel="noopener">Book Your Consultation <span class="arrow" aria-hidden="true">&#8599;</span></a>
+  <a href="https://drtop.in/dr/NisanthPuliyath" class="nav-cta" target="_blank" rel="noopener">Book Your Consultation <span class="arrow" aria-hidden="true">&#8599;</span></a>
   <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="menu">
     <i></i><i></i><i></i>
   </button>
@@ -1264,7 +1452,8 @@ html{ scrollbar-width:thin; scrollbar-color:#0c2f63 rgba(11,16,24,.06); }
   <a href="blog.html">Blogs</a>
   <a href="foresight/">Foresight</a>
   <a href="#contact">Get in touch</a>
-  <a href="https://cloudurologist.setmore.com?utm_source=in-app&amp;utm_medium=iosapp&amp;utm_campaign=settsharebp" target="_blank" rel="noopener">Book Your Consultation <span class="arrow" aria-hidden="true">&#8599;</span></a>
+  <a href="#opd">OPD &amp; location</a>
+  <a href="https://drtop.in/dr/NisanthPuliyath" target="_blank" rel="noopener">Book Your Consultation <span class="arrow" aria-hidden="true">&#8599;</span></a>
 </div>
 
 <!-- ==================== HERO ==================== -->
@@ -1275,20 +1464,20 @@ html{ scrollbar-width:thin; scrollbar-color:#0c2f63 rgba(11,16,24,.06); }
     <div>
       <p class="eyebrow">Urology &middot; Uro-Oncology &middot; Robotic Surgery &middot; Focal Therapy</p>
       <h1>Dr. Nisanth<br>Puliyath<span>Cancer surgery, explained clearly.</span></h1>
-      <p class="lede">Robotic and focal treatment for prostate, kidney and bladder cancer in Kerala, India, with the reasoning behind every recommendation set out in language you can act on.</p>
+      <p class="lede">Robotic and focal treatment for prostate, kidney and bladder cancer in Kochi, Keralam, with the reasoning behind every recommendation set out in language you can act on.</p>
       <div class="creds">
         <p><b>MBBS</b> &middot; <b>MS</b> (AIIMS) &middot; <b>MCh</b> (Urology)</p>
         <p>Fellowship trained <b>Uro-Oncologist &amp; Robotic Surgeon</b> (Vattikuti Foundation)</p>
         <p>Clinical Visiting Fellowship, <b>Robotic Surgery &amp; Focal Therapy</b> (USA)</p>
       </div>
       <div class="cta-row">
-        <a href="https://cloudurologist.setmore.com?utm_source=in-app&amp;utm_medium=iosapp&amp;utm_campaign=settsharebp" class="btn btn-primary" target="_blank" rel="noopener">Book Your Consultation <span class="arrow" aria-hidden="true">&#8599;</span></a>
+        <a href="https://drtop.in/dr/NisanthPuliyath" class="btn btn-primary" target="_blank" rel="noopener">Book Your Consultation <span class="arrow" aria-hidden="true">&#8599;</span></a>
         <a href="#treatments" class="btn btn-ghost">Understand your treatment</a>
       </div>
     </div>
     <figure class="portrait glass" style="margin:0" data-par="0.06">
-      <img src="images/nishsitemain.PNG" alt="Dr. Nisanth Puliyath, robotic uro-oncologist in Kerala, India, in navy surgical scrubs" width="1152" height="1352" fetchpriority="high" decoding="async">
-      <figcaption><span>Kerala, India</span><span>Consultant Urologist</span></figcaption>
+      <img src="images/nishsitemain.PNG" alt="Dr. Nisanth Puliyath, robotic uro-oncologist in Kochi, Keralam, in navy surgical scrubs" width="1152" height="1352" fetchpriority="high" decoding="async">
+      <figcaption><span>Kochi, Keralam</span><span>Consultant Urologist</span></figcaption>
     </figure>
   </div>
   </div>
@@ -1309,7 +1498,7 @@ html{ scrollbar-width:thin; scrollbar-color:#0c2f63 rgba(11,16,24,.06); }
       <div class="about-body">
         <p>I am a urologist working in robotic uro-oncology, meaning minimally invasive surgery for cancers of the prostate, kidney and bladder, alongside focal therapy for men who are suitable for treatment targeted to the tumour rather than the whole gland.</p>
         <p>I completed MBBS and MCh Urology at Government Medical College Kozhikode, with MS General Surgery at AIIMS in between. I then trained in robotic surgery and uro-oncology at Medanta, Gurugram, through the prestigious Vattikuti Fellowship. I also undertook visiting fellowships at international centres of excellence, including UC San Diego, AdventHealth Orlando and Johns Hopkins, USA, where I trained in robotic uro-oncology and focal therapy alongside pioneering surgeons.</p>
-        <p>I now offer these treatments here in Kerala: robotic urological cancer surgery, including nerve-sparing robotic prostatectomy; focal therapy, including NanoKnife (IRE) for suitable men; and MRI-fusion and transperineal prostate biopsy. This site exists so you can arrive at a consultation already knowing what your diagnosis means and which questions matter.</p>
+        <p>I am currently working at Aster Medcity, Kochi, as a uro-oncologist and robotic surgeon, where I offer these treatments: robotic urological cancer surgery, including nerve-sparing robotic prostatectomy; focal therapy, including NanoKnife (IRE) for suitable men; and MRI-fusion and transperineal prostate biopsy. This site exists so you can arrive at a consultation already knowing what your diagnosis means and which questions matter.</p>
       </div>
     </div>
   </div>
@@ -1531,7 +1720,7 @@ html{ scrollbar-width:thin; scrollbar-color:#0c2f63 rgba(11,16,24,.06); }
       <div class="metrics">
         <div class="metric"><b>3</b><span>h-index</span></div>
         <div class="metric"><b>33</b><span>Citations</span></div>
-        <div class="metric"><b>10</b><span>First-author papers</span></div>
+        <div class="metric"><b>10+</b><span>First-author papers</span></div>
       </div>
       <div class="pub"><p>Predicting pathological upstaging in prostate cancer: an artificial neural network integrating PSMA PET, PSA and MRI in a South Asian cohort</p><em>Journal of Urology</em></div>
       <div class="pub"><p>A prospective randomised controlled trial comparing 5 Fr and 6 Fr ureteral stents on stent-related symptoms following ureterorenoscopy</p><em>European Urology <b>&middot; 2026</b></em></div>
@@ -1737,6 +1926,17 @@ html{ scrollbar-width:thin; scrollbar-color:#0c2f63 rgba(11,16,24,.06); }
                 referrerpolicy="strict-origin-when-cross-origin"></iframe>
       </div>
     </div>
+    <p class="eyebrow on-light reel-label">Reels</p>
+    <div class="reel-rail" role="group" aria-label="Instagram videos, scroll sideways" tabindex="0">
+      <div class="reel">
+        <iframe src="https://www.instagram.com/p/DfFESyxokut/embed" title="Instagram video by Dr. Nisanth Puliyath" loading="lazy" scrolling="no" allowtransparency="true" allowfullscreen></iframe>
+        <a href="https://www.instagram.com/p/DfFESyxokut/" target="_blank" rel="noopener">Watch on Instagram &#8599;</a>
+      </div>
+      <div class="reel">
+        <iframe src="https://www.instagram.com/p/DM7pzPqSh1N/embed" title="Instagram video by Dr. Nisanth Puliyath" loading="lazy" scrolling="no" allowtransparency="true" allowfullscreen></iframe>
+        <a href="https://www.instagram.com/p/DM7pzPqSh1N/" target="_blank" rel="noopener">Watch on Instagram &#8599;</a>
+      </div>
+    </div>
     <div class="video-note">
       <span>More on the channel</span>
       <a href="https://youtube.com/@drnisanthpuliyath?si=EzuBg6qo5IoruWQy" target="_blank" rel="noopener">youtube.com/@drnisanthpuliyath &#8599;</a>
@@ -1763,7 +1963,7 @@ html{ scrollbar-width:thin; scrollbar-color:#0c2f63 rgba(11,16,24,.06); }
       <h2>Start a conversation about your care.</h2>
       <p class="lede" style="margin-top:22px">A new diagnosis, a second opinion, or a question about a procedure you have been offered: all are welcome. Email is the most reliable way to reach me, and I reply as soon as clinical work allows.</p>
       <div class="cta-row">
-        <a href="https://cloudurologist.setmore.com?utm_source=in-app&amp;utm_medium=iosapp&amp;utm_campaign=settsharebp" class="btn btn-primary" target="_blank" rel="noopener">Book Your Consultation <span class="arrow" aria-hidden="true">&#8599;</span></a>
+        <a href="https://drtop.in/dr/NisanthPuliyath" class="btn btn-primary" target="_blank" rel="noopener">Book Your Consultation <span class="arrow" aria-hidden="true">&#8599;</span></a>
         <a href="mailto:drnishyurology@gmail.com" class="btn btn-ghost">Email me</a>
       </div>
       <div class="notice">
@@ -1772,10 +1972,34 @@ html{ scrollbar-width:thin; scrollbar-color:#0c2f63 rgba(11,16,24,.06); }
       </div>
     </div>
     <div class="info glass">
-      <div class="info-row"><span>Appointments</span><a href="https://cloudurologist.setmore.com?utm_source=in-app&amp;utm_medium=iosapp&amp;utm_campaign=settsharebp" target="_blank" rel="noopener">Book online</a></div>
+      <div class="info-row"><span>Appointments</span><a href="https://drtop.in/dr/NisanthPuliyath" target="_blank" rel="noopener">Book online</a></div>
       <div class="info-row"><span>Email</span><a href="mailto:drnishyurology@gmail.com">drnishyurology@gmail.com</a></div>
-      <div class="info-row"><span>Clinical base</span><p>Kerala, India</p></div>
+      <div class="info-row"><span>Clinical base</span><p>Aster Medcity, Kochi, Keralam</p></div>
       <div class="info-row"><span>Focus</span><p>Urology &middot; uro-oncology &middot; robotic surgery &middot; focal therapy</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== LOCATION + OPD ==================== -->
+<section class="band light" id="opd" style="padding-top:0">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow on-light">Visit</p>
+      <h2>Where to find me.</h2>
+      <p class="lede on-light">I am currently working at Aster Medcity, Kochi, as a uro-oncologist and robotic surgeon. Outpatient consultations are held in the Department of Urology.</p>
+    </div>
+    <div class="opd-grid">
+      <div class="map-frame">
+        <iframe title="Map showing Aster Medcity, Kochi" src="https://maps.google.com/maps?q=Aster%20Medcity%2C%20Cheranalloor%2C%20Kochi&amp;t=&amp;z=15&amp;ie=UTF8&amp;iwloc=&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+      </div>
+      <div class="info glass-light">
+        <div class="info-row"><span>OPD details</span><p>Department of Urology, Aster Medcity, Kochi</p></div>
+        <div class="info-row"><span>OPD timings</span><p>Monday to Saturday, 11 AM to 5 PM</p></div>
+        <div class="info-row"><span>Registration</span><p>Kerala State Medical Council (KSMC), Reg. No. 60389</p></div>
+        <div class="info-row"><span>Address</span><p>Aster Medcity, Kuttisahib Road, Cheranalloor, Kochi, Keralam 682027</p></div>
+        <div class="info-row"><span>Directions</span><a href="https://www.google.com/maps/search/?api=1&amp;query=Aster+Medcity+Kochi" target="_blank" rel="noopener">Open in Google Maps &#8599;</a></div>
+        <div class="info-row"><span>Appointments</span><a href="https://drtop.in/dr/NisanthPuliyath" target="_blank" rel="noopener">Book online</a></div>
+      </div>
     </div>
   </div>
 </section>
