@@ -776,9 +776,19 @@ a.org:hover{ transform:translateY(-3px); border-color:rgba(140,205,255,.55); bac
 .info-row span{ font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:6px; }
 .info-row a,.info-row p{ font-size:16px; font-weight:500; }
 .info-row a:hover{ color:var(--blue); }
-.opd-grid{ display:grid; grid-template-columns:1.1fr .9fr; gap:clamp(24px,4vw,48px); align-items:stretch; }
-.map-frame{ border-radius:var(--r-lg); overflow:hidden; min-height:360px; border:1px solid var(--edge-soft); box-shadow:0 30px 64px -34px rgba(17,38,80,.5); }
-.map-frame iframe{ display:block; width:100%; height:100%; min-height:360px; border:0; }
+.opd-grid{ display:grid; grid-template-columns:1fr; gap:clamp(20px,3vw,32px); }
+.map-frame{ border-radius:var(--r-lg); overflow:hidden; height:clamp(200px,26vw,280px); border:1px solid var(--edge-soft); box-shadow:0 30px 64px -34px rgba(17,38,80,.5); }
+.map-frame iframe{ display:block; width:100%; height:100%; border:0; }
+.opd-grid .info{ display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); column-gap:36px; padding-block:clamp(10px,1.6vw,18px); }
+.opd-grid .info .info-row:last-child{ border-bottom:1px solid var(--edge-soft); }
+
+/* reels: horizontal scroll */
+.reel-label{ margin:46px 0 0; }
+.reel-rail{ display:flex; gap:20px; overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; padding:18px 4px 20px; margin-inline:-4px; }
+.reel{ flex:0 0 min(340px,82vw); scroll-snap-align:start; display:flex; flex-direction:column; gap:12px; }
+.reel iframe{ width:100%; height:620px; border:1px solid var(--edge-soft); border-radius:var(--r-md); background:#fff; box-shadow:0 24px 52px -34px rgba(17,38,80,.45); }
+.reel a{ font-size:13.5px; font-weight:600; color:var(--blue-ink); }
+.reel a:hover{ color:var(--blue); }
 .notice{
   padding:22px 24px; border-radius:var(--r-md); margin-top:18px;
   background:rgba(255,255,255,.72); border:1px solid var(--edge);
@@ -1914,6 +1924,17 @@ html{ scrollbar-width:thin; scrollbar-color:#0c2f63 rgba(11,16,24,.06); }
                 loading="lazy" allowfullscreen
                 allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerpolicy="strict-origin-when-cross-origin"></iframe>
+      </div>
+    </div>
+    <p class="eyebrow on-light reel-label">Reels</p>
+    <div class="reel-rail" role="group" aria-label="Instagram videos, scroll sideways" tabindex="0">
+      <div class="reel">
+        <iframe src="https://www.instagram.com/p/DfFESyxokut/embed" title="Instagram video by Dr. Nisanth Puliyath" loading="lazy" scrolling="no" allowtransparency="true" allowfullscreen></iframe>
+        <a href="https://www.instagram.com/p/DfFESyxokut/" target="_blank" rel="noopener">Watch on Instagram &#8599;</a>
+      </div>
+      <div class="reel">
+        <iframe src="https://www.instagram.com/p/DM7pzPqSh1N/embed" title="Instagram video by Dr. Nisanth Puliyath" loading="lazy" scrolling="no" allowtransparency="true" allowfullscreen></iframe>
+        <a href="https://www.instagram.com/p/DM7pzPqSh1N/" target="_blank" rel="noopener">Watch on Instagram &#8599;</a>
       </div>
     </div>
     <div class="video-note">
