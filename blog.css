@@ -102,7 +102,7 @@
   }
   figure{ margin:34px 0; }
   figure img{
-    width:100%; border-radius:var(--r-lg);
+    width:100%; height:auto; border-radius:var(--r-lg);
     border:1px solid rgba(255,255,255,.9);
     box-shadow:0 30px 64px -34px rgba(17,38,80,.5);
   }
