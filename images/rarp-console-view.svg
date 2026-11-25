@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg" style="font-family:Arial,Helvetica,sans-serif;width:100%;height:auto" role="img" aria-label="Surgeon seated at the robotic console looking at a magnified 3D view of the prostate and nerve bundles">
+<defs>
+<linearGradient id="pbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fffdf5"/><stop offset="1" stop-color="#e8f1e6"/></linearGradient>
+<radialGradient id="bladder" cx=".32" cy=".25" r=".95"><stop offset="0" stop-color="#e3f2d8"/><stop offset=".5" stop-color="#a6c99a"/><stop offset="1" stop-color="#5f8b5a"/></radialGradient>
+<radialGradient id="prostate" cx=".33" cy=".25" r=".95"><stop offset="0" stop-color="#fbc4a6"/><stop offset=".5" stop-color="#e2804f"/><stop offset="1" stop-color="#a24a26"/></radialGradient>
+<radialGradient id="sv" cx=".4" cy=".3" r=".9"><stop offset="0" stop-color="#f9e5d8"/><stop offset="1" stop-color="#d4a08a"/></radialGradient>
+<linearGradient id="ure" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#f6e2d2"/><stop offset=".5" stop-color="#e3bfa6"/><stop offset="1" stop-color="#b98c72"/></linearGradient>
+<linearGradient id="nv" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#f9e48a"/><stop offset=".5" stop-color="#e0b02a"/><stop offset="1" stop-color="#a97a12"/></linearGradient>
+<filter id="sh" x="-25%" y="-25%" width="160%" height="160%"><feDropShadow dx="4" dy="8" stdDeviation="6" flood-color="#3b2a1a" flood-opacity=".32"/></filter>
+<filter id="sh2" x="-40%" y="-40%" width="190%" height="190%"><feDropShadow dx="2" dy="4" stdDeviation="3" flood-color="#2b1a0e" flood-opacity=".35"/></filter>
+</defs>
+<defs>
+<linearGradient id="room" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#14344d"/><stop offset="1" stop-color="#0a1c2c"/></linearGradient>
+<radialGradient id="scr" cx=".5" cy=".45" r=".7"><stop offset="0" stop-color="#2b5f7d"/><stop offset="1" stop-color="#0c2234"/></radialGradient>
+<linearGradient id="con" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e9eef3"/><stop offset="1" stop-color="#9fb0bf"/></linearGradient>
+<linearGradient id="beam" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7fd3ff" stop-opacity=".5"/><stop offset="1" stop-color="#7fd3ff" stop-opacity=".08"/></linearGradient>
+<linearGradient id="scrub" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3fb0a6"/><stop offset="1" stop-color="#1e6f6a"/></linearGradient>
+<linearGradient id="ins" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#e7edf2"/><stop offset="1" stop-color="#7d8b97"/></linearGradient>
+<clipPath id="bub"><circle cx="680" cy="236" r="170"/></clipPath>
+</defs>
+<rect width="900" height="500" rx="22" fill="url(#room)"/>
+<ellipse cx="260" cy="452" rx="230" ry="16" fill="#000" opacity=".35"/>
+<text x="450" y="38" text-anchor="middle" font-size="21" font-weight="700" fill="#fff">What the surgeon sees from the robotic console</text>
+<!-- chair -->
+<g filter="url(#sh2)"><rect x="92" y="262" width="22" height="150" rx="10" fill="#3a4a5a"/><rect x="90" y="332" width="118" height="22" rx="10" fill="#4a5c6e"/><rect x="142" y="354" width="14" height="86" fill="#2d3a47"/><ellipse cx="150" cy="446" rx="62" ry="9" fill="#2d3a47"/></g>
+<path d="M322,166 L522,112 L522,360 L326,238 Z" fill="url(#beam)"/>
+<!-- console -->
+<g filter="url(#sh)"><path d="M300,250 L410,250 L430,330 L300,330 Z" fill="url(#con)"/><rect x="330" y="330" width="60" height="112" rx="8" fill="#8697a6"/><ellipse cx="360" cy="446" rx="86" ry="10" fill="#6a7a89"/>
+<path d="M262,168 L322,160 L330,246 L276,252 Z" fill="#26384a"/><path d="M270,176 L318,170 L323,232 L280,238 Z" fill="#12202e"/><rect x="262" y="290" width="86" height="16" rx="8" fill="#5a6c7c"/></g>
+<!-- surgeon -->
+<g filter="url(#sh2)">
+<path d="M130,332 C128,290 150,246 190,224 L232,232 C226,262 214,290 206,334 Z" fill="url(#scrub)"/>
+<path d="M200,236 C220,270 236,292 296,298" fill="none" stroke="#2c8c85" stroke-width="22" stroke-linecap="round"/>
+<circle cx="302" cy="298" r="12" fill="#e2b99a"/>
+<path d="M132,334 L196,334 L214,392 L180,396 L170,358 L134,358 Z" fill="#256d74"/>
+<rect x="194" y="396" width="42" height="14" rx="6" fill="#1a2a38"/>
+<circle cx="238" cy="206" r="30" fill="#e2b99a"/>
+<path d="M208,200 C210,170 262,168 268,204 C250,194 226,192 208,200 Z" fill="#3fb0a6"/>
+<path d="M258,214 L270,222 L256,230 Z" fill="#c99b7c"/></g>
+<text x="190" y="478" text-anchor="middle" font-size="14" font-weight="700" fill="#cfe8f7">Surgeon at the console</text>
+<!-- bubble -->
+<circle cx="680" cy="236" r="176" fill="#7fd3ff" opacity=".25"/>
+<circle cx="680" cy="236" r="170" fill="url(#scr)"/>
+<g clip-path="url(#bub)"><g transform="translate(525,87) scale(.62)"><ellipse cx="250" cy="446" rx="150" ry="12" fill="#2b3a2a" opacity=".10"/>
+    <rect x="237" y="340" width="26" height="92" rx="12" fill="url(#ure)" filter="url(#sh2)"/>
+    <ellipse cx="250" cy="432" rx="13" ry="5" fill="#a97b62"/>
+    <path d="M236,346 a14,5 0 0 0 28,0" fill="none" stroke="#9a6a50" stroke-width="2"/>
+    <path d="M140,118 C140,58 200,36 250,36 C300,36 360,58 360,118 C360,160 322,188 250,192 C178,188 140,160 140,118 Z" fill="url(#bladder)" filter="url(#sh)"/>
+    <path d="M165,92 C200,60 300,60 335,92" fill="none" stroke="#e9f6df" stroke-width="3" opacity=".55"/>
+    <path d="M160,135 C200,172 300,172 340,135" fill="none" stroke="#4d7a48" stroke-width="2" opacity=".35"/>
+    <ellipse cx="205" cy="76" rx="38" ry="14" fill="#fff" opacity=".28"/>
+    <path d="M160,98 C146,150 190,172 224,204" fill="none" stroke="#d9b7a1" stroke-width="8" stroke-linecap="round" filter="url(#sh2)"/>
+    <path d="M340,98 C354,150 310,172 276,204" fill="none" stroke="#d9b7a1" stroke-width="8" stroke-linecap="round" filter="url(#sh2)"/>
+    <g filter="url(#sh2)"><path d="M176,152 C196,170 214,188 232,206" fill="none" stroke="#d09b84" stroke-width="30" stroke-linecap="round"/>
+    <path d="M176,152 C196,170 214,188 232,206" fill="none" stroke="url(#sv)" stroke-width="24" stroke-linecap="round"/>
+    <path d="M324,152 C304,170 286,188 268,206" fill="none" stroke="#d09b84" stroke-width="30" stroke-linecap="round"/>
+    <path d="M324,152 C304,170 286,188 268,206" fill="none" stroke="url(#sv)" stroke-width="24" stroke-linecap="round"/></g>
+    <g fill="none" stroke="#b9826b" stroke-width="1.5" opacity=".6"><path d="M186,150 q8,10 2,20"/><path d="M200,164 q8,8 2,18"/><path d="M314,150 q-8,10 -2,20"/><path d="M300,164 q-8,8 -2,18"/></g>
+    <path d="M250,188 C325,184 352,222 342,268 C332,314 292,348 250,356 C208,348 168,314 158,268 C148,222 175,184 250,188 Z" fill="url(#prostate)" filter="url(#sh)"/>
+    <path d="M250,204 C246,250 246,300 250,342" fill="none" stroke="#8f3f1f" stroke-width="2.5" opacity=".28"/>
+    <ellipse cx="212" cy="236" rx="38" ry="18" transform="rotate(-18 212 236)" fill="#fff" opacity=".3"/>
+    <g filter="url(#sh2)">
+    <path d="M168,196 C142,236 144,300 200,364" fill="none" stroke="#8c6410" stroke-width="17" stroke-linecap="round"/>
+    <path d="M168,196 C142,236 144,300 200,364" fill="none" stroke="url(#nv)" stroke-width="13" stroke-linecap="round"/>
+    <path d="M168,196 C142,236 144,300 200,364" transform="translate(3.5,0)" fill="none" stroke="#fdf3b8" stroke-width="2.6" stroke-linecap="round" opacity=".9"/>
+    <path d="M168,196 C142,236 144,300 200,364" transform="translate(-3.5,0)" fill="none" stroke="#b5382c" stroke-width="2" stroke-linecap="round" opacity=".85"/>
+    <path d="M168,196 C142,236 144,300 200,364" transform="translate(-0.2,0)" fill="none" stroke="#c99a1f" stroke-width="1.2" stroke-dasharray="1 5" stroke-linecap="round"/>
+    <path d="M200,364 C216,386 223,402 226,424" fill="none" stroke="#8c6410" stroke-width="9" stroke-linecap="round"/>
+    <path d="M200,364 C216,386 223,402 226,424" fill="none" stroke="#e8c04a" stroke-width="6" stroke-linecap="round"/></g><g filter="url(#sh2)">
+    <path d="M332,196 C358,236 356,300 300,364" fill="none" stroke="#8c6410" stroke-width="17" stroke-linecap="round"/>
+    <path d="M332,196 C358,236 356,300 300,364" fill="none" stroke="url(#nv)" stroke-width="13" stroke-linecap="round"/>
+    <path d="M332,196 C358,236 356,300 300,364" transform="translate(-3.5,0)" fill="none" stroke="#fdf3b8" stroke-width="2.6" stroke-linecap="round" opacity=".9"/>
+    <path d="M332,196 C358,236 356,300 300,364" transform="translate(3.5,0)" fill="none" stroke="#b5382c" stroke-width="2" stroke-linecap="round" opacity=".85"/>
+    <path d="M332,196 C358,236 356,300 300,364" transform="translate(0.2,0)" fill="none" stroke="#c99a1f" stroke-width="1.2" stroke-dasharray="1 5" stroke-linecap="round"/>
+    <path d="M300,364 C284,386 277,402 274,424" fill="none" stroke="#8c6410" stroke-width="9" stroke-linecap="round"/>
+    <path d="M300,364 C284,386 277,402 274,424" fill="none" stroke="#e8c04a" stroke-width="6" stroke-linecap="round"/></g><path d="M250,188 C325,184 352,222 342,268 C332,314 292,348 250,356 C208,348 168,314 158,268 C148,222 175,184 250,188 Z" fill="none" stroke="#1c2733" stroke-width="2.2" stroke-dasharray="8 6" transform="translate(0,-1)"/></g>
+<g stroke-linecap="round" fill="none">
+<path d="M560,96 L628,196" stroke="#5c6a76" stroke-width="20"/><path d="M560,96 L628,196" stroke="url(#ins)" stroke-width="15"/>
+<circle cx="632" cy="203" r="9" fill="#cdd6de" stroke="#5c6a76" stroke-width="2"/>
+<path d="M636,208 L646,230" stroke="#4a5864" stroke-width="5"/><path d="M634,210 L630,232" stroke="#4a5864" stroke-width="5"/>
+<path d="M800,96 L734,196" stroke="#5c6a76" stroke-width="20"/><path d="M800,96 L734,196" stroke="url(#ins)" stroke-width="15"/>
+<circle cx="730" cy="203" r="9" fill="#cdd6de" stroke="#5c6a76" stroke-width="2"/>
+<path d="M726,208 L714,230" stroke="#4a5864" stroke-width="5"/><path d="M728,210 L732,232" stroke="#4a5864" stroke-width="5"/></g></g>
+<circle cx="680" cy="236" r="170" fill="none" stroke="#9fe0ff" stroke-width="3"/>
+<g font-size="12.5" font-weight="700" fill="#fff"><text x="680" y="98" text-anchor="middle">Bladder</text><text x="748" y="322">Prostate</text><text x="556" y="344">Nerve bundle</text></g>
+<text x="680" y="446" text-anchor="middle" font-size="14" font-weight="700" fill="#cfe8f7">Magnified 3D view of the prostate and nerve bundles</text>
+<text x="450" y="486" text-anchor="middle" font-size="11" fill="#7f97aa">Schematic illustration</text>
+</svg>
