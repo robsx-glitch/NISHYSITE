@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 980 230" xmlns="http://www.w3.org/2000/svg" style="font-family:Arial,Helvetica,sans-serif;width:100%;height:auto" role="img" aria-label="Four advantages of robotic surgery: magnified 3D vision, wristed instruments, tremor filtering and small incisions">
+<g transform="translate(5,20)">
+<g transform="translate(0,0)"><rect width="230" height="190" rx="14" fill="#ffffff" stroke="#d5e2d6"/><g transform="translate(115,64)"><circle r="30" fill="#e5f1fa" stroke="#0b3d5c" stroke-width="3"/><circle r="13" fill="#0b3d5c"/><circle cx="-4" cy="-4" r="4" fill="#fff"/><line x1="22" y1="22" x2="42" y2="42" stroke="#0b3d5c" stroke-width="5" stroke-linecap="round"/></g>
+    <text x="115" y="132" text-anchor="middle" font-size="15.5" font-weight="700" fill="#0b3d5c">Magnified 3D vision</text>
+    <text x="115" y="154" text-anchor="middle" font-size="12.5" fill="#4d5c6a">High-definition view of the</text><text x="115" y="171" text-anchor="middle" font-size="12.5" fill="#4d5c6a">nerve bundles and sphincter</text></g>
+<g transform="translate(245,0)"><rect width="230" height="190" rx="14" fill="#ffffff" stroke="#d5e2d6"/><g transform="translate(115,64)" fill="none" stroke="#0b3d5c" stroke-width="6" stroke-linecap="round"><path d="M-34 24 C-12 24 -12 -8 6 -8 L26 -8"/><path d="M18 -22 L32 -8 L18 6" stroke-width="5"/></g>
+    <text x="115" y="132" text-anchor="middle" font-size="15.5" font-weight="700" fill="#0b3d5c">Wristed instruments</text>
+    <text x="115" y="154" text-anchor="middle" font-size="12.5" fill="#4d5c6a">Fine movements beyond a</text><text x="115" y="171" text-anchor="middle" font-size="12.5" fill="#4d5c6a">human wrist in a narrow pelvis</text></g>
+<g transform="translate(490,0)"><rect width="230" height="190" rx="14" fill="#ffffff" stroke="#d5e2d6"/><g transform="translate(115,64)" fill="none" stroke-linecap="round"><path d="M-40 0 q8 -26 16 0 t16 0 t16 0 t16 0 t16 0" stroke="#b9c4cd" stroke-width="4"/><path d="M-40 16 L40 16" stroke="#1f7a6f" stroke-width="6"/></g>
+    <text x="115" y="132" text-anchor="middle" font-size="15.5" font-weight="700" fill="#0b3d5c">Tremor filtering</text>
+    <text x="115" y="154" text-anchor="middle" font-size="12.5" fill="#4d5c6a">Hand movements are scaled</text><text x="115" y="171" text-anchor="middle" font-size="12.5" fill="#4d5c6a">and steadied for precision</text></g>
+<g transform="translate(735,0)"><rect width="230" height="190" rx="14" fill="#ffffff" stroke="#d5e2d6"/><g transform="translate(115,64)" fill="#0b3d5c"><circle cx="-30" cy="0" r="6"/><circle cx="-10" cy="-8" r="6"/><circle cx="10" cy="-8" r="6"/><circle cx="30" cy="0" r="6"/><circle cx="0" cy="14" r="8" fill="#2a9d8f"/></g>
+    <text x="115" y="132" text-anchor="middle" font-size="15.5" font-weight="700" fill="#0b3d5c">Small incisions</text>
+    <text x="115" y="154" text-anchor="middle" font-size="12.5" fill="#4d5c6a">Keyhole ports: less pain,</text><text x="115" y="171" text-anchor="middle" font-size="12.5" fill="#4d5c6a">less blood loss, quicker recovery</text></g>
+</g></svg>
